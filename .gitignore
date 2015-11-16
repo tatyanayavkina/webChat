@@ -1,2 +1,6 @@
 .idea
-vendors
+.js
+.map
+/frontend/vendors
+/frontend/styles/css
+
