@@ -1,0 +1,19 @@
+{
+  "name": "chat",
+  "version": "0.0.1",
+  "authors": [
+    "tatyanayavkina"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components"
+  ],
+  "dependencies": {
+    "angular": "~1.4.7",
+    "angular-i18n": "~1.4.7",
+    "bootstrap": "~3.3.5",
+    "font-awesome": "~4.4.0",
+    "moment": "~2.10.6"
+  }
+}
