@@ -6,7 +6,7 @@ CoreModule = angular.module 'CoreModule', [
 ];
 
 CoreModule.constant 'config',
-    api: 'http:/localhost:8080/api/'
+    api: 'http://localhost:8080/api/'
 
 CoreModule.constant 'roles',
     guest: 'ROLE_GUEST'

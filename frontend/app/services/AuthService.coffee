@@ -1,12 +1,13 @@
 'use strict';
 
-CoreModule.factory 'Auth', ($http, $q, $state, config, roles) ->
+CoreModule.factory 'Auth', ($http, $q, $state, $httpParamSerializerJQLike, config, roles) ->
     new class Auth
         session       : null
         refreshSession: null
 
         url:
             login       : config.api + 'access/login'
+            nickname    : config.api + 'access/nickname'
             register    : config.api + 'access/register'
             refresh     : config.api + 'access/refresh'
 
@@ -135,7 +136,7 @@ CoreModule.factory 'Auth', ($http, $q, $state, config, roles) ->
         # авторизация
         login : (params) ->
             deferred = $q.defer();
-            $http.post('http://localhost:8080/api/access/login', params, {headers: @headers})
+            $http.post(@url.login, $httpParamSerializerJQLike(params), {headers: @headers})
             .success((response) =>
                 @_setSession(response);
                 deferred.resolve(@session);
@@ -148,7 +149,7 @@ CoreModule.factory 'Auth', ($http, $q, $state, config, roles) ->
         # авторизация
         loginNick : (params) ->
             deferred = $q.defer();
-            $http.post('http://localhost:8080/api/access/nickname', params, {headers: @headers})
+            $http.post(@url.nickname, $httpParamSerializerJQLike(params), {headers: @headers})
             .success((response) =>
                 @_setSession(response);
                 deferred.resolve(@session);
@@ -205,3 +206,23 @@ CoreModule.factory 'Auth', ($http, $q, $state, config, roles) ->
             )
 
             deferred.promise;
+
+#        serializeData: ( data ) ->
+#            # If this is not an object, defer to native stringification.
+#            if  !angular.isObject( data )
+#                return if data == null then "" else data.toString();
+#            buffer = [];
+#            # Serialize each key in the object.
+#            for name in data
+#                console.log('name=',name);
+#                if !data.hasOwnProperty( name )
+#                    continue;
+#                value = data[ name ];
+#                encodeValue = if value then encodeURIComponent("") else encodeURIComponent(value);
+#                encodeString = encodeURIComponent( name )+"="+encodeValue;
+#                buffer.push(encodeString);
+#
+#            # Serialize the buffer and clean it up for transportation.
+#            source = buffer.join( "&" ).replace( /%20/g, "+" );
+#
+#            return( source );
