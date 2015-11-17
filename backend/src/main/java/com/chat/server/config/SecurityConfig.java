@@ -20,6 +20,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.jboss.logging.Logger;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -40,8 +41,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private OAuth2Filter oAuth2Filter;
     @Autowired
     private UnauthorizedEntryPoint unauthorizedEntryPoint;
-//    @Autowired
-//    private SimpleCORSFilter simpleCORSFilter;
+    @Autowired
+    private SimpleCORSFilter simpleCORSFilter;
 
     protected AuthenticationProvider authenticationProvider;
 
@@ -65,6 +66,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .requestMatchers().antMatchers("/api/**")
                 .and()
                 .addFilterAfter(oAuth2Filter, BasicAuthenticationFilter.class)
+                .addFilterBefore(simpleCORSFilter, ChannelProcessingFilter.class)
                 .authorizeRequests()
                 .anyRequest().authenticated()
                 .and()

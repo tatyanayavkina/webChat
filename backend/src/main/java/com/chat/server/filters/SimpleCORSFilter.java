@@ -1,6 +1,7 @@
 package com.chat.server.filters;
 
 import org.jboss.logging.Logger;
+import org.springframework.stereotype.Service;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -10,6 +11,7 @@ import java.io.IOException;
 /**
  * Created on 10.11.2015.
  */
+@Service
 public class SimpleCORSFilter implements Filter {
     protected final Logger logger =Logger.getLogger(SimpleCORSFilter.class);
 
