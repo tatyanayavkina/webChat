@@ -1,0 +1,99 @@
+@color-success: #449d44;
+@color-primary: #337ab7;
+@color-info: #5bc0de;
+
+@color-text: #343434;
+@color-white: #ffffff;
+
+body{
+    color: @color-text;
+    background-color: lighten(@color-primary, 53%);
+}
+
+// sidebar со списком комнат
+.rooms-container{
+    width           : 100%;
+    min-height      : 400px;
+    max-height      : 700px;
+
+    border          : 1px solid @color-primary;
+    border-radius   : 4px;
+
+    background-color: lighten(@color-primary, 50%);
+
+    &-header{
+        padding   : 12px 0;
+
+        text-align: center;
+        color     : @color-white;
+        font-size : 18px;
+
+        background-color: @color-primary;
+    }
+
+    ul.rooms-list{
+        max-height: 651px;
+        padding   : 0;
+
+        list-style: none;
+
+        font-size : 16px;
+
+        overflow-y: auto;
+        & li.rooms-list-item{
+            padding      : 12px;
+
+            border-bottom: 1px dashed lighten(@color-primary, 40%);
+
+            overflow-x   : hidden;
+
+            &.active{
+                background-color: lighten(@color-primary, 40%);
+            }
+        }
+
+        & li.rooms-list-item:hover{
+            background-color: lighten(@color-primary, 30%);
+        }
+    }
+}
+
+// окно для ввода и показа сообщений
+.selected-room-container-wrapper{
+    width           : 100%;
+    height          : 700px;
+
+    border          : 1px solid @color-primary;
+    border-radius   : 4px;
+
+    background-color: lighten(@color-primary, 50%);
+
+    & .selected-room-header{
+        padding   : 12px;
+
+        text-align: center;
+        color     : @color-white;
+        font-size : 18px;
+
+        background-color: @color-primary;
+    }
+
+    .selected-room-container{
+        padding: 24px;
+
+        &-messages{
+            max-height      : 380px;
+            height          : 380px;
+
+            overflow-y      : auto;
+            border-radius   : 4px;
+
+            background-color: @color-white;
+        }
+
+        & .selected-room-form{
+            margin-top: 12px;
+        }
+    }
+
+}

@@ -49,27 +49,27 @@
                     <ul class="rooms-list">
                         <li class="rooms-list-item">First room</li>
                         <li class="rooms-list-item">Second room</li>
-                        <li class="rooms-list-item">Third room</li>
+                        <li class="rooms-list-item active">Third room</li>
                     </ul>
                 </div>
             </div>
             <div class="col-md-5 col-lg-5">
                 <div class="selected-room-container-wrapper">
+                    <div class="selected-room-header">
+                        <span class="glyphicon glyphicon-share" title="Exit"></span>
+                        <span>Название комнаты</span>
+                        <span class="pull-right glyphicon glyphicon-edit" title="Edit"></span>
+                    </div>
                     <div class="selected-room-container">
-                        <div class="selected-room-container-header">
-                            <span>Название комнаты</span>
-                            <span>Покинуть комнату</span>
-                            <span>Редактировать комнату</span>
-                        </div>
-                        <div class="selected-room-container-messsages">
+                        <div class="selected-room-container-messages">
                             <div>Первое сообщение</div>
                         </div>
-                        <div class="selected-room-container-form">
+                        <div class="selected-room-form">
                             <form role="form">
                                 <div class="form-group">
-                                    <textarea class="form-control" name="newMessage" rows="8" style="resize: none;"></textarea>
+                                    <textarea class="form-control" name="newMessage" rows="8" style="resize: none;" autofocus="true"></textarea>
                                 </div>
-                                <button type="submit" class="btn btn-default pull-right">Send</button>
+                                <button type="submit" class="btn btn-primary pull-right">Send</button>
                             </form>
                         </div>
                     </div>
