@@ -1,7 +1,10 @@
 'use strict';
 
-CoreModule.config [ '$stateProvider', '$locationProvider', '$urlRouterProvider', ($stateProvider, $locationProvider, $urlRouterProvider) ->
+CoreModule.config [ '$stateProvider', '$locationProvider', '$urlRouterProvider', '$httpProvider',
+  ($stateProvider, $locationProvider, $urlRouterProvider, $httpProvider) ->
     # включаем html5-режим работы с урлами
+#    $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
+
     $locationProvider.html5Mode(true);
     $locationProvider.hashPrefix('!');
 
