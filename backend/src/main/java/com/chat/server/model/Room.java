@@ -22,7 +22,7 @@ public class Room implements Serializable{
     private String name;
 
     @Column(name="type")
-    private boolean type;
+    private int type;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "rooms")
     private List<User> users;
@@ -47,11 +47,11 @@ public class Room implements Serializable{
         return name;
     }
 
-    public void setType(boolean type){
+    public void setType(int type){
         this.type= type;
     }
 
-    public boolean getType(){
+    public int getType(){
         return type;
     }
 

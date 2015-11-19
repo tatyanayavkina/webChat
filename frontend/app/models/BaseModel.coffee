@@ -2,7 +2,7 @@
 
 'use strict';
 
-CoreModule.factory 'BaseModel', ($q, $window, $timeout, $injector, config, Relation) ->
+CoreModule.factory 'BaseModel', ($q, $window, $timeout, $injector, $http, config, Relation) ->
     class BaseModel
         model: null
 
@@ -81,7 +81,7 @@ CoreModule.factory 'BaseModel', ($q, $window, $timeout, $injector, config, Relat
             ID = params.id;
             delete params.id;
 
-            HttpAuth.get(config.api + @:: model + '/' + ID, params: params).then(
+            $http.get(config.api + @:: model + '/' + ID, params: params).then(
                 (response) =>
                     deferred.resolve(@:: transform(response.data, relations));
                 (response) =>
@@ -97,7 +97,7 @@ CoreModule.factory 'BaseModel', ($q, $window, $timeout, $injector, config, Relat
 
             params = @::expandRelations(params,relations);
 
-            HttpAuth.get(config.api + @:: model, params: params).then(
+            $http.get(config.api + @:: model, params: params).then(
                 (response) =>
                     result = [];
                     response.data.forEach((item) =>
@@ -118,7 +118,7 @@ CoreModule.factory 'BaseModel', ($q, $window, $timeout, $injector, config, Relat
 
             params = @::expandRelations(params,relations);
 
-            HttpAuth.get(url, params: params).then(
+            $http.get(url, params: params).then(
                 (response) =>
                     result = [];
                     response.data.forEach((item) =>
@@ -139,8 +139,9 @@ CoreModule.factory 'BaseModel', ($q, $window, $timeout, $injector, config, Relat
 
         create : (params) ->
             deferred = $q.defer();
-            HttpAuth.post(config.api + @model, @, params: params).then(
+            $http.post(config.api + @model, @, params: params).then(
                 (response) =>
+                    console.log('response',response);
                     deferred.resolve(@transform(response, @askedRelations));
                 (response) =>
                     console.error(response);
@@ -152,7 +153,7 @@ CoreModule.factory 'BaseModel', ($q, $window, $timeout, $injector, config, Relat
         update : (params) ->
             deferred = $q.defer();
 
-            HttpAuth.put(config.api + @model + '/' + @id, @, params: params).then(
+            $http.put(config.api + @model + '/' + @id, @, params: params).then(
                 (response) =>
                     if response.data
                         deferred.resolve(@transform(response.data, @askedRelations));
@@ -173,7 +174,7 @@ CoreModule.factory 'BaseModel', ($q, $window, $timeout, $injector, config, Relat
         remove : (params) ->
             deferred = $q.defer();
 
-            HttpAuth.delete(config.api + @model + '/' + @id, params: params).then(
+            $http.delete(config.api + @model + '/' + @id, params: params).then(
                 () =>
                     deferred.resolve(null);
                 (response) =>

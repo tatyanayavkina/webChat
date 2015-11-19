@@ -26,7 +26,7 @@ CoreModule.config [ '$stateProvider', '$locationProvider', '$urlRouterProvider',
                     session: (Auth) ->
                         Auth.check();
             )
-            .state('home.rooms'
+            .state('home.rooms',
                 name       : 'home.rooms'
                 url        : 'rooms'
                 controller : 'RoomsController'
@@ -36,14 +36,24 @@ CoreModule.config [ '$stateProvider', '$locationProvider', '$urlRouterProvider',
                     room: ($q) ->
                         $q.when(null);
             )
-            .state('home.rooms-new'
+            .state('home.rooms-new',
                 name       : 'home.rooms-new'
-                url        : 'rooms-new'
+                url        : 'rooms/new'
                 controller : 'RoomsController'
                 templateUrl: '/app/views/rooms-new.html'
                 resolve    :
                     room: (RoomsModel) ->
                         new RoomsModel();
+            )
+            .state('home.rooms-update',
+                name       : 'home.rooms-update'
+                url        : 'rooms/update/:roomID'
+                controller : 'RoomsController'
+                templateUrl: '/app/views/rooms-update.html'
+                resolve    :
+                    room: (RoomsModel, $stateParams) ->
+                        RoomsModel.find({id: $stateParams.roomID});
+
             )
 
             $urlRouterProvider.when('/', '/rooms');
