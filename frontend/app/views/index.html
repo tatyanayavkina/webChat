@@ -1,11 +1,10 @@
 <div class="main">
-
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
             <div class="navbar-header">
                 <a class="navbar-brand" href="javascript:void(0);">WebChat</a>
             </div>
-            <div class="navbar-collapse collapse">
+            <div class="navbar-collapse collapse" ng-if="!auth.isLoggedIn()">
                 <div class="navbar-form navbar-right">
                     <button type="button" class="btn btn-primary" ui-sref="registration">Register</button>
                 </div>
@@ -24,6 +23,12 @@
                     </div>
                     <button type="submit" class="btn btn-info" ng-click="loginNick()">Start</button>
                 </form>
+            </div><!--/.navbar-collapse -->
+            <div class="navbar-collapse collapse" ng-if="auth.isLoggedIn()">
+                <div class="navbar-form navbar-right">
+                    <span>{{ session.user.nickname }}</span>
+                    <button type="button" class="btn btn-primary" ng-click="logout()">Exit</button>
+                </div>
             </div><!--/.navbar-collapse -->
         </div>
     </div>

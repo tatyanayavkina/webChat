@@ -2,6 +2,7 @@
 
 'use strict';
 
-CoreModule.controller 'MainController', ($scope, $rootScope, $state, $stateParams) ->
-    console.log('MainController');
+CoreModule.controller 'MainController', ($scope, $rootScope, $state, $stateParams, Auth, session) ->
+    $scope.auth = Auth;
+
 

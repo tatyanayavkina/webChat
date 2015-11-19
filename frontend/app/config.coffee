@@ -1,28 +1,30 @@
 'use strict';
 
 CoreModule.config [ '$stateProvider', '$locationProvider', '$urlRouterProvider', '$httpProvider',
-  ($stateProvider, $locationProvider, $urlRouterProvider, $httpProvider) ->
-    # включаем html5-режим работы с урлами
-#    $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
+      ($stateProvider, $locationProvider, $urlRouterProvider, $httpProvider) ->
+            # включаем html5-режим работы с урлами
+            $locationProvider.html5Mode(true);
+            $locationProvider.hashPrefix('!');
 
-    $locationProvider.html5Mode(true);
-    $locationProvider.hashPrefix('!');
+            $stateProvider
+            .state('registration',
+                name       : 'registration'
+                url        : '/registration'
+                controller : 'AuthController'
+                templateUrl: '/app/views/registration.html'
+                anonymous  : true
+            )
+            .state('home',
+                name       : 'home'
+                url        : '/'
+                controller : 'MainController'
+                templateUrl: '/app/views/index.html'
+                resolve    :
+                    session: (Auth) ->
+                        Auth.check();
+            )
 
-    $stateProvider
-    .state('registration',
-        name: 'registration'
-        url: '/registration'
-        controller : 'AuthController'
-        templateUrl: '/app/views/registration.html'
-    )
-    .state('home',
-        name: 'home'
-        url: '/'
-        controller: 'MainController'
-        templateUrl: '/app/views/index.html'
-    )
-
-    $urlRouterProvider.otherwise('/');
+            $urlRouterProvider.otherwise('/');
 
 ];
 
