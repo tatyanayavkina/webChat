@@ -5,6 +5,16 @@
 @color-text: #343434;
 @color-white: #ffffff;
 
+.panel-header(){
+    padding   : 12px;
+
+    text-align: center;
+    color     : @color-white;
+    font-size : 18px;
+
+    background-color: @color-primary;
+}
+
 body{
     color: @color-text;
     background-color: lighten(@color-primary, 53%);
@@ -22,13 +32,8 @@ body{
     background-color: lighten(@color-primary, 50%);
 
     &-header{
+        .panel-header();
         padding   : 12px 0;
-
-        text-align: center;
-        color     : @color-white;
-        font-size : 18px;
-
-        background-color: @color-primary;
     }
 
     ul.rooms-list{
@@ -69,13 +74,7 @@ body{
     background-color: lighten(@color-primary, 50%);
 
     & .selected-room-header{
-        padding   : 12px;
-
-        text-align: center;
-        color     : @color-white;
-        font-size : 18px;
-
-        background-color: @color-primary;
+        .panel-header();
     }
 
     .selected-room-container{
@@ -96,4 +95,23 @@ body{
         }
     }
 
+}
+
+// третья часть страницы - панель
+.third-part{
+    width           : 100%;
+    height          : 700px;
+
+    border          : 1px solid @color-primary;
+    border-radius   : 4px;
+
+    background-color: lighten(@color-primary, 50%);
+
+    &-header{
+        .panel-header();
+    }
+
+    &-inner{
+
+    }
 }

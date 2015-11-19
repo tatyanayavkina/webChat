@@ -17,14 +17,36 @@ CoreModule.config [ '$stateProvider', '$locationProvider', '$urlRouterProvider',
             .state('home',
                 name       : 'home'
                 url        : '/'
-                controller : 'MainController'
-                templateUrl: '/app/views/index.html'
+                abstract   : true
+                views      :
+                    ''         :
+                        controller : 'MainController'
+                        templateUrl: '/app/views/index.html'
                 resolve    :
                     session: (Auth) ->
                         Auth.check();
             )
+            .state('home.rooms'
+                name       : 'home.rooms'
+                url        : 'rooms'
+                controller : 'RoomsController'
+                templateUrl: '/app/views/rooms.html'
+                anonymous  : true
+                resolve    :
+                    room: ($q) ->
+                        $q.when(null);
+            )
+            .state('home.rooms-new'
+                name       : 'home.rooms-new'
+                url        : 'rooms-new'
+                controller : 'RoomsController'
+                templateUrl: '/app/views/rooms-new.html'
+                resolve    :
+                    room: (RoomsModel) ->
+                        new RoomsModel();
+            )
 
-            $urlRouterProvider.otherwise('/');
+            $urlRouterProvider.when('/', '/rooms');
 
 ];
 
