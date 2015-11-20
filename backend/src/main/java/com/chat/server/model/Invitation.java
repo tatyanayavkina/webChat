@@ -12,6 +12,9 @@ import java.util.List;
 @Entity
 @Table(name="invitation")
 public class Invitation implements Serializable{
+    public static int INVITATION_TYPE = 0;
+    public static int REQUEST_TYPE = 0;
+
     @Id
     @GeneratedValue
     @GenericGenerator(name = "generator", strategy = "identity")

@@ -121,6 +121,7 @@ CoreModule.factory 'BaseModel', ($q, $window, $timeout, $injector, config, Relat
 
         # перед сохранением объекта - нужно почистить связки от связок
         beforeSave: () ->
+            # todo: проверить для связок hasOne и hasMany
             data = angular.copy(@);
             # бегаем по связкам объектам
             angular.forEach(data.relations, (relation, name) ->

@@ -23,6 +23,7 @@ import java.util.List;
  * Created on 03.11.2015.
  */
 @RestController
+@RolesAllowed({Role.USER})
 @RequestMapping(value = "/api/invitations")
 public class InvitationController {
 
@@ -35,14 +36,16 @@ public class InvitationController {
 
     private static final Logger logger = Logger.getLogger(InvitationController.class);
 
-    @RolesAllowed({Role.USER})
+    //todo: спросить у Димы, как поступать, если не все приглашения получилось создать
+    //todo: узнать, нужно ли отправлять на клиент созданные приглашения в ответ?
+    //todo: сделать проверку на то, что приглашения рассылает владелец комнаты
     @RequestMapping(value = "/send/{roomId}", method = RequestMethod.POST)
     public HttpEntity<String> sendInvitations(@PathVariable("roomId") int roomId, @RequestBody List<String> logins){
         List<Invitation> invitations = new ArrayList<Invitation>();
         List<User> users = userService.findUsersByLogin( logins );
         Room room = roomService.findOne( roomId );
         for( User user: users ){
-            Invitation invitation = invitationService.createInvitation( user, room );
+            Invitation invitation = invitationService.createInvitation( user, room, Invitation.INVITATION_TYPE );
             invitations.add( invitation );
         }
         if( invitations.size() == logins.size() ){
@@ -52,4 +55,15 @@ public class InvitationController {
         }
 
     }
+
+    @RequestMapping(value = "/request", method = RequestMethod.POST)
+    public HttpEntity<Invitation> requestInvitation(@RequestBody Invitation invitation){
+        invitationService.create( invitation );
+        return new ResponseEntity( invitation, HttpStatus.OK );
+    }
+
+//    @RequestMapping(value = "/{id}", method = RequestMethod.POST)
+//    public HttpEntity<Invitation> updateInvitation(@RequestBody Invitation invitation){
+//        return new ResponseEntity( invitation, HttpStatus.OK );
+//    }
 }
