@@ -57,11 +57,4 @@ public class RoomController {
         }
         return new ResponseEntity(HttpStatus.BAD_REQUEST);
     }
-
-    @RequestMapping(method = RequestMethod.POST)
-    public HttpEntity<String> sendInvitations(@RequestBody List<String> logins){
-        List<User> users = userService.findUsersByLogin(logins);
-
-        return new ResponseEntity(HttpStatus.OK);
-    }
 }
