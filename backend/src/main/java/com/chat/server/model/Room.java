@@ -24,6 +24,10 @@ public class Room implements Serializable{
     @Column(name="type")
     private boolean type;
 
+    @ManyToOne
+    @JoinColumn(name="owner_id")
+    private User owner;
+
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "rooms")
     private List<User> users;
 
@@ -53,6 +57,14 @@ public class Room implements Serializable{
 
     public boolean getType(){
         return type;
+    }
+
+    public void setOwner(User owner){
+        this.owner = owner;
+    }
+
+    public User getOwner(){
+        return owner;
     }
 
     public void setUsers(List<User> users){

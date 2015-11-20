@@ -2,7 +2,9 @@ package com.chat.server.controller;
 
 import com.chat.server.model.Role;
 import com.chat.server.model.Room;
+import com.chat.server.model.User;
 import com.chat.server.service.RoomService;
+import com.chat.server.service.UserService;
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -23,6 +25,8 @@ public class RoomController {
 
     @Autowired
     private RoomService roomService;
+    @Autowired
+    private UserService userService;
 
     private static final Logger logger = Logger.getLogger(RoomController.class);
 
@@ -52,5 +56,12 @@ public class RoomController {
             return new ResponseEntity(room, HttpStatus.OK);
         }
         return new ResponseEntity(HttpStatus.BAD_REQUEST);
+    }
+
+    @RequestMapping(method = RequestMethod.POST)
+    public HttpEntity<String> sendInvitations(@RequestBody List<String> logins){
+        List<User> users = userService.findUsersByLogin(logins);
+
+        return new ResponseEntity(HttpStatus.OK);
     }
 }

@@ -8,13 +8,14 @@ CREATE TABLE IF NOT EXISTS user(
   PRIMARY KEY(id)
 )ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
-INSERT INTO user (login, password, nickname) VALUES ("admin@mail.ru","root","admin");
-
 CREATE TABLE IF NOT EXISTS room(
   id int(11) NOT NULL AUTO_INCREMENT,
   name varchar(256) NOT NULL,
   type TINYINT(1) DEFAULT 0,
-  PRIMARY KEY (id)
+  owner_id int(11) NOT NULL,
+  PRIMARY KEY (id),
+  CONSTRAINT fk_owner_room_id FOREIGN KEY (owner_id)
+    REFERENCES user(id) ON DELETE CASCADE ON UPDATE NO ACTION
 )ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS user_link_room(
@@ -46,10 +47,6 @@ CREATE TABLE IF NOT EXISTS role(
   PRIMARY KEY(id)
 )ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
-INSERT INTO role (code) VALUES ("ROLE_GUEST");
-INSERT INTO role (code) VALUES ("ROLE_USER");
-INSERT INTO role (code) VALUES ("ROLE_ADMIN");
-
 CREATE TABLE IF NOT EXISTS user_link_role(
   id int(11) NOT NULL AUTO_INCREMENT,
   user_id int(11) NOT NULL,
@@ -61,6 +58,27 @@ CREATE TABLE IF NOT EXISTS user_link_role(
   REFERENCES role(id) ON DELETE CASCADE ON UPDATE NO ACTION
 )ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
+CREATE TABLE IF NOT EXISTS invitation(
+  id int(11) NOT NULL AUTO_INCREMENT,
+  user_id int(11) NOT NULL,
+  room_id int(11) NOT NULL,
+  status TINYINT(2) DEFAULT 0,
+  type TINYINT(1) DEFAULT 0,
+  PRIMARY KEY(id),
+  CONSTRAINT fk_user_invitation_id FOREIGN KEY (user_id)
+  REFERENCES user(id) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT fk_room_invitation_id FOREIGN KEY (room_id)
+  REFERENCES room(id) ON DELETE CASCADE ON UPDATE NO ACTION
+)ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+
+// администратор
+INSERT INTO user (login, password, nickname) VALUES ("admin@mail.ru","root","admin");
+// роли
+INSERT INTO role (code) VALUES ("ROLE_GUEST");
+INSERT INTO role (code) VALUES ("ROLE_USER");
+INSERT INTO role (code) VALUES ("ROLE_ADMIN");
+// присваиваем администратору роли
 INSERT INTO user_link_role (user_id, role_id) VALUES (1,1);
 INSERT INTO user_link_role (user_id, role_id) VALUES (1,2);
 INSERT INTO user_link_role (user_id, role_id) VALUES (1,3);
