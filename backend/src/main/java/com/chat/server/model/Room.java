@@ -12,6 +12,9 @@ import java.util.List;
 @Entity
 @Table(name="room")
 public class Room implements Serializable{
+    public static int OPEN_TYPE = 0;
+    public static int CLOSE_TYPE = 1;
+
     @Id
     @GeneratedValue
     @GenericGenerator(name = "generator", strategy = "identity")
