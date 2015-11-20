@@ -31,15 +31,6 @@ CoreModule.factory 'BaseModel', ($q, $window, $timeout, $injector, config, Relat
 
             self;
 
-        expandRelations : (params, relations) ->
-            expand = [];
-            if(relations.length > 0)
-                relations.forEach((rel) ->
-                    expand.push(rel.name)
-                )
-                params.expand = expand.join(',');
-            params;
-
 
         _transformRelations : (relations) ->
             if relations && relations.length > 0
@@ -73,15 +64,11 @@ CoreModule.factory 'BaseModel', ($q, $window, $timeout, $injector, config, Relat
 
         @find : (params, relations = []) ->
             deferred = $q.defer();
-            if relations.length > 0
-                params.relations = angular.toJson(relations);
-
-            params = @::expandRelations(params,relations);
 
             ID = params.id;
             delete params.id;
 
-            HttpAuth.get(config.api + @:: model + '/' + ID, params: params).then(
+            HttpAuth.get(config.api + @:: model + '/' + ID).then(
                 (response) =>
                     deferred.resolve(@:: transform(response.data, relations));
                 (response) =>
@@ -132,6 +119,19 @@ CoreModule.factory 'BaseModel', ($q, $window, $timeout, $injector, config, Relat
 
             deferred.promise;
 
+        # перед сохранением объекта - нужно почистить связки от связок
+        beforeSave: () ->
+            data = angular.copy(@);
+            # бегаем по связкам объектам
+            angular.forEach(data.relations, (relation, name) ->
+                # если связка есть
+                if data[name]
+                    # бегаем по связкам связки и удаляем их, если они есть
+                    angular.forEach(data[name].relations, (rel, relName) ->
+                        if data[name][relName]
+                            data[name][relName] = null;
+                    )
+            )
 
         save : (params) ->
             if @isNewRecord then @create(params) else @update(params);
@@ -139,7 +139,7 @@ CoreModule.factory 'BaseModel', ($q, $window, $timeout, $injector, config, Relat
 
         create : (params) ->
             deferred = $q.defer();
-            HttpAuth.post(config.api + @model, @, params: params).then(
+            HttpAuth.post(config.api + @model, @beforeSave(), params: params).then(
                 (response) =>
                     deferred.resolve(@transform(response, @askedRelations));
                 (response) =>
@@ -152,7 +152,7 @@ CoreModule.factory 'BaseModel', ($q, $window, $timeout, $injector, config, Relat
         update : (params) ->
             deferred = $q.defer();
 
-            HttpAuth.put(config.api + @model + '/' + @id, @, params: params).then(
+            HttpAuth.put(config.api + @model + '/' + @id, @beforeSave(), params: params).then(
                 (response) =>
                     if response.data
                         deferred.resolve(@transform(response.data, @askedRelations));
