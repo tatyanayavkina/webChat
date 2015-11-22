@@ -58,8 +58,29 @@ public class InvitationController {
     }
 
 
-//    @RequestMapping(value = "/{id}", method = RequestMethod.POST)
-//    public HttpEntity<Invitation> updateInvitation(@RequestBody Invitation invitation){
-//        return new ResponseEntity( invitation, HttpStatus.OK );
-//    }
+    @RequestMapping(value = "/{id}/accept", method = RequestMethod.POST)
+    public HttpEntity<Room> accept(@PathVariable("id") int id){
+        Invitation invitation = invitationService.findOne(id);
+        if ( invitation == null ){
+            return new ResponseEntity( HttpStatus.BAD_REQUEST );
+        }
+
+        User user = invitation.getUser();
+        Room room = invitation.getRoom();
+        room = roomService.joinRoom( room, user );
+        invitationService.delete( invitation );
+
+        return new ResponseEntity( room, HttpStatus.OK );
+    }
+
+    @RequestMapping(value = "/{id}/reject", method = RequestMethod.POST)
+    public HttpEntity<String> reject(@PathVariable("id") int id){
+        Invitation invitation = invitationService.findOne(id);
+        if ( invitation == null ){
+            return new ResponseEntity( HttpStatus.BAD_REQUEST );
+        }
+        invitationService.delete( invitation );
+
+        return new ResponseEntity( HttpStatus.NO_CONTENT );
+    }
 }

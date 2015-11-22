@@ -14,7 +14,7 @@ CoreModule.factory 'InvitationsModel', ($q, BaseModel, config) ->
                 model: 'RoomModel'
                 type : 'belongsTo'
 
-        send: (roomId, users) ->
+        @send: (roomId, users) ->
             deferred = $q.defer();
 
             $http.post(config.api + '/invitation/send/'+ roomId, users)
@@ -29,4 +29,32 @@ CoreModule.factory 'InvitationsModel', ($q, BaseModel, config) ->
 
             deferred.promise;
 
-        
+        accept: () ->
+            deferred = $q.defer();
+
+            $http.post(config.api + @model + '/' + @id + '/accept', {})
+            .success(
+                (response) ->
+                    deferred.resolve(response);
+            )
+            .error(
+                (error) ->
+                    deferred.reject(error);
+            )
+
+            deferred.promise;
+
+        reject: () ->
+            deferred = $q.defer();
+
+            $http.post(config.api + @model + '/' + @id + '/reject', {})
+            .success(
+                (response) ->
+                    deferred.resolve(response);
+            )
+            .error(
+                (error) ->
+                    deferred.reject(error);
+            )
+
+            deferred.promise;
