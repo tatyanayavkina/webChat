@@ -31,15 +31,6 @@ CoreModule.factory 'BaseModel', ($q, $window, $timeout, $injector, $http, config
 
             self;
 
-        expandRelations : (params, relations) ->
-            expand = [];
-            if(relations.length > 0)
-                relations.forEach((rel) ->
-                    expand.push(rel.name)
-                )
-                params.expand = expand.join(',');
-            params;
-
 
         _transformRelations : (relations) ->
             if relations && relations.length > 0
@@ -73,10 +64,6 @@ CoreModule.factory 'BaseModel', ($q, $window, $timeout, $injector, $http, config
 
         @find : (params, relations = []) ->
             deferred = $q.defer();
-            if relations.length > 0
-                params.relations = angular.toJson(relations);
-
-            params = @::expandRelations(params,relations);
 
             ID = params.id;
             delete params.id;
@@ -132,6 +119,20 @@ CoreModule.factory 'BaseModel', ($q, $window, $timeout, $injector, $http, config
 
             deferred.promise;
 
+        # перед сохранением объекта - нужно почистить связки от связок
+        beforeSave: () ->
+            # todo: проверить для связок hasOne и hasMany
+            data = angular.copy(@);
+            # бегаем по связкам объектам
+            angular.forEach(data.relations, (relation, name) ->
+                # если связка есть
+                if data[name]
+                    # бегаем по связкам связки и удаляем их, если они есть
+                    angular.forEach(data[name].relations, (rel, relName) ->
+                        if data[name][relName]
+                            data[name][relName] = null;
+                    )
+            )
 
         save : (params) ->
             if @isNewRecord then @create(params) else @update(params);

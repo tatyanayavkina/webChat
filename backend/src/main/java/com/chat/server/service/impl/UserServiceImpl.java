@@ -37,6 +37,18 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
         return newUser;
     }
 
+    public List<User> findUsersByLogin(List<String> logins){
+        List<User> users = new ArrayList<User>();
+        for( String login: logins ){
+            User user = dao.findUserByLogin( login );
+            if ( user != null ){
+                users.add(user);
+            }
+        }
+
+        return users;
+    }
+
     @Override
     protected IOperations<User> getDao() {
         return dao;

@@ -10,10 +10,10 @@ import java.util.List;
  * Created on 22.10.2015.
  */
 @Entity
-@Table(name="room")
-public class Room implements Serializable{
-    public static int OPEN_TYPE = 0;
-    public static int CLOSE_TYPE = 1;
+@Table(name="invitation")
+public class Invitation implements Serializable{
+    public static int INVITATION_TYPE = 0;
+    public static int REQUEST_TYPE = 0;
 
     @Id
     @GeneratedValue
@@ -21,20 +21,21 @@ public class Room implements Serializable{
     @Column(name="id", nullable=false, unique=true, length=11)
     private int id;
 
-    @Column(name="name")
-    private String name;
+    @Column(name="status")
+    private int status;
 
     @Column(name="type")
     private int type;
 
     @ManyToOne
-    @JoinColumn(name="owner_id")
-    private User owner;
+    @JoinColumn(name="user_id")
+    private User user;
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "rooms")
-    private List<User> users;
+    @ManyToOne
+    @JoinColumn(name="room_id")
+    private Room room;
 
-    public Room(){
+    public Invitation(){
 
     }
 
@@ -46,12 +47,12 @@ public class Room implements Serializable{
         return id;
     }
 
-    public void setName(String name){
-        this.name = name;
+    public void setStatus(int status){
+        this.status = status;
     }
 
-    public String getName(){
-        return name;
+    public int getStatus(){
+        return status;
     }
 
     public void setType(int type){
@@ -62,19 +63,19 @@ public class Room implements Serializable{
         return type;
     }
 
-    public void setOwner(User owner){
-        this.owner = owner;
+    public void setUser(User user){
+        this.user = user;
     }
 
-    public User getOwner(){
-        return owner;
+    public User getUser(){
+        return user;
     }
 
-    public void setUsers(List<User> users){
-        this.users = users;
+    public void setRoom(Room room){
+        this.room = room;
     }
 
-    public List<User> getUsers(){
-        return users;
+    public Room getRoom(){
+        return room;
     }
 }
