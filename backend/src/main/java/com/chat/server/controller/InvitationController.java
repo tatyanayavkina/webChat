@@ -41,7 +41,7 @@ public class InvitationController {
     //todo: узнать, нужно ли отправлять на клиент созданные приглашения в ответ?
     //todo: сделать проверку на то, что приглашения рассылает владелец комнаты
     @RequestMapping(value = "/send/{roomId}", method = RequestMethod.POST)
-    public synchronized HttpEntity<String> send(@PathVariable("roomId") int roomId, @RequestBody List<String> logins){
+    public HttpEntity<String> send(@PathVariable("roomId") int roomId, @RequestBody List<String> logins){
         List<Invitation> invitations = new ArrayList<Invitation>();
         List<User> users = userService.findUsersByLogin( logins );
         Room room = roomService.findOne( roomId );

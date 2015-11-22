@@ -48,6 +48,16 @@ public class RoomController {
         return new ResponseEntity( HttpStatus.NO_CONTENT );
     }
 
+    //todo: узнать, как правильно делать обновление данных по id и при put запросе...
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public HttpEntity<Room> updateRoom(@RequestBody Room room){
+       roomService.update( room );
+        if (room != null){
+            return new ResponseEntity( room, HttpStatus.OK );
+        }
+        return new ResponseEntity( HttpStatus.BAD_REQUEST );
+    }
+
     // todo: проверить, что удаляет либо админ, либо владелец комнаты!
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public HttpEntity<String> deleteRoom(@PathVariable("id") int id){
@@ -61,7 +71,7 @@ public class RoomController {
 
     @RolesAllowed({Role.USER})
     @RequestMapping(method = RequestMethod.POST)
-    public synchronized HttpEntity<Room> createRoom(@RequestBody Room room){
+    public HttpEntity<Room> createRoom(@RequestBody Room room){
         roomService.create( room );
         if ( room != null ){
             return new ResponseEntity( room, HttpStatus.OK );
@@ -87,6 +97,6 @@ public class RoomController {
 
         return new ResponseEntity( room, HttpStatus.OK );
     }
-        
+
 
 }
