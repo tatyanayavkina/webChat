@@ -62,8 +62,6 @@ CREATE TABLE IF NOT EXISTS invitation(
   id int(11) NOT NULL AUTO_INCREMENT,
   user_id int(11) NOT NULL,
   room_id int(11) NOT NULL,
-  status TINYINT(2) DEFAULT 0,
-  type TINYINT(1) DEFAULT 0,
   PRIMARY KEY(id),
   CONSTRAINT fk_user_invitation_id FOREIGN KEY (user_id)
   REFERENCES user(id) ON DELETE CASCADE ON UPDATE NO ACTION,

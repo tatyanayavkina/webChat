@@ -18,3 +18,6 @@ CoreModule.factory 'RoomsModel', ($q, BaseModel, config) ->
             users:
                 model: 'UsersModel'
                 type : 'hasMany'
+            owner:
+                model: 'UsersModel'
+                type : 'belongsTo'

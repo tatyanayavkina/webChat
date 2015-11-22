@@ -3,24 +3,42 @@
         <span>Создание комнаты</span>
     </div>
     <div class="third-part-inner">
-        <form class="form-horizontal" role="form" name="roomForm">
-            <div class="form-group">
-                <label for="name" class="col-sm-2 control-label">Название комнаты</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="name" ng-model="room.name" placeholder="Название комнаты" required>
-                </div>
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#main" data-toggle="tab">Основные настройки</a></li>
+            <li><a href="#users" data-toggle="tab">Участники</a></li>
+            <li><a href="#invite" data-toggle="tab">Пригласить</a></li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div class="tab-pane active" id="main">
+                <form class="form-horizontal" role="form" name="roomForm">
+                    <div class="form-group">
+                        <label for="name" class="col-sm-2 control-label">Название комнаты</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="name" ng-model="room.name" placeholder="Название комнаты" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="type" class="col-sm-2 control-label">Тип комнаты</label>
+                        <div class="col-sm-10">
+                            <input type="checkbox" name="type" id="type" ng-model="room.type" ng-true-value="1" ng-false-value="0">Закрытая
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="button" class="btn btn-primary" ng-disabled="roomForm.$invalid" ng-click="save()">Сохранить</button>
+                        </div>
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <label for="type" class="col-sm-2 control-label">Тип комнаты</label>
-                <div class="col-sm-10">
-                    <input type="checkbox" name="type" id="type" ng-model="room.type" ng-true-value="1" ng-false-value="0">Закрытая
-                </div>
+            <div class="tab-pane" id="users">
+                Просмотр списка участников и возможность исключения из списка участников
             </div>
-            <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
-                    <button type="button" class="btn btn-primary" ng-disabled="roomForm.$invalid" ng-click="saveRoom()">Сохранить</button>
-                </div>
+            <div class="tab-pane" id="invite">
+                Форма для приглашения участников
             </div>
-        </form>
+        </div>
     </div>
 </div>

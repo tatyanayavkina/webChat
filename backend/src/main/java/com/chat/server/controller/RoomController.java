@@ -75,7 +75,6 @@ public class RoomController {
     @RequestMapping(value="/join/{id}", method = RequestMethod.POST)
     public HttpEntity<Room> joinRoom(@RequestParam("id") int roomId, @RequestBody User user){
         Room room = roomService.findOne( roomId );
-        // после merge с другими коммитами должно пропасть
         if( room.getType() == Room.CLOSE_TYPE ){
             return new ResponseEntity( HttpStatus.BAD_REQUEST );
         }
@@ -88,5 +87,6 @@ public class RoomController {
 
         return new ResponseEntity( room, HttpStatus.OK );
     }
+        
 
 }
