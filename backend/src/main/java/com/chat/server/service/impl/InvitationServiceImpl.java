@@ -24,9 +24,8 @@ public class InvitationServiceImpl extends AbstractService<Invitation> implement
     }
 
     //API
-    public Invitation createInvitation(User user, Room room, int type){
+    public Invitation createInvitation(User user, Room room){
         Invitation invitation = new Invitation();
-        invitation.setType(type);
         invitation.setUser(user);
         invitation.setRoom(room);
         create(invitation);

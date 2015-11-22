@@ -9,5 +9,5 @@ import com.chat.server.model.User;
  * Created on 28.10.2015.
  */
 public interface InvitationService extends IOperations<Invitation> {
-    Invitation createInvitation(User user, Room room, int type);
+    Invitation createInvitation(User user, Room room);
 }

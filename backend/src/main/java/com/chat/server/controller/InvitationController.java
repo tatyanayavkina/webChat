@@ -41,12 +41,12 @@ public class InvitationController {
     //todo: узнать, нужно ли отправлять на клиент созданные приглашения в ответ?
     //todo: сделать проверку на то, что приглашения рассылает владелец комнаты
     @RequestMapping(value = "/send/{roomId}", method = RequestMethod.POST)
-    public synchronized HttpEntity<String> sendInvitations(@PathVariable("roomId") int roomId, @RequestBody List<String> logins){
+    public synchronized HttpEntity<String> send(@PathVariable("roomId") int roomId, @RequestBody List<String> logins){
         List<Invitation> invitations = new ArrayList<Invitation>();
         List<User> users = userService.findUsersByLogin( logins );
         Room room = roomService.findOne( roomId );
         for( User user: users ){
-            Invitation invitation = invitationService.createInvitation( user, room, Invitation.INVITATION_TYPE );
+            Invitation invitation = invitationService.createInvitation( user, room );
             invitations.add( invitation );
         }
         if( invitations.size() == logins.size() ){
@@ -57,11 +57,6 @@ public class InvitationController {
 
     }
 
-    @RequestMapping(value = "/request", method = RequestMethod.POST)
-    public synchronized HttpEntity<Invitation> requestInvitation(@RequestBody Invitation invitation){
-        invitationService.create( invitation );
-        return new ResponseEntity( invitation, HttpStatus.OK );
-    }
 
 //    @RequestMapping(value = "/{id}", method = RequestMethod.POST)
 //    public HttpEntity<Invitation> updateInvitation(@RequestBody Invitation invitation){

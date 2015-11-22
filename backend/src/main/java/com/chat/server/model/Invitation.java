@@ -12,20 +12,11 @@ import java.util.List;
 @Entity
 @Table(name="invitation")
 public class Invitation implements Serializable{
-    public static int INVITATION_TYPE = 0;
-    public static int REQUEST_TYPE = 0;
-
     @Id
     @GeneratedValue
     @GenericGenerator(name = "generator", strategy = "identity")
     @Column(name="id", nullable=false, unique=true, length=11)
     private int id;
-
-    @Column(name="status")
-    private int status;
-
-    @Column(name="type")
-    private int type;
 
     @ManyToOne
     @JoinColumn(name="user_id")
@@ -45,22 +36,6 @@ public class Invitation implements Serializable{
 
     public int getId(){
         return id;
-    }
-
-    public void setStatus(int status){
-        this.status = status;
-    }
-
-    public int getStatus(){
-        return status;
-    }
-
-    public void setType(int type){
-        this.type= type;
-    }
-
-    public int getType(){
-        return type;
     }
 
     public void setUser(User user){
