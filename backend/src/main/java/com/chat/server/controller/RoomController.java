@@ -58,6 +58,9 @@ public class RoomController {
         }
 
         List<Room> rooms = user.getRooms();
+        for(Room room: rooms){
+            room.getOwner();
+        }
         return new ResponseEntity( rooms, HttpStatus.OK );
 
     }
@@ -105,8 +108,7 @@ public class RoomController {
         return new ResponseEntity( HttpStatus.BAD_REQUEST );
     }
 
-    // todo: проверить, что в ответ уходит чисто комната без связок
-    // todo: или сделать, чтобы было именно так
+    // todo: спросить у Димы - может метод должен быть в UserController? так как сохранение идет через модель User
     // Метод - вступление в открытую комнату
     @RequestMapping(value="/join/{id}", method = RequestMethod.POST)
     public HttpEntity<Room> joinRoom(@PathVariable("id") int roomId, @RequestBody int userId){
@@ -121,7 +123,7 @@ public class RoomController {
         if ( room == null ){
             return new ResponseEntity( HttpStatus.BAD_REQUEST );
         }
-
+        room.getOwner();
         return new ResponseEntity( room, HttpStatus.OK );
     }
 

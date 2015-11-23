@@ -10,6 +10,14 @@ CoreModule.controller 'MainController', ($scope, $rootScope, $state, $stateParam
     if $scope.rooms && $scope.rooms.length > 0
         $scope.currentRoom = $scope.rooms[0];
 
+    $scope.selectRoom = (room) ->
+        $scope.currentRoom = room;
+
+    # пользователь вступил в комнату!
+    $scope.$on('user:joinRoom', (event, data) ->
+        $scope.rooms.push(data.room);
+    )
+
 
 
 

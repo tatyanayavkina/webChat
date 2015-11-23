@@ -77,11 +77,11 @@ CoreModule.run(($rootScope, $state) ->
     $rootScope.$on('$stateChangeError', (event, toState, toParams, fromState, fromParams, error) ->
         console.log(error);
         if error.status == 401
-            $state.transitionTo('login', {}, {reload: true});
+            $state.transitionTo('home.rooms', {}, {reload: true});
 
         if error.status == 403
 #           отправить на домашнюю страницу, сообщить через Notification, что доступ запрещен
-            $state.transitionTo('home', {}, {reload: true});
+            $state.transitionTo('home.rooms', {}, {reload: true});
     );
     # при удачном переходе на новую страницу - прокручиваем страницу наверх
     $rootScope.$on('$stateChangeSuccess', (event, toState, toParams, fromState, fromParams) ->

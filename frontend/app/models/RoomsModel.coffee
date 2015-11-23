@@ -23,7 +23,7 @@ CoreModule.factory 'RoomsModel', (BaseModel, config, $q, $http) ->
                 type : 'belongsTo'
 
         @findUserRooms: (id) ->
-            @findAll({url: config.api + @:: model + '/byUserId/' + id});
+            @findAll({url: config.api + @:: model + '/byUserId/' + id},[{name: 'owner'}]);
 
         @findOpen: () ->
             @findAll({url: config.api + @:: model + '/open'});
@@ -34,7 +34,7 @@ CoreModule.factory 'RoomsModel', (BaseModel, config, $q, $http) ->
             $http.post(config.api + @model + '/join/' + @id, user).then(
                 (response) =>
                     if response && response.data
-                        deferred.resolve(@transform(response.data));
+                        deferred.resolve(@transform(response.data, [{name: 'owner'}]));
                 (error) ->
                     deferred.reject(error);
             )

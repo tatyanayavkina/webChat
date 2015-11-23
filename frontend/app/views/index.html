@@ -46,24 +46,26 @@
 
     <div class="container">
         <div class="row">
+            <!--Список комнат-->
             <div class="col-md-2 col-lg-2">
                 <div class="rooms-container">
                     <div class="rooms-container-header">
                         Комнаты
                     </div>
                     <ul class="rooms-list" ng-if="rooms && rooms.length > 0">
-                        <li class="rooms-list-item" ng-class="{'active': currentRoom.id == room.id}" ng-repeat="room in rooms" ng-click="selectedRoom=room">{{ room.name }}</li>
+                        <li class="rooms-list-item" ng-class="{'active': currentRoom.id == room.id}" ng-repeat="room in rooms" ng-click="selectRoom(room)">{{ room.name }}</li>
                     </ul>
                 </div>
             </div>
+            <!--Окно для сообщений-->
             <div class="col-md-5 col-lg-5">
                 <div class="selected-room-container-wrapper">
-                    <div class="selected-room-header" ng-if="selectedRoom">
+                    <div class="selected-room-header" ng-if="currentRoom">
                         <span class="glyphicon glyphicon-share" title="Exit"></span>
-                        <span>{{ selectedRoom.name }}</span>
-                        <span class="pull-right glyphicon glyphicon-edit" title="Edit"></span>
+                        <span>{{ currentRoom.name }}</span>
+                        <span class="pull-right glyphicon glyphicon-edit" title="Edit" ng-if="room.owner.id==auth.session.user.id" ui-sref="home.rooms-update{roomID: currentRoom.id}"></span>
                     </div>
-                    <div class="selected-room-container" ng-if="selectedRoom">
+                    <div class="selected-room-container" ng-if="currentRoom">
                         <div class="selected-room-container-messages">
                             <div>Первое сообщение</div>
                         </div>
@@ -76,13 +78,14 @@
                             </form>
                         </div>
                     </div>
-                    <div class="selected-room-header" ng-if="!selectedRoom">
+                    <div class="selected-room-header" ng-if="!currentRoom">
                         <span>Сообщения</span>
                     </div>
-                    <div class="selected-room-container" ng-if="!selectedRoom">
+                    <div class="selected-room-container" ng-if="!currentRoom">
                     </div>
                 </div>
             </div>
+            <!--Меняющееся содержимое с различными опциями-->
             <div class="col-md-5 col-lg-5">
                 <div ui-view></div>
             </div>

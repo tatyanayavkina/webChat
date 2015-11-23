@@ -17,9 +17,9 @@ CoreModule.controller 'RoomsController', ($scope, $rootScope, $state, $statePara
     $scope.joinRoom = (room) ->
         room.join(session.user.id).then(
             (result) ->
-                console.log('join result', result);
                 $scope.openRooms.splice($scope.openRooms.indexOf(room), 1);
-                # todo: добавить комнату в список комнат пользователя
+                # Пользователь вступил в комнату
+                $scope.$emit('user:joinRoom', {room: room});
             (error) ->
                 console.log('join error', error);
         )
