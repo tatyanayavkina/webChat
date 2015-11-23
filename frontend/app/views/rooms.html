@@ -1,1 +1,14 @@
-In rooms!!!
+<div class="third-part">
+    <div class="third-part-header">
+        <span>Список комнат</span>
+    </div>
+    <div class="third-part-inner">
+        <ul>
+            <li ng-repeat="room in openRooms">
+                <span>{{ room.name }}</span>
+                <span><button type="button" ng-click="joinRoom(room)">Вступить</button></span>
+            </li>
+        </ul>
+    </div>
+</div>
+

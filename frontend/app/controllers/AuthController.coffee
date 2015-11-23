@@ -24,6 +24,9 @@ CoreModule.controller 'AuthController', ($scope, $rootScope, $state, $stateParam
         Auth.login($scope.account).then(
             (session) ->
                 console.log('session', session);
+                $scope.account =
+                    username : null
+                    password : null
                 $state.transitionTo($state.current, $stateParams,{reload: true});
             (error) ->
                 console.log('error', error);

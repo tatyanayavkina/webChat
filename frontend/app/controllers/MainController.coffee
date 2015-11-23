@@ -7,7 +7,7 @@ CoreModule.controller 'MainController', ($scope, $rootScope, $state, $stateParam
     $scope.rooms = rooms;
 
     # в качестве открытой комнаты берем первую из списка
-    if $scope.rooms && $scope.room.length > 0
+    if $scope.rooms && $scope.rooms.length > 0
         $scope.currentRoom = $scope.rooms[0];
 
 

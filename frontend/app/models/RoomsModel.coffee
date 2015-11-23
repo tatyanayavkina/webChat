@@ -2,7 +2,7 @@
 
 'use strict';
 
-CoreModule.factory 'RoomsModel', (BaseModel, config) ->
+CoreModule.factory 'RoomsModel', (BaseModel, config, $q, $http) ->
     class RoomsModel extends BaseModel
         model: 'rooms'
 
@@ -27,6 +27,19 @@ CoreModule.factory 'RoomsModel', (BaseModel, config) ->
 
         @findOpen: () ->
             @findAll({url: config.api + @:: model + '/open'});
+
+        join: (user) ->
+            deferred = $q.defer();
+
+            $http.post(config.api + @model + '/join/' + @id, user).then(
+                (response) =>
+                    if response && response.data
+                        deferred.resolve(@transform(response.data));
+                (error) ->
+                    deferred.reject(error);
+            )
+
+            deferred.promise;
 
 
 

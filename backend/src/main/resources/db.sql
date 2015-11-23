@@ -86,5 +86,4 @@ INSERT INTO room (name, type, owner_id) VALUES ("Вторая комната", 0, 1);
 INSERT INTO room (name, type, owner_id) VALUES ("Закрытая комната", 1, 1);
 -- добавляем администратора в пользователя комнаты
 INSERT INTO user_link_room (user_id, room_id) VALUES (1,1);
-INSERT INTO user_link_room (user_id, room_id) VALUES (1,2);
 INSERT INTO user_link_room (user_id, room_id) VALUES (1,3);

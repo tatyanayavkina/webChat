@@ -109,13 +109,14 @@ public class RoomController {
     // todo: или сделать, чтобы было именно так
     // Метод - вступление в открытую комнату
     @RequestMapping(value="/join/{id}", method = RequestMethod.POST)
-    public HttpEntity<Room> joinRoom(@PathVariable("id") int roomId, @RequestBody User user){
+    public HttpEntity<Room> joinRoom(@PathVariable("id") int roomId, @RequestBody int userId){
         Room room = roomService.findOne( roomId );
-        if( room.getType() == Room.CLOSE_TYPE ){
+        User user = userService.findOne( userId );
+        if( user == null || room == null || room.getType() == Room.CLOSE_TYPE ){
             return new ResponseEntity( HttpStatus.BAD_REQUEST );
         }
-        room.getUsers().add( user );
-        room = roomService.update( room );
+        user.getRooms().add( room );
+        userService.update( user );
 
         if ( room == null ){
             return new ResponseEntity( HttpStatus.BAD_REQUEST );

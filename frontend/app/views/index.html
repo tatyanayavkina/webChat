@@ -49,10 +49,10 @@
             <div class="col-md-2 col-lg-2">
                 <div class="rooms-container">
                     <div class="rooms-container-header">
-                        Rooms
+                        Комнаты
                     </div>
                     <ul class="rooms-list" ng-if="rooms && rooms.length > 0">
-                        <li class="rooms-list-item" ng-class="{'active': currentRoom.id == room.id}" ng-repeat="room in rooms">{{ room.name }}</li>
+                        <li class="rooms-list-item" ng-class="{'active': currentRoom.id == room.id}" ng-repeat="room in rooms" ng-click="selectedRoom=room">{{ room.name }}</li>
                     </ul>
                 </div>
             </div>
@@ -63,7 +63,7 @@
                         <span>{{ selectedRoom.name }}</span>
                         <span class="pull-right glyphicon glyphicon-edit" title="Edit"></span>
                     </div>
-                    <div class="selected-room-container">
+                    <div class="selected-room-container" ng-if="selectedRoom">
                         <div class="selected-room-container-messages">
                             <div>Первое сообщение</div>
                         </div>
@@ -75,6 +75,11 @@
                                 <button type="submit" class="btn btn-primary pull-right">Send</button>
                             </form>
                         </div>
+                    </div>
+                    <div class="selected-room-header" ng-if="!selectedRoom">
+                        <span>Сообщения</span>
+                    </div>
+                    <div class="selected-room-container" ng-if="!selectedRoom">
                     </div>
                 </div>
             </div>
