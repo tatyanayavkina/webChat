@@ -36,10 +36,14 @@ CoreModule.config [ '$stateProvider', '$locationProvider', '$urlRouterProvider',
                 url        : 'rooms'
                 controller : 'RoomsController'
                 templateUrl: '/app/views/rooms.html'
-                anonymous  : true
                 resolve    :
-                    room: ($q) ->
+                    room     : ($q) ->
                         $q.when(null);
+                    openRooms: ($q, RoomsModel, session) ->
+                        if session && session.user
+                            RoomsModel.findOpen();
+                        else
+                            $q.when(null);
             )
             .state('home.rooms-new',
                 name       : 'home.rooms-new'
@@ -47,8 +51,10 @@ CoreModule.config [ '$stateProvider', '$locationProvider', '$urlRouterProvider',
                 controller : 'RoomsController'
                 templateUrl: '/app/views/rooms-new.html'
                 resolve    :
-                    room: (RoomsModel) ->
+                    room     : (RoomsModel) ->
                         new RoomsModel();
+                    openRooms: ($q) ->
+                        $q.when(null);
             )
             .state('home.rooms-update',
                 name       : 'home.rooms-update'
@@ -58,6 +64,8 @@ CoreModule.config [ '$stateProvider', '$locationProvider', '$urlRouterProvider',
                 resolve    :
                     room: (RoomsModel, $stateParams) ->
                         RoomsModel.find({id: $stateParams.roomID});
+                    openRooms: ($q) ->
+                        $q.when(null);
 
             )
 

@@ -10,5 +10,5 @@ import java.util.List;
  */
 public interface RoomDao extends IOperations<Room> {
 
-    List<Room> findOpen();
+    List<Room> findByType(int type);
 }

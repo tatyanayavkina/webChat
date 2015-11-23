@@ -25,6 +25,9 @@ CoreModule.factory 'RoomsModel', (BaseModel, config) ->
         @findUserRooms: (id) ->
             @findAll({url: config.api + @:: model + '/byUserId/' + id});
 
+        @findOpen: () ->
+            @findAll({url: config.api + @:: model + '/open'});
+
 
 
 

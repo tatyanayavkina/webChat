@@ -45,7 +45,7 @@ public class RoomController {
     @RolesAllowed({Role.GUEST, Role.USER})
     @RequestMapping(value="/open", method = RequestMethod.GET)
     public HttpEntity<List<Room>> getOpenRooms(){
-        List<Room> rooms = roomService.findOpen();
+        List<Room> rooms = roomService.findByType( Room.OPEN_TYPE );
         return new ResponseEntity( rooms, HttpStatus.OK );
     }
 

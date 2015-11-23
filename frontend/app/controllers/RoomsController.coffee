@@ -2,8 +2,9 @@
 
 'use strict';
 
-CoreModule.controller 'RoomsController', ($scope, $rootScope, $state, $stateParams, session, room) ->
+CoreModule.controller 'RoomsController', ($scope, $rootScope, $state, $stateParams, session, room, openRooms) ->
     $scope.room = room;
+    $scope.openRooms = openRooms;
 
     $scope.save = () ->
         if isNewRecord = $scope.room.isNewRecord

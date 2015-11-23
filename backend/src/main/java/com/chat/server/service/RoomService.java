@@ -12,5 +12,5 @@ import java.util.List;
 public interface RoomService extends IOperations<Room> {
     Room joinRoom(Room room, User user);
 
-    List<Room> findOpen();
+    List<Room> findByType(int type);
 }

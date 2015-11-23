@@ -28,12 +28,12 @@ public class RoomServiceImpl extends AbstractService<Room> implements RoomServic
     public Room joinRoom(Room room, User user){
         List<User> users = room.getUsers();
         users.add( user );
-        dao.update( room );
+        dao.update(room);
         return dao.findOne( room.getId() );
     }
 
-    public List<Room> findOpen(){
-        return dao.findOpen();
+    public List<Room> findByType(int type){
+        return dao.findByType( type );
     }
 
     @Override

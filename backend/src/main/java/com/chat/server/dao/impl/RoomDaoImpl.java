@@ -18,8 +18,8 @@ public class RoomDaoImpl extends AbstractDao<Room> implements RoomDao {
     }
 
     //API
-    public List<Room> findOpen(){
-        String hql = "from " + Room.class + " as R where R.type=0";
+    public List<Room> findByType(int type){
+        String hql = "from " +Room.class + " where type=" + type;
         return getCurrentSession().createQuery(hql).list();
     }
 }
