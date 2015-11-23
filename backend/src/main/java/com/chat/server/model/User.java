@@ -33,7 +33,7 @@ public class User implements Serializable{
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-            name = "user_link_unit",
+            name = "user_link_room",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "room_id")
     )

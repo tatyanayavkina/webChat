@@ -52,9 +52,9 @@
                         Rooms
                     </div>
                     <ul class="rooms-list">
-                        <li class="rooms-list-item">First room</li>
-                        <li class="rooms-list-item">Second room</li>
-                        <li class="rooms-list-item active">Third room</li>
+                        <li class="rooms-list-item" ng-repeat="room in rooms">{{ room.name }}</li>
+                        <!--<li class="rooms-list-item">Second room</li>-->
+                        <!--<li class="rooms-list-item active">Third room</li>-->
                     </ul>
                 </div>
             </div>

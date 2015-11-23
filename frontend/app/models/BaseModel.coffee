@@ -80,11 +80,9 @@ CoreModule.factory 'BaseModel', ($q, $window, $timeout, $injector, $http, config
 
         @findAll : (params = {}, relations = []) ->
             deferred = $q.defer();
-            params.relations = angular.toJson(relations);
-
-            params = @::expandRelations(params,relations);
-
-            $http.get(config.api + @:: model, params: params).then(
+            url = params.url || config.api + @:: model;
+            delete params.url;
+            $http.get(url, params: params).then(
                 (response) =>
                     result = [];
                     response.data.forEach((item) =>

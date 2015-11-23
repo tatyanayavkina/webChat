@@ -2,7 +2,7 @@
 
 'use strict';
 
-CoreModule.factory 'RoomsModel', ($q, BaseModel, config) ->
+CoreModule.factory 'RoomsModel', (BaseModel, config) ->
     class RoomsModel extends BaseModel
         model: 'rooms'
 
@@ -21,3 +21,10 @@ CoreModule.factory 'RoomsModel', ($q, BaseModel, config) ->
             owner:
                 model: 'UsersModel'
                 type : 'belongsTo'
+
+        @findUserRooms: (id) ->
+            @findAll({url: config.api + @:: model + '/byUserId/' + id});
+
+
+
+

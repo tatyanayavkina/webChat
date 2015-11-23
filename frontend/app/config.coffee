@@ -25,6 +25,11 @@ CoreModule.config [ '$stateProvider', '$locationProvider', '$urlRouterProvider',
                 resolve    :
                     session: (Auth) ->
                         Auth.check();
+                    rooms: ($q, RoomsModel, session) ->
+                        if session && session.user
+                            RoomsModel.findUserRooms(session.user.id);
+                        else
+                            $q.when(null);
             )
             .state('home.rooms',
                 name       : 'home.rooms'

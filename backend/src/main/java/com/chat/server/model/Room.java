@@ -1,5 +1,6 @@
 package com.chat.server.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -66,6 +67,7 @@ public class Room implements Serializable{
         this.owner = owner;
     }
 
+    @JsonIgnore
     public User getOwner(){
         return owner;
     }
@@ -74,6 +76,7 @@ public class Room implements Serializable{
         this.users = users;
     }
 
+    @JsonIgnore
     public List<User> getUsers(){
         return users;
     }

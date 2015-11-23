@@ -51,7 +51,7 @@ public class RoomController {
 
     //Метод - возвращает все комнаты пользователя
     @RequestMapping(value="/byUserId/{userId}", method = RequestMethod.GET)
-    public HttpEntity<List<Room>> getRoomsByUserId(@RequestParam("userId") int userId){
+    public HttpEntity<List<Room>> getRoomsByUserId(@PathVariable("userId") int userId){
         User user = userService.findOne(userId);
         if ( user == null ){
             return new ResponseEntity( HttpStatus.BAD_REQUEST );
@@ -109,7 +109,7 @@ public class RoomController {
     // todo: или сделать, чтобы было именно так
     // Метод - вступление в открытую комнату
     @RequestMapping(value="/join/{id}", method = RequestMethod.POST)
-    public HttpEntity<Room> joinRoom(@RequestParam("id") int roomId, @RequestBody User user){
+    public HttpEntity<Room> joinRoom(@PathVariable("id") int roomId, @RequestBody User user){
         Room room = roomService.findOne( roomId );
         if( room.getType() == Room.CLOSE_TYPE ){
             return new ResponseEntity( HttpStatus.BAD_REQUEST );
