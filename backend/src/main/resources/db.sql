@@ -70,13 +70,21 @@ CREATE TABLE IF NOT EXISTS invitation(
 )ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
-// администратор
+-- администратор
 INSERT INTO user (login, password, nickname) VALUES ("admin@mail.ru","root","admin");
-// роли
+-- роли
 INSERT INTO role (code) VALUES ("ROLE_GUEST");
 INSERT INTO role (code) VALUES ("ROLE_USER");
 INSERT INTO role (code) VALUES ("ROLE_ADMIN");
-// присваиваем администратору роли
+-- присваиваем администратору роли
 INSERT INTO user_link_role (user_id, role_id) VALUES (1,1);
 INSERT INTO user_link_role (user_id, role_id) VALUES (1,2);
 INSERT INTO user_link_role (user_id, role_id) VALUES (1,3);
+--  создаем комнаты для администратора 2 открытые и 1 закрытую
+INSERT INTO room (name, type, owner_id) VALUES ("Первая комната", 0, 1);
+INSERT INTO room (name, type, owner_id) VALUES ("Вторая комната", 0, 1);
+INSERT INTO room (name, type, owner_id) VALUES ("Закрытая комната", 1, 1);
+-- добавляем администратора в пользователя комнаты
+INSERT INTO user_link_room (user_id, room_id) VALUES (1,1);
+INSERT INTO user_link_room (user_id, room_id) VALUES (1,2);
+INSERT INTO user_link_room (user_id, room_id) VALUES (1,3);
