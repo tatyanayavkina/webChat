@@ -51,18 +51,16 @@
                     <div class="rooms-container-header">
                         Rooms
                     </div>
-                    <ul class="rooms-list">
-                        <li class="rooms-list-item" ng-repeat="room in rooms">{{ room.name }}</li>
-                        <!--<li class="rooms-list-item">Second room</li>-->
-                        <!--<li class="rooms-list-item active">Third room</li>-->
+                    <ul class="rooms-list" ng-if="rooms && rooms.length > 0">
+                        <li class="rooms-list-item" ng-class="{'active': currentRoom.id == room.id}" ng-repeat="room in rooms">{{ room.name }}</li>
                     </ul>
                 </div>
             </div>
             <div class="col-md-5 col-lg-5">
                 <div class="selected-room-container-wrapper">
-                    <div class="selected-room-header">
+                    <div class="selected-room-header" ng-if="selectedRoom">
                         <span class="glyphicon glyphicon-share" title="Exit"></span>
-                        <span>Название комнаты</span>
+                        <span>{{ selectedRoom.name }}</span>
                         <span class="pull-right glyphicon glyphicon-edit" title="Edit"></span>
                     </div>
                     <div class="selected-room-container">
