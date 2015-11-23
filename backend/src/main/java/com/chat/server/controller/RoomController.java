@@ -45,7 +45,7 @@ public class RoomController {
     @RolesAllowed({Role.GUEST, Role.USER})
     @RequestMapping(value="/open", method = RequestMethod.GET)
     public HttpEntity<List<Room>> getOpenRooms(){
-        List<Room> rooms = roomService.findByType( Room.OPEN_TYPE );
+        List<Room> rooms = roomService.findByType(Room.OPEN_TYPE);
         return new ResponseEntity( rooms, HttpStatus.OK );
     }
 
@@ -118,7 +118,7 @@ public class RoomController {
             return new ResponseEntity( HttpStatus.BAD_REQUEST );
         }
         user.getRooms().add( room );
-        userService.update( user );
+        userService.update(user);
 
         if ( room == null ){
             return new ResponseEntity( HttpStatus.BAD_REQUEST );
@@ -127,5 +127,24 @@ public class RoomController {
         return new ResponseEntity( room, HttpStatus.OK );
     }
 
+    // todo: спросить у ƒимы - может метод должен быть в UserController? так как сохранение идет через модель User
+    // ћетод - выход из комнаты
+    @RequestMapping(value="/leave/{id}", method = RequestMethod.POST)
+    public HttpEntity<Room> leaveRoom(@PathVariable("id") int roomId, @RequestBody int userId){
+        Room room = roomService.findOne( roomId );
+        User user = userService.findOne( userId );
+        if( user == null || room == null ){
+            return new ResponseEntity( HttpStatus.BAD_REQUEST );
+        }
+
+        boolean contained = user.getRooms().remove( room );
+        if ( contained ){
+            userService.update( user );
+            return new ResponseEntity( HttpStatus.NO_CONTENT );
+
+        } else {
+            return new ResponseEntity( HttpStatus.BAD_REQUEST );
+        }
+    }
 
 }

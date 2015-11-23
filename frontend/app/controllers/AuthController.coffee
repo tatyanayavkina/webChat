@@ -13,6 +13,8 @@ CoreModule.controller 'AuthController', ($scope, $rootScope, $state, $stateParam
     $scope.loginNick = () ->
         Auth.loginNick($scope.accountNick).then(
             (session) ->
+                $scope.accountNick =
+                    nickname : null
                 $state.transitionTo($state.current, $stateParams,{reload: true});
                 console.log('session', session);
             (error) ->

@@ -61,7 +61,7 @@
             <div class="col-md-5 col-lg-5">
                 <div class="selected-room-container-wrapper">
                     <div class="selected-room-header" ng-if="currentRoom">
-                        <span class="glyphicon glyphicon-share" title="Exit"></span>
+                        <span class="glyphicon glyphicon-share" title="Exit" ng-if="room.owner.id!=auth.session.user.id" data-toggle="modal" data-target="#leaveRoom"></span>
                         <span>{{ currentRoom.name }}</span>
                         <span class="pull-right glyphicon glyphicon-edit" title="Edit" ng-if="room.owner.id==auth.session.user.id" ui-sref="home.rooms-update{roomID: currentRoom.id}"></span>
                     </div>
@@ -93,3 +93,21 @@
     </div>
 
 </div>
+
+<div id="leaveRoom" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Выход из комнаты</h4>
+            </div>
+            <div class="modal-body">
+                <p>Вы уверенны, что хотите покинуть комнату <strong>{{ currentRoom.name}}</strong></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+                <button type="button" class="btn btn-warning" ng-click="leaveRoom()" data-dismiss="modal">Выйти</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

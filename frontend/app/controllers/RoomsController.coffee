@@ -2,7 +2,7 @@
 
 'use strict';
 
-CoreModule.controller 'RoomsController', ($scope, $rootScope, $state, $stateParams, session, room, openRooms) ->
+CoreModule.controller 'RoomsController', ($scope, $rootScope, $state, $stateParams, RoomsModel, session, room, openRooms) ->
     $scope.room = room;
     $scope.openRooms = openRooms;
 
@@ -23,6 +23,11 @@ CoreModule.controller 'RoomsController', ($scope, $rootScope, $state, $statePara
             (error) ->
                 console.log('join error', error);
         )
+
+    $scope.$on('user:leaveRoom', (event, data) ->
+        if data.room.type = RoomsModel.types.OPEN
+            $scope.openRooms.push(data.room);
+    )
 
     $scope.save = () ->
         if isNewRecord = $scope.room.isNewRecord
