@@ -32,6 +32,10 @@ public class RoomServiceImpl extends AbstractService<Room> implements RoomServic
         return dao.findOne( room.getId() );
     }
 
+    public List<Room> findOpen(){
+        return dao.findOpen();
+    }
+
     @Override
     protected IOperations<Room> getDao() {
         return dao;
