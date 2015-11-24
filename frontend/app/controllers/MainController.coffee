@@ -34,6 +34,11 @@ CoreModule.controller 'MainController', ($scope, $rootScope, $state, $stateParam
         $scope.rooms.push(data.room);
     )
 
+    # пользователь создал комнату
+    $scope.$on('user:createRoom', (event, data) ->
+        $scope.rooms.push(data.room);
+    )
+
 
 
 

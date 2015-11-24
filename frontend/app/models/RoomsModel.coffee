@@ -53,5 +53,17 @@ CoreModule.factory 'RoomsModel', (BaseModel, config, $q, $http) ->
 
             deferred.promise;
 
+        removeUsers: (users) ->
+            deferred = $q.defer();
+
+            $http.post(config.api + @model + '/removeUsers/' + @id, users).then(
+                (response) =>
+                    deferred.resolve(null);
+                (error) ->
+                    deferred.reject(error);
+            )
+
+            deferred.promise;
+
 
 

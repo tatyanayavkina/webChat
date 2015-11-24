@@ -63,7 +63,7 @@ CoreModule.config [ '$stateProvider', '$locationProvider', '$urlRouterProvider',
                 templateUrl: '/app/views/rooms-update.html'
                 resolve    :
                     room: (RoomsModel, $stateParams) ->
-                        RoomsModel.find({id: $stateParams.roomID});
+                        RoomsModel.find({id: $stateParams.roomID}, [{name:'users'}]);
                     openRooms: ($q) ->
                         $q.when(null);
 

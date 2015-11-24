@@ -39,7 +39,7 @@ CoreModule.controller 'RoomsController', ($scope, $rootScope, $state, $statePara
         $scope.room.save().then(
             (room) ->
                 $scope.room = angular.extend({},$scope.room, room);
-                #todo: сделать $emit, что появилась новая комната if isNewRecord
+                $scope.$emit('user:createRoom', {room: $scope.room})
 #                Notification.show('Комната успешно сохранена')
             (error) ->
                 console.log(error);
@@ -48,7 +48,20 @@ CoreModule.controller 'RoomsController', ($scope, $rootScope, $state, $statePara
         );
 
     $scope.removeUsers = () ->
-        $scope.room.removeUsers($scope.usersToRemove);
+        $scope.room.removeUsers($scope.usersToRemove).then(
+            (success) ->
+                angular.forEach($scope.usersToRemove, (userToRemove) ->
+                    angular.forEach($scope.room.users, (user, index) ->
+                        if userToRemove.id == user.id
+                            $scope.room.users.splice(index, 1);
+                    )
+                )
+
+                $scope.usersToRemove = {};
+                console.log('success in removeUsers', success);
+            (error) ->
+                console.log('error in removeUsers', error);
+        )
 
 
 
