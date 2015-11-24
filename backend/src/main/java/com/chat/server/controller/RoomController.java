@@ -147,7 +147,7 @@ public class RoomController {
             return new ResponseEntity( HttpStatus.BAD_REQUEST );
         }
     }
-    
+
     // метод - удаление участников из комнаты
     // todo: ”даление не работает! Ќужно проверить удаление из List<>
     @RequestMapping(value="/removeUsers/{id}", method = RequestMethod.POST)

@@ -72,6 +72,8 @@ CREATE TABLE IF NOT EXISTS invitation(
 
 -- администратор
 INSERT INTO user (login, password, nickname) VALUES ("admin@mail.ru","root","admin");
+-- пользователь
+INSERT INTO user (login, password, nickname) VALUES ("user@mail.ru","123","user");
 -- роли
 INSERT INTO role (code) VALUES ("ROLE_GUEST");
 INSERT INTO role (code) VALUES ("ROLE_USER");
@@ -80,6 +82,9 @@ INSERT INTO role (code) VALUES ("ROLE_ADMIN");
 INSERT INTO user_link_role (user_id, role_id) VALUES (1,1);
 INSERT INTO user_link_role (user_id, role_id) VALUES (1,2);
 INSERT INTO user_link_role (user_id, role_id) VALUES (1,3);
+-- присваиваем пользователю роли
+INSERT INTO user_link_role (user_id, role_id) VALUES (2,1);
+INSERT INTO user_link_role (user_id, role_id) VALUES (2,2);
 --  создаем комнаты дл€ администратора 2 открытые и 1 закрытую
 INSERT INTO room (name, type, owner_id) VALUES ("ѕерва€ комната", 0, 1);
 INSERT INTO room (name, type, owner_id) VALUES ("¬тора€ комната", 0, 1);
@@ -87,3 +92,5 @@ INSERT INTO room (name, type, owner_id) VALUES ("«акрыта€ комната", 1, 1);
 -- добавл€ем администратора в пользовател€ комнаты
 INSERT INTO user_link_room (user_id, room_id) VALUES (1,1);
 INSERT INTO user_link_room (user_id, room_id) VALUES (1,3);
+-- добавл€ем пользовател€ в комнату ѕерва€ комната
+INSERT INTO user_link_room (user_id, room_id) VALUES (2,1);
