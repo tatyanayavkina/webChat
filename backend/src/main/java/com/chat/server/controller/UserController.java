@@ -42,40 +42,4 @@ public class UserController {
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
-    // Метод - вступление в открытую комнату
-    @RequestMapping(value="/{id}/join", method = RequestMethod.POST)
-    public HttpEntity<Room> joinRoom(@PathVariable("id") int userId , @RequestBody int roomId){
-        Room room = roomService.findOne(roomId);
-        User user = userService.findOne( userId );
-        if( user == null || room == null || room.getType() == Room.CLOSE_TYPE ){
-            return new ResponseEntity( HttpStatus.BAD_REQUEST );
-        }
-        user.getRooms().add( room );
-        userService.update(user);
-
-        if ( room == null ){
-            return new ResponseEntity( HttpStatus.BAD_REQUEST );
-        }
-        room.getOwner();
-        return new ResponseEntity( room, HttpStatus.OK );
     }
-
-    // Метод - выход из комнаты
-    @RequestMapping(value="/{id}/leave", method = RequestMethod.POST)
-    public HttpEntity<Room> leaveRoom(@PathVariable("id") int userId, @RequestBody int roomId){
-        Room room = roomService.findOne( roomId );
-        User user = userService.findOne( userId );
-        if( user == null || room == null ){
-            return new ResponseEntity( HttpStatus.BAD_REQUEST );
-        }
-
-        boolean contained = user.getRooms().remove(room);
-        if ( contained ){
-            userService.update( user );
-            return new ResponseEntity( HttpStatus.NO_CONTENT );
-
-        } else {
-            return new ResponseEntity( HttpStatus.BAD_REQUEST );
-        }
-    }
-}

@@ -32,12 +32,7 @@ public class User implements Serializable{
     @Column(name="last_request")
     private Date lastRequest;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "user_link_room",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "room_id")
-    )
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "users")
     private List<Room> rooms;
 
     @ManyToMany(fetch = FetchType.LAZY)

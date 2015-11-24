@@ -32,7 +32,12 @@ public class Room implements Serializable{
     @JoinColumn(name="owner_id")
     private User owner;
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "rooms")
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "user_link_room",
+            joinColumns = @JoinColumn(name = "room_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
     private List<User> users;
 
     public Room(){

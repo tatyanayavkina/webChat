@@ -16,7 +16,7 @@ CoreModule.controller 'MainController', ($scope, $rootScope, $state, $stateParam
     $scope.leaveRoom = () ->
         if !$scope.currentRoom
             return;
-        session.user.leaveRoom($scope.currentRoom.id).then(
+        $scope.currentRoom.leave(session.user.id).then(
             (success) ->
                 $scope.rooms.splice($scope.rooms.indexOf($scope.currentRoom), 1);
                 $scope.$broadcast('user:leaveRoom',{room: $scope.currentRoom});

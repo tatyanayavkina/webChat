@@ -65,11 +65,12 @@ public class RoomController {
 
     }
 
-    // Метод -  Поиск комнаты по id
+    // Метод -  Поиск комнаты по id + список ее участников
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public HttpEntity<Room> getRoom(@PathVariable("id") int id){
         Room room = roomService.findOne(id);
         if (room != null){
+            room.getUsers();
             return new ResponseEntity( room, HttpStatus.OK );
         }
         return new ResponseEntity( HttpStatus.NO_CONTENT );
@@ -101,12 +102,49 @@ public class RoomController {
     // Метод - создание комнаты
     @RequestMapping(method = RequestMethod.POST)
     public HttpEntity<Room> createRoom(@RequestBody Room room){
-        roomService.create( room );
+        roomService.create(room);
         if ( room != null ){
             return new ResponseEntity( room, HttpStatus.OK );
         }
         return new ResponseEntity( HttpStatus.BAD_REQUEST );
     }
 
+
+    // Метод - вступление в открытую комнату
+    @RequestMapping(value="/join/{id}", method = RequestMethod.POST)
+    public HttpEntity<Room> joinRoom(@PathVariable("id") int roomId , @RequestBody int userId){
+        Room room = roomService.findOne(roomId);
+        User user = userService.findOne( userId );
+        if( user == null || room == null || room.getType() == Room.CLOSE_TYPE ){
+            return new ResponseEntity( HttpStatus.BAD_REQUEST );
+        }
+        room.getUsers().add( user );
+        roomService.update( room );
+
+        if ( room == null ){
+            return new ResponseEntity( HttpStatus.BAD_REQUEST );
+        }
+        room.getOwner();
+        return new ResponseEntity( room, HttpStatus.OK );
+    }
+
+    // Метод - выход из комнаты
+    @RequestMapping(value="/leave/{id}", method = RequestMethod.POST)
+    public HttpEntity<Room> leaveRoom(@PathVariable("id") int roomId , @RequestBody int userId){
+        Room room = roomService.findOne( roomId );
+        User user = userService.findOne( userId );
+        if( user == null || room == null ){
+            return new ResponseEntity( HttpStatus.BAD_REQUEST );
+        }
+
+        boolean contained = room.getUsers().remove( user );
+        if ( contained ){
+            roomService.update( room );
+            return new ResponseEntity( HttpStatus.NO_CONTENT );
+
+        } else {
+            return new ResponseEntity( HttpStatus.BAD_REQUEST );
+        }
+    }
 
 }

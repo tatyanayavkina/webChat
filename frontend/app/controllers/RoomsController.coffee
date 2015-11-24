@@ -5,6 +5,7 @@
 CoreModule.controller 'RoomsController', ($scope, $rootScope, $state, $stateParams, RoomsModel, session, room, openRooms) ->
     $scope.room = room;
     $scope.openRooms = openRooms;
+    $scope.usersToRemove = {};
 
     if $scope.openRooms && $scope.openRooms.length > 0
         angular.forEach($scope.$parent.rooms, (room) ->
@@ -15,7 +16,7 @@ CoreModule.controller 'RoomsController', ($scope, $rootScope, $state, $statePara
         )
 
     $scope.joinRoom = (room) ->
-        session.user.joinRoom(room.id).then(
+       room.join(session.user.id).then(
             (result) ->
                 $scope.openRooms.splice($scope.openRooms.indexOf(room), 1);
                 # Пользователь вступил в комнату
@@ -45,5 +46,8 @@ CoreModule.controller 'RoomsController', ($scope, $rootScope, $state, $statePara
 #                Notification.show('Произошла ошибка')
 
         );
+
+    $scope.removeUsers = () ->
+
 
 

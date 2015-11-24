@@ -1,13 +1,13 @@
 <div class="third-part">
     <div class="third-part-header">
-        <span>Создание комнаты</span>
+        <span>Редактирование комнаты {{ room.name }}</span>
     </div>
     <div class="third-part-inner">
         <!-- Nav tabs -->
         <ul class="nav nav-tabs">
             <li class="active"><a href="#main" data-toggle="tab">Основные настройки</a></li>
             <li><a href="#users" data-toggle="tab">Участники</a></li>
-            <li><a href="#invite" data-toggle="tab">Пригласить</a></li>
+            <li><a href="#invite" data-toggle="tab" ng-if="room.type==room.types.CLOSE">Пригласить</a></li>
         </ul>
 
         <!-- Tab panes -->
@@ -28,13 +28,20 @@
                     </div>
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
+                            <button type="button" class="btn btn-default pull-left" ng-click="deleteRoom()">Удалить</button>
+                            <button type="button" class="btn btn-default" ui-sref="home.rooms">Отменить</button>
                             <button type="button" class="btn btn-primary" ng-disabled="roomForm.$invalid" ng-click="save()">Сохранить</button>
                         </div>
                     </div>
                 </form>
             </div>
             <div class="tab-pane" id="users">
-                Просмотр списка участников и возможность исключения из списка участников
+                <ul>
+                    <li ng-repeat="users in room.users">
+                        <input type="checkbox" ng-model="usersToRemove[user.id]" ng-true-value="user" name="user">{{ user.nickname }}
+                    </li>
+                </ul>
+                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#removeUsers">Удалить</button>
             </div>
             <div class="tab-pane" id="invite">
                 Форма для приглашения участников
@@ -42,3 +49,21 @@
         </div>
     </div>
 </div>
+
+<div id="removeUsers" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Удаление участников</h4>
+            </div>
+            <div class="modal-body">
+                <p>Вы уверенны, что хотите удалить участников из комнаты <strong>{{ room.name }}</strong>?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+                <button type="button" class="btn btn-warning" ng-click="removeUsers()" data-dismiss="modal">Удалить</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
