@@ -23,8 +23,8 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao{
     public User findUserByLogin(String username){
         List<User> users = new ArrayList<User>();
         users = getCurrentSession()
-                .createQuery("from User where login=?")
-                .setParameter(0, username)
+                .createQuery("from User where login=:login")
+                .setParameter("login", username)
                 .list();
         if (users.size() > 0) {
             return users.get(0);
