@@ -14,33 +14,18 @@ import java.util.List;
 @Entity
 @Table(name="user")
 public class User implements Serializable{
-    @Id
-    @GeneratedValue
-    @GenericGenerator(name = "generator", strategy = "identity")
-    @Column(name="id", nullable=false, unique=true, length=11)
     private int id;
 
-    @Column(name="login")
     private String login;
 
-    @Column(name="password")
     private String password;
 
-    @Column(name="nickname")
     private String nickname;
 
-    @Column(name="last_request")
     private Date lastRequest;
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "users")
     private List<Room> rooms;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "user_link_role",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
     private List<Role> roles;
 
     public User(int id, String login, String password, String nickname, Date lastRequest){
@@ -65,6 +50,10 @@ public class User implements Serializable{
         this.id = id;
     }
 
+    @Id
+    @GeneratedValue
+    @GenericGenerator(name = "generator", strategy = "identity")
+    @Column(name="id", nullable=false, unique=true, length=11)
     public int getId(){
         return id;
     }
@@ -73,6 +62,7 @@ public class User implements Serializable{
         this.login = login;
     }
 
+    @Column(name="login")
     public String getLogin(){
         return login;
     }
@@ -81,6 +71,7 @@ public class User implements Serializable{
         this.password = password;
     }
 
+    @Column(name="password")
     public String getPassword(){
         return password;
     }
@@ -90,6 +81,7 @@ public class User implements Serializable{
         this.nickname = nickname;
     }
 
+    @Column(name="nickname")
     public String getNickname(){
         return nickname;
     }
@@ -98,6 +90,7 @@ public class User implements Serializable{
         this.lastRequest = lastRequest;
     }
 
+    @Column(name="last_request")
     public Date getLastRequest(){
         return lastRequest;
     }
@@ -105,7 +98,9 @@ public class User implements Serializable{
     public void setRooms(List<Room> rooms){
         this.rooms = rooms;
     }
+
     @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "users")
     public List<Room> getRooms(){
         return rooms;
     }
@@ -113,6 +108,13 @@ public class User implements Serializable{
     public void setRoles(List<Role> roles){
         this.roles = roles;
     }
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "user_link_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
     public List<Role> getRoles(){
         return roles;
     }

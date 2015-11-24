@@ -13,12 +13,9 @@ public class Role implements Serializable{
     public static final String GUEST = "ROLE_GUEST";
     public static final String USER = "ROLE_USER";
     public static final String ADMIN = "ROLE_ADMIN";
-    @Id
-    @GeneratedValue
-    @Column(name="id", nullable=false, unique=true, length=11)
+
     private int id;
 
-    @Column(name="code")
     private String code;
 
 //    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "roles")
@@ -37,6 +34,9 @@ public class Role implements Serializable{
         this.id = id;
     }
 
+    @Id
+    @GeneratedValue
+    @Column(name="id", nullable=false, unique=true, length=11)
     public int getId(){
         return id;
     }
@@ -45,6 +45,7 @@ public class Role implements Serializable{
         this.code = code;
     }
 
+    @Column(name="code")
     public String getCode(){
         return code;
     }

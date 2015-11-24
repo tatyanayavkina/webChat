@@ -16,28 +16,14 @@ public class Room implements Serializable{
     public static int OPEN_TYPE = 0;
     public static int CLOSE_TYPE = 1;
 
-    @Id
-    @GeneratedValue
-    @GenericGenerator(name = "generator", strategy = "identity")
-    @Column(name="id", nullable=false, unique=true, length=11)
     private int id;
 
-    @Column(name="name")
     private String name;
 
-    @Column(name="type")
     private int type;
 
-    @ManyToOne
-    @JoinColumn(name="owner_id")
     private User owner;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "user_link_room",
-            joinColumns = @JoinColumn(name = "room_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id")
-    )
     private List<User> users;
 
     public Room(){
@@ -48,6 +34,10 @@ public class Room implements Serializable{
         this.id = id;
     }
 
+    @Id
+    @GeneratedValue
+    @GenericGenerator(name = "generator", strategy = "identity")
+    @Column(name="id", nullable=false, unique=true, length=11)
     public int getId(){
         return id;
     }
@@ -56,6 +46,7 @@ public class Room implements Serializable{
         this.name = name;
     }
 
+    @Column(name="name")
     public String getName(){
         return name;
     }
@@ -64,6 +55,7 @@ public class Room implements Serializable{
         this.type= type;
     }
 
+    @Column(name="type")
     public int getType(){
         return type;
     }
@@ -73,6 +65,8 @@ public class Room implements Serializable{
     }
 
     @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="owner_id")
     public User getOwner(){
         return owner;
     }
@@ -82,6 +76,12 @@ public class Room implements Serializable{
     }
 
     @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "user_link_room",
+            joinColumns = @JoinColumn(name = "room_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
     public List<User> getUsers(){
         return users;
     }
