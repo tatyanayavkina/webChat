@@ -119,7 +119,7 @@ public class RoomController {
             return new ResponseEntity( HttpStatus.BAD_REQUEST );
         }
         room.getUsers().add( user );
-        roomService.update( room );
+        roomService.update(room);
 
         if ( room == null ){
             return new ResponseEntity( HttpStatus.BAD_REQUEST );
@@ -129,6 +129,7 @@ public class RoomController {
     }
 
     // Метод - выход из комнаты
+    // todo: Удаление не работает! Нужно проверить удаление из List<>
     @RequestMapping(value="/leave/{id}", method = RequestMethod.POST)
     public HttpEntity<Room> leaveRoom(@PathVariable("id") int roomId , @RequestBody int userId){
         Room room = roomService.findOne( roomId );
@@ -145,6 +146,23 @@ public class RoomController {
         } else {
             return new ResponseEntity( HttpStatus.BAD_REQUEST );
         }
+    }
+    
+    // метод - удаление участников из комнаты
+    // todo: Удаление не работает! Нужно проверить удаление из List<>
+    @RequestMapping(value="/removeUsers/{id}", method = RequestMethod.POST)
+    public HttpEntity<Room> removeUsers(@PathVariable("id") int roomId, @RequestBody List<User> usersToRemove){
+        Room room = roomService.findOne( roomId );
+        if ( room == null ){
+            return new ResponseEntity( HttpStatus.BAD_REQUEST );
+        }
+        List<User> users = room.getUsers();
+        for( User user: usersToRemove){
+            boolean contained = users.remove(user);
+        }
+        room.setUsers( users );
+        roomService.update( room );
+        return new ResponseEntity( HttpStatus.NO_CONTENT );
     }
 
 }

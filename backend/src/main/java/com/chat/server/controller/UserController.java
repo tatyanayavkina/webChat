@@ -1,8 +1,6 @@
 package com.chat.server.controller;
 
-import com.chat.server.model.Room;
 import com.chat.server.model.User;
-import com.chat.server.service.RoomService;
 import com.chat.server.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -21,8 +19,6 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-    @Autowired
-    private RoomService roomService;
 
     @RequestMapping(method = RequestMethod.GET)
     public HttpEntity<List<User>> getUsers(){

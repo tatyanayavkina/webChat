@@ -48,6 +48,7 @@ CoreModule.controller 'RoomsController', ($scope, $rootScope, $state, $statePara
         );
 
     $scope.removeUsers = () ->
+        $scope.room.removeUsers($scope.usersToRemove);
 
 
 
