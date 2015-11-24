@@ -22,7 +22,7 @@ public class MessageController {
     private MessageService messageService;
 
     @RequestMapping(method = RequestMethod.POST)
-    public synchronized HttpEntity<Message> createRoom(@RequestBody Message message){
+    public  HttpEntity<Message> createMessage(@RequestBody Message message){
         messageService.create(message);
         if (message != null){
             return new ResponseEntity(message, HttpStatus.OK);

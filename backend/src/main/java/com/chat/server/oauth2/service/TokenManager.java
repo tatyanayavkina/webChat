@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created on 11.11.2015.
@@ -28,8 +29,8 @@ public class TokenManager {
     }
 
     protected TokenManager(){
-        this.validUsers = new HashMap<>();
-        this.tokens = new HashMap<>();
+        this.validUsers = new ConcurrentHashMap<>();
+        this.tokens = new ConcurrentHashMap<>();
     }
 
     public TokenResponse createNewToken(UserDetails userDetails, User user) {

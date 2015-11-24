@@ -22,7 +22,6 @@ import java.util.List;
 /**
  * Created on 03.11.2015.
  */
-//todo: разобраться, какие методы должны быть synchronized
 @RestController
 @RolesAllowed({Role.USER})
 @RequestMapping(value = "/api/invitations")

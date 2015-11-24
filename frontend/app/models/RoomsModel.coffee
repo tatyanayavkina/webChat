@@ -28,30 +28,6 @@ CoreModule.factory 'RoomsModel', (BaseModel, config, $q, $http) ->
         @findOpen: () ->
             @findAll({url: config.api + @:: model + '/open'});
 
-        join: (userId) ->
-            deferred = $q.defer();
-
-            $http.post(config.api + @model + '/join/' + @id, userId).then(
-                (response) =>
-                    if response && response.data
-                        deferred.resolve(@transform(response.data, [{name: 'owner'}]));
-                (error) ->
-                    deferred.reject(error);
-            )
-
-            deferred.promise;
-
-        leave: (userId) ->
-            deferred = $q.defer();
-
-            $http.post(config.api + @model + '/leave/' + @id, userId).then(
-                (response) =>
-                    deferred.resolve(null);
-                (error) ->
-                    deferred.reject(error);
-            )
-
-            deferred.promise;
 
 
 

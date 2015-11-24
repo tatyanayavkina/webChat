@@ -15,7 +15,7 @@ CoreModule.controller 'RoomsController', ($scope, $rootScope, $state, $statePara
         )
 
     $scope.joinRoom = (room) ->
-        room.join(session.user.id).then(
+        session.user.joinRoom(room.id).then(
             (result) ->
                 $scope.openRooms.splice($scope.openRooms.indexOf(room), 1);
                 # Пользователь вступил в комнату
