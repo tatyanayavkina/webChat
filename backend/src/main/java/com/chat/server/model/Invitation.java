@@ -12,11 +12,18 @@ import java.util.List;
 @Entity
 @Table(name="invitation")
 public class Invitation implements Serializable{
-
+    @Id
+    @GeneratedValue
+    @GenericGenerator(name = "generator", strategy = "identity")
+    @Column(name="id", nullable=false, unique=true, length=11)
     private int id;
 
+    @ManyToOne
+    @JoinColumn(name="user_id")
     private User user;
 
+    @ManyToOne
+    @JoinColumn(name="room_id")
     private Room room;
 
     public Invitation(){
@@ -27,10 +34,6 @@ public class Invitation implements Serializable{
         this.id = id;
     }
 
-    @Id
-    @GeneratedValue
-    @GenericGenerator(name = "generator", strategy = "identity")
-    @Column(name="id", nullable=false, unique=true, length=11)
     public int getId(){
         return id;
     }
@@ -39,8 +42,6 @@ public class Invitation implements Serializable{
         this.user = user;
     }
 
-    @ManyToOne
-    @JoinColumn(name="user_id")
     public User getUser(){
         return user;
     }
@@ -49,8 +50,6 @@ public class Invitation implements Serializable{
         this.room = room;
     }
 
-    @ManyToOne
-    @JoinColumn(name="room_id")
     public Room getRoom(){
         return room;
     }

@@ -13,15 +13,24 @@ import java.util.Date;
 @Entity
 @Table(name="message")
 public class Message implements Serializable{
-
+    @Id
+    @GeneratedValue
+    @GenericGenerator(name = "generator", strategy = "identity")
+    @Column(name="id", nullable=false, unique=true, length=11)
     private int id;
 
+    @ManyToOne
+    @JoinColumn(name="user_id")
     private User user;
 
+    @ManyToOne
+    @JoinColumn(name="room_id")
     private Room room;
 
+    @Column(name="creation_time")
     private Date creationTime;
 
+    @Column(name="content")
     private String content;
 
     public Message(){
@@ -32,10 +41,6 @@ public class Message implements Serializable{
         this.id = id;
     }
 
-    @Id
-    @GeneratedValue
-    @GenericGenerator(name = "generator", strategy = "identity")
-    @Column(name="id", nullable=false, unique=true, length=11)
     public int getId(){
         return id;
     }
@@ -44,8 +49,6 @@ public class Message implements Serializable{
         this.user = user;
     }
 
-    @ManyToOne
-    @JoinColumn(name="user_id")
     public User getUser(){
         return user;
     }
@@ -54,8 +57,6 @@ public class Message implements Serializable{
         this.room = room;
     }
 
-    @ManyToOne
-    @JoinColumn(name="room_id")
     public Room getRoom(){
         return room;
     }
@@ -64,7 +65,6 @@ public class Message implements Serializable{
         this.creationTime = creationTime;
     }
 
-    @Column(name="creation_time")
     public Date getCreationTime(){
         return creationTime;
     }
@@ -73,7 +73,6 @@ public class Message implements Serializable{
         this.content = content;
     }
 
-    @Column(name="content")
     public String getContent(){
         return content;
     }
