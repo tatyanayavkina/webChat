@@ -31,7 +31,10 @@ public class RoomController {
 
     private static final Logger logger = Logger.getLogger(RoomController.class);
 
-    // Метод - возвращает все комнаты
+    /**
+     * Get rooms
+     * @return HttpEntity<List<Room>> - all rooms that are in system
+     */
     @RequestMapping(method = RequestMethod.GET)
     public HttpEntity<List<Room>> getRooms(){
         List<Room> rooms = roomService.findAll();
@@ -41,7 +44,10 @@ public class RoomController {
         return new ResponseEntity( HttpStatus.NO_CONTENT );
     }
 
-    // Метод - возвращает только открытые комнаты
+    /**
+     * Get rooms with type=Room.OPEN_TYPE
+     * @return HttpEntity<List<Room>> - open rooms
+     */
     @RolesAllowed({Role.GUEST, Role.USER})
     @RequestMapping(value="/open", method = RequestMethod.GET)
     public HttpEntity<List<Room>> getOpenRooms(){
@@ -49,7 +55,11 @@ public class RoomController {
         return new ResponseEntity( rooms, HttpStatus.OK );
     }
 
-    //Метод - возвращает все комнаты пользователя
+    /**
+     * Get rooms by userId
+     * @param userId
+     * @return HttpEntity<List<Room>> - all rooms that user takes part in
+     */
     @RequestMapping(value="/byUserId/{userId}", method = RequestMethod.GET)
     public HttpEntity<List<Room>> getRoomsByUserId(@PathVariable("userId") int userId){
         User user = userService.findOne(userId);
@@ -65,7 +75,11 @@ public class RoomController {
 
     }
 
-    // Метод -  Поиск комнаты по id + список ее участников
+    /**
+     * Get room by its id
+     * @param id
+     * @return HttpEntity<Room> - room
+     */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public HttpEntity<Room> getRoom(@PathVariable("id") int id){
         Room room = roomService.findOne(id);
@@ -76,8 +90,11 @@ public class RoomController {
         return new ResponseEntity( HttpStatus.NO_CONTENT );
     }
 
-    //todo: узнать, как правильно делать обновление данных по id и при put запросе...
-    // Метод -  Изменение данных о комнате
+    /**
+     * Update room
+     * @param room
+     * @return HttpEntity<Room> - updated room
+     */
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public HttpEntity<Room> updateRoom(@RequestBody Room room){
        roomService.update( room );
@@ -87,8 +104,11 @@ public class RoomController {
         return new ResponseEntity( HttpStatus.BAD_REQUEST );
     }
 
-    // todo: проверить, что удаляет либо админ, либо владелец комнаты!
-    //Метод - удаление комнаты
+    /**
+     * Delete room
+     * @param id
+     * @return HttpEntity<String> - if all is ok then HttpStatus.NO_CONTENT else HttpStatus.BAD_REQUEST
+     */
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public HttpEntity<String> deleteRoom(@PathVariable("id") int id){
         Room room = roomService.findOne( id );
@@ -99,7 +119,11 @@ public class RoomController {
         return new ResponseEntity( HttpStatus.BAD_REQUEST );
     }
 
-    // Метод - создание комнаты
+    /**
+     * Create new room
+     * @param room
+     * @return HttpEntity<Room> - new room
+     */
     @RequestMapping(method = RequestMethod.POST)
     public HttpEntity<Room> createRoom(@RequestBody Room room){
         roomService.create(room);
@@ -110,7 +134,12 @@ public class RoomController {
     }
 
 
-    // Метод - вступление в открытую комнату
+    /**
+     * Add user to room's users
+     * @param roomId
+     * @param userId
+     * @return HttpEntity<Room> - room that user joined to
+     */
     @RequestMapping(value="/join/{id}", method = RequestMethod.POST)
     public HttpEntity<Room> joinRoom(@PathVariable("id") int roomId , @RequestBody int userId){
         Room room = roomService.findOne(roomId);
@@ -128,8 +157,12 @@ public class RoomController {
         return new ResponseEntity( room, HttpStatus.OK );
     }
 
-    // Метод - выход из комнаты
-    // todo: Удаление не работает! Нужно проверить удаление из List<>
+    /**
+     * Remove user from room's users
+     * @param roomId
+     * @param userId
+     * @return HttpEntity<Room> - HttpStatus.NO_CONTENT when all is  ok
+     */
     @RequestMapping(value="/leave/{id}", method = RequestMethod.POST)
     public HttpEntity<Room> leaveRoom(@PathVariable("id") int roomId , @RequestBody int userId){
         Room room = roomService.findOne( roomId );
@@ -148,8 +181,12 @@ public class RoomController {
         }
     }
 
-    // метод - удаление участников из комнаты
-    // todo: Удаление не работает! Нужно проверить удаление из List<>
+    /**
+     * Remove a list of users from room's users
+     * @param roomId
+     * @param usersToRemove
+     * @return HttpEntity<Room> - HttpStatus.NO_CONTENT when all is  ok
+     */
     @RequestMapping(value="/removeUsers/{id}", method = RequestMethod.POST)
     public HttpEntity<Room> removeUsers(@PathVariable("id") int roomId, @RequestBody List<User> usersToRemove){
         Room room = roomService.findOne( roomId );

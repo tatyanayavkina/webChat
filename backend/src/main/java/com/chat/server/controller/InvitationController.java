@@ -39,6 +39,12 @@ public class InvitationController {
     //todo: спросить у Димы, как поступать, если не все приглашения получилось создать
     //todo: узнать, нужно ли отправлять на клиент созданные приглашения в ответ?
     //todo: сделать проверку на то, что приглашения рассылает владелец комнаты
+    /**
+     * Create invitations to join the room
+     * @param roomId
+     * @param logins
+     * @return HttpEntity<String> - HttpStatus.OK if all is ok
+     */
     @RequestMapping(value = "/send/{roomId}", method = RequestMethod.POST)
     public HttpEntity<String> send(@PathVariable("roomId") int roomId, @RequestBody List<String> logins){
         List<Invitation> invitations = new ArrayList<Invitation>();
@@ -56,7 +62,11 @@ public class InvitationController {
 
     }
 
-
+    /**
+     * User accepts invitation to join the room
+     * @param id
+     * @return HttpEntity<Room> - room if all is ok
+     */
     @RequestMapping(value = "/{id}/accept", method = RequestMethod.POST)
     public HttpEntity<Room> accept(@PathVariable("id") int id){
         Invitation invitation = invitationService.findOne(id);
@@ -72,6 +82,11 @@ public class InvitationController {
         return new ResponseEntity( room, HttpStatus.OK );
     }
 
+    /**
+     * User rejects invitation to join the room
+     * @param id
+     * @return HttpEntity<String> - HttpStatus.NO_CONTENT if all is ok
+     */
     @RequestMapping(value = "/{id}/reject", method = RequestMethod.POST)
     public HttpEntity<String> reject(@PathVariable("id") int id){
         Invitation invitation = invitationService.findOne(id);

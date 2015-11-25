@@ -28,12 +28,20 @@ public class AccessController {
 
     private static int ROLE_GUEST_ID = 1;
 
+    /**
+    * Generate token for registered user
+    * @return TokenResponse - token with user info
+     */
     @RequestMapping(value = "/api/access/login", method = RequestMethod.POST)
     @ResponseBody
     public TokenResponse generateToken(@RequestParam("username") String username, @RequestParam("password") String password) {
         return accessService.authenticate(username, password);
     }
 
+    /**
+     * Delete token from token hashmap
+     * @return true
+     */
     @RequestMapping(value = "/api/access/logout", method = RequestMethod.POST)
     @ResponseBody
     public boolean deleteToken() {
@@ -41,12 +49,20 @@ public class AccessController {
         return true;
     }
 
+    /**
+     * Find user info by token
+     * @return TokenResponse - token and user info that was found
+     */
     @RequestMapping(value = "/api/access/refresh", method = RequestMethod.GET)
     @ResponseBody
     public TokenResponse refreshToken(@RequestParam("accessToken") String token) {
         return accessService.refresh(token);
     }
 
+    /**
+     * Create new user by nickname and generate token and user info for new user
+     * @return TokenResponse - generated token and user info
+     */
     @RequestMapping(value = "/api/access/nickname", method = RequestMethod.POST)
     @ResponseBody
     public TokenResponse createUserGenerateToken(@RequestParam("nickname") String nickname) {

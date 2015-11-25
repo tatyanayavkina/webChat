@@ -72,7 +72,7 @@ public class Room implements Serializable{
         this.owner = owner;
     }
 
-    @JsonIgnore
+//    @JsonIgnore
     public User getOwner(){
         return owner;
     }
