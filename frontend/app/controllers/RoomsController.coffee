@@ -48,6 +48,7 @@ CoreModule.controller 'RoomsController', ($scope, $rootScope, $state, $statePara
         );
 
     $scope.removeUsers = () ->
+        console.log('usersToRemove', $scope.usersToRemove);
         $scope.room.removeUsers($scope.usersToRemove).then(
             (success) ->
                 angular.forEach($scope.usersToRemove, (userToRemove) ->

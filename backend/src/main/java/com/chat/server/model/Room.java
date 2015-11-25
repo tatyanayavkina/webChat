@@ -28,7 +28,7 @@ public class Room implements Serializable{
     @Column(name="type")
     private int type;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="owner_id")
     private User owner;
 

@@ -80,12 +80,28 @@ public class RoomController {
      * @param id
      * @return HttpEntity<Room> - room
      */
+    // todo: проверить, что комнату запрашивает ее владелец
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public HttpEntity<Room> getRoom(@PathVariable("id") int id){
         Room room = roomService.findOne(id);
         if (room != null){
-            room.getUsers();
             return new ResponseEntity( room, HttpStatus.OK );
+        }
+        return new ResponseEntity( HttpStatus.NO_CONTENT );
+    }
+
+    /**
+     * Get room's users by its id
+     * @param id
+     * @return HttpEntity<List<User>> - list of users
+     */
+    // todo: проверить, что пользователей запрашивает владелец комнаты
+    @RequestMapping(value = "/{id}/users", method = RequestMethod.GET)
+    public HttpEntity<List<User>> getRoomUsers(@PathVariable("id") int id){
+        Room room = roomService.findOne(id);
+        if (room != null){
+            List<User> users = room.getUsers();
+            return new ResponseEntity( users, HttpStatus.OK );
         }
         return new ResponseEntity( HttpStatus.NO_CONTENT );
     }
@@ -194,7 +210,7 @@ public class RoomController {
             return new ResponseEntity( HttpStatus.BAD_REQUEST );
         }
         List<User> users = room.getUsers();
-        for( User user: usersToRemove){
+        for( User user: usersToRemove ){
             boolean contained = users.remove(user);
         }
         room.setUsers( users );

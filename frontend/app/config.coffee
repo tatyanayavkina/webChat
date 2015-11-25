@@ -62,8 +62,20 @@ CoreModule.config [ '$stateProvider', '$locationProvider', '$urlRouterProvider',
                 controller : 'RoomsController'
                 templateUrl: '/app/views/rooms-update.html'
                 resolve    :
-                    room: (RoomsModel, $stateParams) ->
-                        RoomsModel.find({id: $stateParams.roomID}, [{name:'users'}]);
+                    room: ($q, RoomsModel, $stateParams) ->
+                        deferred = $q.defer();
+                        RoomsModel.find({id: $stateParams.roomID}).then(
+                            (room) ->
+                                room.getUsers().then(
+                                    (response) ->
+                                        deferred.resolve(response);
+                                    (error) ->
+                                        deferred.reject(error);
+                                )
+                            (error) ->
+                                deferred.reject(error);
+                        )
+                        deferred.promise;
                     openRooms: ($q) ->
                         $q.when(null);
 

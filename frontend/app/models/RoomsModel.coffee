@@ -28,6 +28,20 @@ CoreModule.factory 'RoomsModel', (BaseModel, config, $q, $http) ->
         @findOpen: () ->
             @findAll({url: config.api + @:: model + '/open'});
 
+        getUsers: () ->
+            deferred = $q.defer();
+
+            $http.get(config.api + @model + '/' + @id + '/users').then(
+                (response) =>
+                    if response && response.data
+                        @users = response.data
+                        deferred.resolve(@transform(@, [{name: 'owner'}, {name: 'users'}]));
+                (error) ->
+                    deferred.reject(error);
+            )
+
+            deferred.promise;
+
         join: (userId) ->
             deferred = $q.defer();
 
@@ -56,7 +70,12 @@ CoreModule.factory 'RoomsModel', (BaseModel, config, $q, $http) ->
         removeUsers: (users) ->
             deferred = $q.defer();
 
-            $http.post(config.api + @model + '/removeUsers/' + @id, users).then(
+            usersList = [];
+            angular.forEach(users, (user, id) ->
+                if user then usersList.push(user);
+            )
+
+            $http.post(config.api + @model + '/removeUsers/' + @id, usersList).then(
                 (response) =>
                     deferred.resolve(null);
                 (error) ->

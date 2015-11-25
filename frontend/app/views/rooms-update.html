@@ -37,8 +37,12 @@
             </div>
             <div class="tab-pane" id="users">
                 <ul>
-                    <li ng-repeat="users in room.users">
-                        <input type="checkbox" ng-model="usersToRemove[user.id]" ng-true-value="user" name="user">{{ user.nickname }}
+                    <li ng-repeat="user in room.users">
+                        <input type="checkbox"
+                               ng-model="selected"
+                               ng-change="usersToRemove[user.id] = (selected && user) || undefined"
+                               name="user">
+                        {{ user.nickname }}
                     </li>
                 </ul>
                 <button type="button" class="btn btn-default" data-toggle="modal" data-target="#removeUsers">Удалить</button>
