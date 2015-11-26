@@ -58,6 +58,10 @@ public class AppConfig{
         hibernateProperties.setProperty("hibernate.dialect", env.getProperty("hibernate.dialect"));
 
         hibernateProperties.setProperty("hibernate.show_sql", "true");
+        hibernateProperties.setProperty("hibernate.c3p0.min_size", "1");
+        hibernateProperties.setProperty("hibernate.c3p0.max_size", "19");
+        hibernateProperties.setProperty("hibernate.c3p0.timeout", "120");
+//        hibernateProperties.setProperty("hibernate.c3p0.max_statements", "10");
         // hibernateProperties.setProperty("hibernate.format_sql", "true");
         // hibernateProperties.setProperty("hibernate.globally_quoted_identifiers", "true");
 
