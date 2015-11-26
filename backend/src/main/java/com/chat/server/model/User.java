@@ -35,7 +35,7 @@ public class User implements Serializable{
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "users")
     private List<Room> rooms;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_link_role",
             joinColumns = @JoinColumn(name = "user_id"),

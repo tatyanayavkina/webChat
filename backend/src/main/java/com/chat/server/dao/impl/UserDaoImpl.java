@@ -5,6 +5,8 @@ import com.chat.server.dao.common.AbstractDao;
 import com.chat.server.model.User;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +22,7 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao{
     }
 
     @SuppressWarnings("unchecked")
+    @Transactional
     public User findUserByLogin(String username){
         List<User> users = new ArrayList<User>();
         users = getCurrentSession()

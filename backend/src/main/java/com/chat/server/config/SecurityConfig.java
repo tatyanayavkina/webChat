@@ -29,7 +29,7 @@ import javax.sql.DataSource;
  * Created on 05.11.2015.
  */
 @Configuration
-@ComponentScan(basePackages = {"com.chat.server.oauth2.service"})
+//@ComponentScan(basePackages = {"com.chat.server.oauth2.service"})
 @EnableWebSecurity
 @Order(99)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {

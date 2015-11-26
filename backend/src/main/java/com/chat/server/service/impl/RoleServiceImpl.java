@@ -7,6 +7,8 @@ import com.chat.server.service.RoleService;
 import com.chat.server.service.common.AbstractService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Created on 28.10.2015.

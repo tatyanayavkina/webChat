@@ -14,7 +14,6 @@ import java.util.List;
  * Created on 26.10.2015.
  */
 @SuppressWarnings("unchecked")
-@Transactional(propagation= Propagation.NOT_SUPPORTED)
 public abstract class AbstractDao<T extends Serializable> implements IOperations<T> {
     private Class<T> clazz;
 

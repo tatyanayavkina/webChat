@@ -8,6 +8,8 @@ import com.chat.server.service.common.AbstractService;
 import com.chat.server.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -27,6 +29,7 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
     }
 
     //API
+    @Transactional
     public User createUserByNickname(String nickname,  Role roleGuest){
         String username = nickname + LocalTime.now();
         User newUser = new User(username, "", nickname);

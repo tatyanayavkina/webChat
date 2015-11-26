@@ -9,6 +9,7 @@ import com.chat.server.service.InvitationService;
 import com.chat.server.service.common.AbstractService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Created on 28.10.2015.
@@ -24,6 +25,7 @@ public class InvitationServiceImpl extends AbstractService<Invitation> implement
     }
 
     //API
+    @Transactional
     public Invitation createInvitation(User user, Room room){
         Invitation invitation = new Invitation();
         invitation.setUser(user);

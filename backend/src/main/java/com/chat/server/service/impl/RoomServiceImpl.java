@@ -8,6 +8,8 @@ import com.chat.server.service.RoomService;
 import com.chat.server.service.common.AbstractService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -25,6 +27,7 @@ public class RoomServiceImpl extends AbstractService<Room> implements RoomServic
     }
 
     //API
+    @Transactional
     public Room joinRoom(Room room, User user){
         List<User> users = room.getUsers();
         users.add( user );
@@ -32,6 +35,7 @@ public class RoomServiceImpl extends AbstractService<Room> implements RoomServic
         return dao.findOne( room.getId() );
     }
 
+    @Transactional
     public List<Room> findByType(int type){
         return dao.findByType( type );
     }
