@@ -25,7 +25,6 @@ public class InvitationServiceImpl extends AbstractService<Invitation> implement
     }
 
     //API
-    @Transactional
     public Invitation createInvitation(User user, Room room){
         Invitation invitation = new Invitation();
         invitation.setUser(user);

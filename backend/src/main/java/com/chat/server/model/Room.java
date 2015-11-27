@@ -1,6 +1,7 @@
 package com.chat.server.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -28,10 +29,13 @@ public class Room implements Serializable{
     @Column(name="type")
     private int type;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+
+//    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name="owner_id")
     private User owner;
 
+    @JsonManagedReference
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "user_link_room",

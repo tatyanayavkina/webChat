@@ -3,6 +3,7 @@ package com.chat.server.config;
 import org.springframework.orm.hibernate5.support.OpenSessionInViewFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
+import javax.servlet.FilterRegistration;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 
@@ -25,13 +26,6 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
     @Override
     protected String[] getServletMappings() {
         return new String[]{"/"};
-    }
-
-    @Override
-    public void onStartup(ServletContext servletContext) throws ServletException {
-        super.onStartup(servletContext);
-        servletContext.addFilter("openSessionInView", OpenSessionInViewFilter.class)
-                .addMappingForUrlPatterns(null, true, "/*");
     }
 
 }

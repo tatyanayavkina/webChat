@@ -44,12 +44,6 @@ public class ServletContextConfig extends WebMvcConfigurerAdapter {
         return messageConverter;
     }
 
-//    @Bean
-//    public OpenSessionInViewFilter createOpenSessionInViewFilter(){
-//        OpenSessionInViewFilter filter = new OpenSessionInViewFilter();
-//        filter.setSessionFactoryBeanName("sessionFactory");
-//        return filter;
-//    }
 
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {

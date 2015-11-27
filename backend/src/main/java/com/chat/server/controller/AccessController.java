@@ -8,6 +8,7 @@ import com.chat.server.oauth2.service.AccessService;
 import com.chat.server.service.RoleService;
 import com.chat.server.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalTime;
@@ -18,6 +19,7 @@ import java.util.List;
  * Created on 03.11.2015.
  */
 @RestController
+@Transactional
 public class AccessController {
     @Autowired
     private AccessService accessService;

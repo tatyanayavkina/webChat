@@ -3,6 +3,7 @@ package com.chat.server.service.impl;
 import com.chat.server.dao.UserDao;
 import com.chat.server.dao.common.IOperations;
 import com.chat.server.model.Role;
+import com.chat.server.model.Room;
 import com.chat.server.service.UserService;
 import com.chat.server.service.common.AbstractService;
 import com.chat.server.model.User;
@@ -40,6 +41,7 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
         return newUser;
     }
 
+    @Transactional
     public List<User> findUsersByLogin(List<String> logins){
         List<User> users = new ArrayList<User>();
         for( String login: logins ){
@@ -50,6 +52,22 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
         }
 
         return users;
+    }
+
+    @Transactional
+    public List<Room> findRoomsWithOwnersByUserId(int id){
+        User user = dao.findOne( id );
+        if( user != null ){
+            List<Room> rooms = user.getRooms();
+            if ( rooms != null ){
+                for( Room room: rooms ){
+                    room.getOwner();
+                }
+            }
+            return rooms;
+        }
+
+        return null;
     }
 
     @Override

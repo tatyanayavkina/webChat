@@ -11,6 +11,8 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import javax.annotation.security.RolesAllowed;
+
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -62,17 +64,18 @@ public class RoomController {
      */
     @RequestMapping(value="/byUserId/{userId}", method = RequestMethod.GET)
     public HttpEntity<List<Room>> getRoomsByUserId(@PathVariable("userId") int userId){
-        User user = userService.findOne(userId);
-        if ( user == null ){
-            return new ResponseEntity( HttpStatus.BAD_REQUEST );
-        }
-
-        List<Room> rooms = user.getRooms();
-        for(Room room: rooms){
-            room.getOwner();
-        }
-        return new ResponseEntity( rooms, HttpStatus.OK );
-
+//        User user = userService.findOne(userId);
+//        if ( user == null ){
+//            return new ResponseEntity( HttpStatus.BAD_REQUEST );
+//        }
+//
+//        List<Room> rooms = user.getRooms();
+//        for(Room room: rooms){
+//            room.getOwner();
+//        }
+//        return new ResponseEntity( rooms, HttpStatus.OK );
+        List<Room> rooms = userService.findRoomsWithOwnersByUserId( userId );
+        return new ResponseEntity( rooms , HttpStatus.OK );
     }
 
     /**

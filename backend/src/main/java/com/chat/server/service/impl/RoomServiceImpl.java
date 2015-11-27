@@ -37,7 +37,13 @@ public class RoomServiceImpl extends AbstractService<Room> implements RoomServic
 
     @Transactional
     public List<Room> findByType(int type){
-        return dao.findByType( type );
+        List<Room> rooms = dao.findByType( type );
+        if ( rooms != null ){
+            for( Room room: rooms ){
+                room.getOwner();
+            }
+        }
+        return rooms;
     }
 
     @Override
