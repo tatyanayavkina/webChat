@@ -1,9 +1,6 @@
 package com.chat.server.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -35,7 +32,6 @@ public class User implements Serializable{
     @Column(name="last_request")
     private Date lastRequest;
 
-    @JsonBackReference
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "users")
     private List<Room> rooms;
 

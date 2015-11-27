@@ -28,14 +28,14 @@ public class RoomServiceImpl extends AbstractService<Room> implements RoomServic
 
     //API
     @Transactional
-    public Room joinRoom(int roomId, User user){
-        Room room = dao.findOne( roomId );
+    public Room joinRoom(int id, User user){
+        Room room = dao.findOne( id );
         if ( room != null ){
             List<User> users = room.getUsers();
-            users.add( user );
+            users.add(user);
             dao.update( room );
 
-            room = dao.findOne( roomId );
+            room = dao.findOne( id );
             room.getOwner();
         }
 
@@ -44,13 +44,24 @@ public class RoomServiceImpl extends AbstractService<Room> implements RoomServic
 
     @Transactional
     public List<Room> findByType(int type){
-        List<Room> rooms = dao.findByType( type );
+        List<Room> rooms = dao.findByType(type);
         if ( rooms != null ){
             for( Room room: rooms ){
                 room.getOwner();
             }
         }
         return rooms;
+    }
+
+    @Transactional
+    public List<User> getRoomUsers(int id){
+        Room room = dao.findOne( id );
+        if ( room != null ){
+            List<User> users = room.getUsers();
+            return users;
+        }
+
+        return null;
     }
 
     @Override

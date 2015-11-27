@@ -103,10 +103,10 @@ public class RoomController {
     public HttpEntity<List<User>> getRoomUsers(@PathVariable("id") int id){
         Room room = roomService.findOne(id);
         if (room != null){
-            List<User> users = room.getUsers();
+            List<User> users = roomService.getRoomUsers( id );
             return new ResponseEntity( users, HttpStatus.OK );
         }
-        return new ResponseEntity( HttpStatus.NO_CONTENT );
+        return new ResponseEntity( HttpStatus.BAD_REQUEST );
     }
 
     /**
