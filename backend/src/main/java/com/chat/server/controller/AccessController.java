@@ -8,6 +8,7 @@ import com.chat.server.oauth2.service.AccessService;
 import com.chat.server.service.RoleService;
 import com.chat.server.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,7 +37,7 @@ public class AccessController {
      */
     @RequestMapping(value = "/api/access/login", method = RequestMethod.POST)
     @ResponseBody
-    public TokenResponse generateToken(@RequestParam("username") String username, @RequestParam("password") String password) {
+    public TokenResponse generateToken(@RequestParam("username") String username, @RequestParam("password") String password) throws AuthenticationException {
         return accessService.authenticate(username, password);
     }
 

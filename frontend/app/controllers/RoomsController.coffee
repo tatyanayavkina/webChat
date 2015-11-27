@@ -26,7 +26,7 @@ CoreModule.controller 'RoomsController', ($scope, $rootScope, $state, $statePara
         )
 
     $scope.$on('user:leaveRoom', (event, data) ->
-        if data.room.type = RoomsModel.types.OPEN
+        if data.room.type == RoomsModel.types.OPEN
             $scope.openRooms.push(data.room);
     )
 

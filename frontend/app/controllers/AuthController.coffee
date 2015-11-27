@@ -31,9 +31,8 @@ CoreModule.controller 'AuthController', ($scope, $rootScope, $state, $stateParam
                     password : null
                 $state.transitionTo($state.current, $stateParams,{reload: true});
             (error) ->
-                console.log('error', error);
                 if error.result == 401
-                    $scope.loginErrors.custom = {id: 'auth', message: error.message};
+                    $scope.loginErrors.custom = {id: 'auth', message: 'Неправильный логин или пароль.'};
                 else
                     $scope.loginErrors.custom = {id: 'serverError', message: 'Ошибка сервера'};
         )

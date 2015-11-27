@@ -38,25 +38,22 @@ public class AccessServiceImpl implements AccessService {
     }
 
     @Override
-    public TokenResponse authenticate(String login, String password) {
+    public TokenResponse authenticate(String login, String password)  throws AuthenticationException{
         System.out.println(" *** AuthenticationServiceImpl.authenticate");
         Authentication authentication = new UsernamePasswordAuthenticationToken(login, password);
-        try {
-            authentication = authenticationManager.authenticate(authentication);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
 
-            if (authentication.getPrincipal() != null) {
-                UserDetails userContext = (UserDetails) authentication.getPrincipal();
-                String username = userContext.getUsername();
-                User user = userDao.findUserByLogin(username);
-                TokenResponse newToken = TokenManager.getInstance().createNewToken(userContext, user);
-                if (newToken == null) {
-                    return null;
-                }
-                return newToken;
+        authentication = authenticationManager.authenticate(authentication);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        if (authentication.getPrincipal() != null) {
+            UserDetails userContext = (UserDetails) authentication.getPrincipal();
+            String username = userContext.getUsername();
+            User user = userDao.findUserByLogin(username);
+            TokenResponse newToken = TokenManager.getInstance().createNewToken(userContext, user);
+            if (newToken == null) {
+                return null;
             }
-        } catch (AuthenticationException e) {
-            System.out.println(" *** AuthenticationServiceImpl.authenticate - FAILED: " + e.toString());
+            return newToken;
         }
         return null;
     }
