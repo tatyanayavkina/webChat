@@ -21,27 +21,27 @@ var less = require('gulp-less'),
 	autoPrefix = new LessPluginAutoPrefix({browsers: ["last 2 versions"]});
 
 gulp.task('less', function () {
-	gulp.src('./webapp/modules/**/main.less')
+	gulp.src('./styles/less/**/main.less')
 		.pipe(less({
 			paths  : [path.join(__dirname, 'less', 'includes')],
 			plugins: [autoPrefix]
 		}))
-		.pipe(rename(function (path) {
-			var moduleName = path.dirname.split('/');
-			path.dirname = './';
-			path.basename += '-' + moduleName[0];
-		}))
-		.pipe(gulp.dest('./webapp/styles'));
+		//.pipe(rename(function (path) {
+		//	var moduleName = path.dirname.split('/');
+		//	path.dirname = './';
+		//	path.basename += '-' + moduleName[0];
+		//}))
+		.pipe(gulp.dest('./styles/css'));
 });
 
 // компиляция coffee-script
 var coffee = require('gulp-coffee');
 gulp.task('coffee', function () {
-	gulp.src('./webapp/**/*.coffee', {base: './webapp'})
+	gulp.src('./app/**/*.coffee', {base: './webapp'})
 		.pipe(sourceMaps.init())
 		.pipe(coffee())
-		.pipe(sourceMaps.write('./maps'))
-		.pipe(gulp.dest('./webapp/scripts'));
+		.pipe(sourceMaps.write('./app'))
+		.pipe(gulp.dest('./app'));
 });
 
 
