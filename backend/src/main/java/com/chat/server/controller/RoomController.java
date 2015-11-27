@@ -74,7 +74,7 @@ public class RoomController {
 //            room.getOwner();
 //        }
 //        return new ResponseEntity( rooms, HttpStatus.OK );
-        List<Room> rooms = userService.findRoomsWithOwnersByUserId( userId );
+        List<Room> rooms = userService.findRoomsWithOwnersByUserId(userId);
         return new ResponseEntity( rooms , HttpStatus.OK );
     }
 
@@ -161,18 +161,25 @@ public class RoomController {
      */
     @RequestMapping(value="/join/{id}", method = RequestMethod.POST)
     public HttpEntity<Room> joinRoom(@PathVariable("id") int roomId , @RequestBody int userId){
-        Room room = roomService.findOne(roomId);
+//        Room room = roomService.findOne(roomId);
+//        User user = userService.findOne( userId );
+//        if( user == null || room == null || room.getType() == Room.CLOSE_TYPE ){
+//            return new ResponseEntity( HttpStatus.BAD_REQUEST );
+//        }
+//        room.getUsers().add( user );
+//        roomService.update(room);
+//
+//        if ( room == null ){
+//            return new ResponseEntity( HttpStatus.BAD_REQUEST );
+//        }
+//        room.getOwner();
+//        return new ResponseEntity( room, HttpStatus.OK );
+        Room room = roomService.findOne( roomId );
         User user = userService.findOne( userId );
         if( user == null || room == null || room.getType() == Room.CLOSE_TYPE ){
             return new ResponseEntity( HttpStatus.BAD_REQUEST );
         }
-        room.getUsers().add( user );
-        roomService.update(room);
-
-        if ( room == null ){
-            return new ResponseEntity( HttpStatus.BAD_REQUEST );
-        }
-        room.getOwner();
+        room = roomService.joinRoom( roomId, user);
         return new ResponseEntity( room, HttpStatus.OK );
     }
 

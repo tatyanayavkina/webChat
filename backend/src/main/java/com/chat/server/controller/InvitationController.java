@@ -77,7 +77,7 @@ public class InvitationController {
 
         User user = invitation.getUser();
         Room room = invitation.getRoom();
-        room = roomService.joinRoom( room, user );
+        room = roomService.joinRoom( room.getId(), user );
         invitationService.delete( invitation );
 
         return new ResponseEntity( room, HttpStatus.OK );

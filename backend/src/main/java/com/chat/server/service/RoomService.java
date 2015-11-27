@@ -10,7 +10,7 @@ import java.util.List;
  * Created on 28.10.2015.
  */
 public interface RoomService extends IOperations<Room> {
-    Room joinRoom(Room room, User user);
+    Room joinRoom(int roomId, User user);
 
     List<Room> findByType(int type);
 }

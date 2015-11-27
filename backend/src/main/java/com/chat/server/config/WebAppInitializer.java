@@ -28,4 +28,11 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
         return new String[]{"/"};
     }
 
+    @Override
+    public void onStartup(ServletContext servletContext) throws ServletException {
+        super.onStartup(servletContext);
+        servletContext.addFilter("openSessionInView", OpenSessionInViewFilter.class)
+                .addMappingForUrlPatterns(null, true, "/*");
+    }
+
 }

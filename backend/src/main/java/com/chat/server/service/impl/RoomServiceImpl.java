@@ -28,11 +28,18 @@ public class RoomServiceImpl extends AbstractService<Room> implements RoomServic
 
     //API
     @Transactional
-    public Room joinRoom(Room room, User user){
-        List<User> users = room.getUsers();
-        users.add( user );
-        dao.update(room);
-        return dao.findOne( room.getId() );
+    public Room joinRoom(int roomId, User user){
+        Room room = dao.findOne( roomId );
+        if ( room != null ){
+            List<User> users = room.getUsers();
+            users.add( user );
+            dao.update( room );
+
+            room = dao.findOne( roomId );
+            room.getOwner();
+        }
+
+        return room;
     }
 
     @Transactional
