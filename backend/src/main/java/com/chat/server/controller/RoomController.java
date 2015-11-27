@@ -103,7 +103,7 @@ public class RoomController {
     public HttpEntity<List<User>> getRoomUsers(@PathVariable("id") int id){
         Room room = roomService.findOne(id);
         if (room != null){
-            List<User> users = roomService.getRoomUsers( id );
+            List<User> users = roomService.getRoomUsers(id);
             return new ResponseEntity( users, HttpStatus.OK );
         }
         return new ResponseEntity( HttpStatus.BAD_REQUEST );
@@ -191,20 +191,17 @@ public class RoomController {
      */
     @RequestMapping(value="/leave/{id}", method = RequestMethod.POST)
     public HttpEntity<Room> leaveRoom(@PathVariable("id") int roomId , @RequestBody int userId){
-        Room room = roomService.findOne( roomId );
         User user = userService.findOne( userId );
-        if( user == null || room == null ){
+        if( user == null){
             return new ResponseEntity( HttpStatus.BAD_REQUEST );
         }
 
-        boolean contained = room.getUsers().remove( user );
-        if ( contained ){
-            roomService.update( room );
-            return new ResponseEntity( HttpStatus.NO_CONTENT );
-
-        } else {
+        Room room = roomService.removeUserFromRoom( roomId, user );
+        if ( room == null ){
             return new ResponseEntity( HttpStatus.BAD_REQUEST );
         }
+
+        return new ResponseEntity( HttpStatus.NO_CONTENT );
     }
 
     /**
@@ -215,16 +212,10 @@ public class RoomController {
      */
     @RequestMapping(value="/removeUsers/{id}", method = RequestMethod.POST)
     public HttpEntity<Room> removeUsers(@PathVariable("id") int roomId, @RequestBody List<User> usersToRemove){
-        Room room = roomService.findOne( roomId );
+        Room room = roomService.removeUsersFromRoom( roomId, usersToRemove );
         if ( room == null ){
             return new ResponseEntity( HttpStatus.BAD_REQUEST );
         }
-        List<User> users = room.getUsers();
-        for( User user: usersToRemove ){
-            boolean contained = users.remove(user);
-        }
-        room.setUsers( users );
-        roomService.update( room );
         return new ResponseEntity( HttpStatus.NO_CONTENT );
     }
 

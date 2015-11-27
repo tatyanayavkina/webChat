@@ -14,4 +14,8 @@ public interface RoomService extends IOperations<Room> {
 
     List<Room> findByType(int type);
     List<User> getRoomUsers(int id);
+
+    Room removeUserFromRoom(int roomId, User user);
+
+    Room removeUsersFromRoom(int roomId, List<User> users);
 }

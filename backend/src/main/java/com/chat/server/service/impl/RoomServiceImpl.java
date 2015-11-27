@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.jws.soap.SOAPBinding;
 import java.util.List;
 
 /**
@@ -55,10 +56,47 @@ public class RoomServiceImpl extends AbstractService<Room> implements RoomServic
 
     @Transactional
     public List<User> getRoomUsers(int id){
-        Room room = dao.findOne( id );
+        Room room = dao.findOne(id);
         if ( room != null ){
             List<User> users = room.getUsers();
             return users;
+        }
+
+        return null;
+    }
+
+    @Transactional
+    public Room removeUserFromRoom(int roomId, User user){
+        Room room = dao.findOne( roomId );
+        if ( room != null ){
+            List<User> users = room.getUsers();
+            boolean contained = users.remove( user );
+            if ( contained ){
+                dao.update( room );
+                return room;
+            }
+        }
+
+        return null;
+    }
+
+    @Transactional
+    public Room removeUsersFromRoom(int roomId, List<User> usersToRemove){
+        Room room = dao.findOne( roomId );
+        if( room != null ){
+            List<User> users = room.getUsers();
+            int counter = 0;
+            for( User user: usersToRemove ){
+                boolean contained = users.remove( user );
+                if ( contained ){
+                    counter ++;
+                }
+            }
+            if ( counter > 0 ){
+                room.setUsers( users );
+                dao.update( room );
+                return room;
+            }
         }
 
         return null;
