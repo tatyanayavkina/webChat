@@ -3,6 +3,7 @@ package com.chat.server.config;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -37,6 +38,8 @@ public class ServletContextConfig extends WebMvcConfigurerAdapter {
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
         mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+        //Registering Hibernate4Module to support lazy objects
+        mapper.registerModule(new Hibernate5Module());
         messageConverter.setObjectMapper(mapper);
         return messageConverter;
     }

@@ -101,12 +101,12 @@ public class RoomController {
     // todo: проверить, что пользователей запрашивает владелец комнаты
     @RequestMapping(value = "/{id}/users", method = RequestMethod.GET)
     public HttpEntity<List<User>> getRoomUsers(@PathVariable("id") int id){
-        Room room = roomService.findOne(id);
-        if (room != null){
-            List<User> users = roomService.getRoomUsers(id);
-            return new ResponseEntity( users, HttpStatus.OK );
+        List<User> users = roomService.getRoomUsers( id );
+        if ( users == null ){
+            return new ResponseEntity( HttpStatus.BAD_REQUEST );
         }
-        return new ResponseEntity( HttpStatus.BAD_REQUEST );
+
+        return new ResponseEntity( users, HttpStatus.OK );
     }
 
     /**

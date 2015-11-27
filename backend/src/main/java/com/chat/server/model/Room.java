@@ -1,9 +1,6 @@
 package com.chat.server.model;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -31,13 +28,12 @@ public class Room implements Serializable{
     @Column(name="type")
     private int type;
 
-
-//    @ManyToOne(fetch = FetchType.LAZY)
     @ManyToOne
     @JoinColumn(name="owner_id")
     private User owner;
 
     @ManyToMany(fetch = FetchType.LAZY)
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     @JoinTable(
             name = "user_link_room",
             joinColumns = @JoinColumn(name = "room_id"),
@@ -77,7 +73,6 @@ public class Room implements Serializable{
         this.owner = owner;
     }
 
-//    @JsonIgnore
     public User getOwner(){
         return owner;
     }
@@ -86,7 +81,6 @@ public class Room implements Serializable{
         this.users = users;
     }
 
-    @JsonIgnore
     public List<User> getUsers(){
         return users;
     }

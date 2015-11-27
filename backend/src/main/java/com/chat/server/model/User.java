@@ -34,14 +34,16 @@ public class User implements Serializable{
     private Date lastRequest;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "users")
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<Room> rooms;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "user_link_role",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<Role> roles;
 
     public User(int id, String login, String password, String nickname, Date lastRequest){
@@ -114,6 +116,7 @@ public class User implements Serializable{
     public void setRoles(List<Role> roles){
         this.roles = roles;
     }
+
     public List<Role> getRoles(){
         return roles;
     }

@@ -59,6 +59,8 @@ public class RoomServiceImpl extends AbstractService<Room> implements RoomServic
         Room room = dao.findOne(id);
         if ( room != null ){
             List<User> users = room.getUsers();
+            // to make users loaded
+            users.size();
             return users;
         }
 
