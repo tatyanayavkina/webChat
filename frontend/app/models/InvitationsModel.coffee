@@ -18,11 +18,11 @@ CoreModule.factory 'InvitationsModel', ($q, $http, BaseModel, config) ->
             deferred = $q.defer();
             loginsList = [];
             angular.forEach(users, (user) ->
-                if user
-                    loginsList.push(user);
+                if user && user.login
+                    loginsList.push(user.login.trim());
             )
 
-            $http.post(config.api + '/invitation/send/'+ roomId, loginsList)
+            $http.post(config.api + 'invitations/send/' + roomId, loginsList)
             .success(
                 (response) ->
                     deferred.resolve(response);

@@ -67,20 +67,19 @@ CoreModule.controller 'RoomsController', ($scope, $rootScope, $state, $statePara
         )
 
     $scope.addNewUserToInvite = () ->
-        emptyStr = '';
-        $scope.usersToInvite.push(emptyStr);
+        $scope.usersToInvite.push({login: ''});
 
     $scope.inviteUsers = () ->
         console.log('usersToInvite', $scope.usersToInvite);
-#        InvitationsModel.send($scope.room.id, $scope.usersToInvite).then(
-#            (success) ->
-#                console.log('sendInvitations -- success-', success);
-#                $scope.usersToInvite = [];
-##                Notification.show('Приглашения отправлены')
-#            (error) ->
-#                console.log('sendInvitations=',error);
-##                Notification.show('Произошла ошибка')
-#        )
+        InvitationsModel.send($scope.room.id, $scope.usersToInvite).then(
+            (success) ->
+                console.log('sendInvitations -- success-', success);
+                $scope.usersToInvite = [];
+#                Notification.show('Приглашения отправлены')
+            (error) ->
+                console.log('sendInvitations=',error);
+#                Notification.show('Произошла ошибка')
+        )
 
 
 
