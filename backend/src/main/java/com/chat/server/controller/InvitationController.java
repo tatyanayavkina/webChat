@@ -37,9 +37,9 @@ public class InvitationController {
 
     private static final Logger logger = Logger.getLogger(InvitationController.class);
 
-    //todo: спросить у Димы, как поступать, если не все приглашения получилось создать
-    //todo: узнать, нужно ли отправлять на клиент созданные приглашения в ответ?
-    //todo: сделать проверку на то, что приглашения рассылает владелец комнаты
+    //todo: СЃРїСЂРѕСЃРёС‚СЊ Сѓ Р”РёРјС‹, РєР°Рє РїРѕСЃС‚СѓРїР°С‚СЊ, РµСЃР»Рё РЅРµ РІСЃРµ РїСЂРёРіР»Р°С€РµРЅРёСЏ РїРѕР»СѓС‡РёР»РѕСЃСЊ СЃРѕР·РґР°С‚СЊ
+    //todo: СѓР·РЅР°С‚СЊ, РЅСѓР¶РЅРѕ Р»Рё РѕС‚РїСЂР°РІР»СЏС‚СЊ РЅР° РєР»РёРµРЅС‚ СЃРѕР·РґР°РЅРЅС‹Рµ РїСЂРёРіР»Р°С€РµРЅРёСЏ РІ РѕС‚РІРµС‚?
+    //todo: СЃРґРµР»Р°С‚СЊ РїСЂРѕРІРµСЂРєСѓ РЅР° С‚Рѕ, С‡С‚Рѕ РїСЂРёРіР»Р°С€РµРЅРёСЏ СЂР°СЃСЃС‹Р»Р°РµС‚ РІР»Р°РґРµР»РµС† РєРѕРјРЅР°С‚С‹
     /**
      * Create invitations to join the room
      * @param roomId
@@ -51,6 +51,10 @@ public class InvitationController {
         List<Invitation> invitations = new ArrayList<Invitation>();
         List<User> users = userService.findUsersByLogin( logins );
         Room room = roomService.findOne( roomId );
+        if ( room == null ){
+            return new ResponseEntity( HttpStatus.BAD_REQUEST );
+        }
+
         for( User user: users ){
             Invitation invitation = invitationService.createInvitation( user, room );
             invitations.add( invitation );

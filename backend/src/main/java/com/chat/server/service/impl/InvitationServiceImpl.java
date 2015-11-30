@@ -2,6 +2,7 @@ package com.chat.server.service.impl;
 
 import com.chat.server.dao.InvitationDao;
 import com.chat.server.dao.common.IOperations;
+import com.chat.server.exception.ObjectNotFoundException;
 import com.chat.server.model.Invitation;
 import com.chat.server.model.Room;
 import com.chat.server.model.User;
@@ -25,6 +26,7 @@ public class InvitationServiceImpl extends AbstractService<Invitation> implement
     }
 
     //API
+    @Transactional
     public Invitation createInvitation(User user, Room room){
         Invitation invitation = new Invitation();
         invitation.setUser(user);
