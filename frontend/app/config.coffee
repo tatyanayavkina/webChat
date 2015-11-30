@@ -80,6 +80,18 @@ CoreModule.config [ '$stateProvider', '$locationProvider', '$urlRouterProvider',
                         $q.when(null);
 
             )
+            .state('home.invitations',
+                ame       : 'home.invitations'
+                url        : 'invitations'
+                controller : 'InvitationsController'
+                templateUrl: '/app/views/invitations.html'
+                resolve    :
+                    invitations: ($q, InvitationsModel, session) ->
+                        if session && session.user
+                            InvitationsModel.findAllByUserId(session.user.id);
+                        else
+                            $q.when(null);
+            )
 
             $urlRouterProvider.when('/', '/rooms');
 

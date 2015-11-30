@@ -6,6 +6,8 @@ import com.chat.server.model.Invitation;
 import com.chat.server.model.Room;
 import com.chat.server.model.User;
 
+import java.util.List;
+
 /**
  * Created on 28.10.2015.
  */

@@ -64,6 +64,7 @@ CoreModule.controller 'RoomsController', ($scope, $rootScope, $state, $statePara
                 console.log('success in removeUsers', success);
             (error) ->
                 console.log('error in removeUsers', error);
+#                Notification.show('Произошла ошибка')
         )
 
     $scope.addNewUserToInvite = () ->

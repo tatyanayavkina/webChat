@@ -1,5 +1,6 @@
 package com.chat.server.controller;
 
+import com.chat.server.exception.ObjectNotFoundException;
 import com.chat.server.model.Invitation;
 import com.chat.server.model.Role;
 import com.chat.server.model.Room;
@@ -102,5 +103,16 @@ public class InvitationController {
         invitationService.delete( invitation );
 
         return new ResponseEntity( HttpStatus.NO_CONTENT );
+    }
+
+    /**
+     * Find all invitations that send to user
+     * @param userId
+     * @return HttpEntity<List<Invitation>> - list of invitations
+     */
+    @RequestMapping(value = "/byUserId/{userId}", method = RequestMethod.GET) throws ObjectNotFoundException
+    public HttpEntity<List<Invitation>> findAllByUserId(@PathVariable("userId") int userId){
+        List<Invitation> invitations = invitationService.findAllByUserId( userId );
+        return new ResponseEntity( invitations, HttpStatus.OK );
     }
 }

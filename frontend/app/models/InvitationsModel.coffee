@@ -22,7 +22,7 @@ CoreModule.factory 'InvitationsModel', ($q, $http, BaseModel, config) ->
                     loginsList.push(user.login.trim());
             )
 
-            $http.post(config.api + 'invitations/send/' + roomId, loginsList)
+            $http.post(config.api + @::model + '/send/' + roomId, loginsList)
             .success(
                 (response) ->
                     deferred.resolve(response);
@@ -33,6 +33,9 @@ CoreModule.factory 'InvitationsModel', ($q, $http, BaseModel, config) ->
             )
 
             deferred.promise;
+
+        @findAllByUserId: (userId) ->
+            @findAll(config.api + @::model + '/byUserId/' + userId);
 
         accept: () ->
             deferred = $q.defer();
