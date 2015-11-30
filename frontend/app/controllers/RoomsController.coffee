@@ -2,10 +2,12 @@
 
 'use strict';
 
-CoreModule.controller 'RoomsController', ($scope, $rootScope, $state, $stateParams, RoomsModel, session, room, openRooms) ->
+CoreModule.controller 'RoomsController', ($scope, $rootScope, $state, $stateParams, RoomsModel, InvitationsModel, session, room, openRooms) ->
     $scope.room = room;
+    $scope.roomModel = RoomsModel;
     $scope.openRooms = openRooms;
     $scope.usersToRemove = {};
+    $scope.usersToInvite = [];
 
     if $scope.openRooms && $scope.openRooms.length > 0
         angular.forEach($scope.$parent.rooms, (room) ->
@@ -63,6 +65,22 @@ CoreModule.controller 'RoomsController', ($scope, $rootScope, $state, $statePara
             (error) ->
                 console.log('error in removeUsers', error);
         )
+
+    $scope.addNewUserToInvite = () ->
+        emptyStr = '';
+        $scope.usersToInvite.push(emptyStr);
+
+    $scope.inviteUsers = () ->
+        console.log('usersToInvite', $scope.usersToInvite);
+#        InvitationsModel.send($scope.room.id, $scope.usersToInvite).then(
+#            (success) ->
+#                console.log('sendInvitations -- success-', success);
+#                $scope.usersToInvite = [];
+##                Notification.show('Приглашения отправлены')
+#            (error) ->
+#                console.log('sendInvitations=',error);
+##                Notification.show('Произошла ошибка')
+#        )
 
 
 

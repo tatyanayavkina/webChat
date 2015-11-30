@@ -7,7 +7,7 @@
         <ul class="nav nav-tabs">
             <li class="active"><a href="#main" data-toggle="tab">Основные настройки</a></li>
             <li><a href="#users" data-toggle="tab">Участники</a></li>
-            <li><a href="#invite" data-toggle="tab" ng-if="room.type==room.types.CLOSE">Пригласить</a></li>
+            <li><a href="#invite" data-toggle="tab" ng-if="room.type == roomModel.types.CLOSE">Пригласить</a></li>
         </ul>
 
         <!-- Tab panes -->
@@ -48,7 +48,18 @@
                 <button type="button" class="btn btn-default" data-toggle="modal" data-target="#removeUsers">Удалить</button>
             </div>
             <div class="tab-pane" id="invite">
-                Форма для приглашения участников
+                <button type="button" ng-click="addNewUserToInvite()"><span class="glyphicon glyphicon-plus"></span></button>
+                <ul>
+                    <li ng-repeat="userToInvite in usersToInvite">
+                        <input type="text"
+                               ng-model="userToInvite"
+                               name="userToInvite"
+                               placeholder="Введите логин приглашаемого"
+                               >
+                        <button ng-click="deleteUserToInvite()"><span class="glyphicon glyphicon-remove"></span></button>
+                    </li>
+                </ul>
+                <button type="button" ng-click="inviteUsers()">Пригласить</button>
             </div>
         </div>
     </div>

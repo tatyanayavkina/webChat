@@ -70,27 +70,27 @@ CREATE TABLE IF NOT EXISTS invitation(
 )ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
--- администратор
+-- Р°РґРјРёРЅРёСЃС‚СЂР°С‚РѕСЂ
 INSERT INTO user (login, password, nickname) VALUES ("admin@mail.ru","root","admin");
--- пользователь
+-- СѓС‡Р°СЃС‚РЅРёРє
 INSERT INTO user (login, password, nickname) VALUES ("user@mail.ru","123","user");
--- роли
+-- СЂРѕР»Рё
 INSERT INTO role (code) VALUES ("ROLE_GUEST");
 INSERT INTO role (code) VALUES ("ROLE_USER");
 INSERT INTO role (code) VALUES ("ROLE_ADMIN");
--- присваиваем администратору роли
+-- РґРѕР±Р°РІР»СЏРµРј СЂРѕР»Рё Р°РґРјРёРЅРёСЃС‚СЂР°С‚РѕСЂСѓ
 INSERT INTO user_link_role (user_id, role_id) VALUES (1,1);
 INSERT INTO user_link_role (user_id, role_id) VALUES (1,2);
 INSERT INTO user_link_role (user_id, role_id) VALUES (1,3);
--- присваиваем пользователю роли
+-- РґРѕР±Р°РІР»СЏРµРј СЂРѕР»Рё СѓС‡Р°СЃС‚РЅРёРєСѓ
 INSERT INTO user_link_role (user_id, role_id) VALUES (2,1);
 INSERT INTO user_link_role (user_id, role_id) VALUES (2,2);
---  создаем комнаты для администратора 2 открытые и 1 закрытую
-INSERT INTO room (name, type, owner_id) VALUES ("Первая комната", 0, 1);
-INSERT INTO room (name, type, owner_id) VALUES ("Вторая комната", 0, 1);
-INSERT INTO room (name, type, owner_id) VALUES ("Закрытая комната", 1, 1);
--- добавляем администратора в пользователя комнаты
+--  СЃРѕР·РґР°РµРј РєРѕРјРЅР°С‚С‹, СѓРєР°Р·С‹РІР°РµРј Р°РґРјРёРЅРёСЃС‚СЂР°С‚РѕСЂР° РєР°Рє РІР»Р°РґРµР»СЊС†Р°
+INSERT INTO room (name, type, owner_id) VALUES ("РџРµСЂРІР°СЏ РєРѕРјРЅР°С‚Р°", 0, 1);
+INSERT INTO room (name, type, owner_id) VALUES ("Р’С‚РѕСЂР°СЏ РєРѕРјРЅР°С‚Р°", 0, 1);
+INSERT INTO room (name, type, owner_id) VALUES ("Р—Р°РєСЂС‹С‚Р°СЏ РєРѕРјРЅР°С‚Р°", 1, 1);
+-- РґРѕР±Р°РІР»СЏРµРј Р°РґРјРёРЅРёСЃС‚СЂР°С‚РѕСЂР° РІ РїРѕР»СЊР·РѕРІР°С‚РµР»Рё РєРѕРјРЅР°С‚
 INSERT INTO user_link_room (user_id, room_id) VALUES (1,1);
 INSERT INTO user_link_room (user_id, room_id) VALUES (1,3);
--- добавляем пользователя в комнату Первая комната
+-- РґРѕР±Р°РІР»СЏРµРј СѓС‡Р°СЃС‚РЅРёРєР° РІ РїРѕР»СЊР·РѕРІР°С‚РµР»Рё РєРѕРјРЅР°С‚С‹
 INSERT INTO user_link_room (user_id, room_id) VALUES (2,1);

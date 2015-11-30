@@ -2,7 +2,7 @@
 
 'use strict';
 
-CoreModule.factory 'InvitationsModel', ($q, BaseModel, config) ->
+CoreModule.factory 'InvitationsModel', ($q, $http, BaseModel, config) ->
     class InvitationsModel extends BaseModel
         model: 'invitations'
 
@@ -16,8 +16,13 @@ CoreModule.factory 'InvitationsModel', ($q, BaseModel, config) ->
 
         @send: (roomId, users) ->
             deferred = $q.defer();
+            loginsList = [];
+            angular.forEach(users, (user) ->
+                if user
+                    loginsList.push(user);
+            )
 
-            $http.post(config.api + '/invitation/send/'+ roomId, users)
+            $http.post(config.api + '/invitation/send/'+ roomId, loginsList)
             .success(
                 (response) ->
                     deferred.resolve(response);
