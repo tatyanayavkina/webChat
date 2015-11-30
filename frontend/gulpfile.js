@@ -3,9 +3,7 @@
 var gulp = require('gulp');
 var path = require('path');
 var sourceMaps = require('gulp-sourcemaps');
-var rename = require('gulp-rename');
 var watch = require('gulp-watch');
-var gutil = require('gulp-util');
 
 // чистим
 var clean = require('gulp-rimraf');
@@ -26,11 +24,6 @@ gulp.task('less', function () {
 			paths  : [path.join(__dirname, 'less', 'includes')],
 			plugins: [autoPrefix]
 		}))
-		//.pipe(rename(function (path) {
-		//	var moduleName = path.dirname.split('/');
-		//	path.dirname = './';
-		//	path.basename += '-' + moduleName[0];
-		//}))
 		.pipe(gulp.dest('./styles/css'));
 });
 
@@ -39,7 +32,7 @@ var coffee = require('gulp-coffee');
 gulp.task('coffee', function () {
 	gulp.src('./app/**/*.coffee', {base: './webapp'})
 		.pipe(sourceMaps.init())
-		.pipe(coffee())
+		.pipe(coffee({bare: true}))
 		.pipe(sourceMaps.write('./app'))
 		.pipe(gulp.dest('./app'));
 });

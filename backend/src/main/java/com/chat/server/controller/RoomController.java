@@ -1,5 +1,6 @@
 package com.chat.server.controller;
 
+import com.chat.server.exception.ObjectNotFoundException;
 import com.chat.server.model.Role;
 import com.chat.server.model.Room;
 import com.chat.server.model.User;
@@ -54,7 +55,10 @@ public class RoomController {
     @RequestMapping(value="/open", method = RequestMethod.GET)
     public HttpEntity<List<Room>> getOpenRooms(){
         List<Room> rooms = roomService.findByType(Room.OPEN_TYPE);
-        return new ResponseEntity( rooms, HttpStatus.OK );
+        if (rooms != null){
+            return new ResponseEntity( rooms, HttpStatus.OK );
+        }
+        return new ResponseEntity( HttpStatus.NO_CONTENT );
     }
 
     /**
@@ -63,17 +67,7 @@ public class RoomController {
      * @return HttpEntity<List<Room>> - all rooms that user takes part in
      */
     @RequestMapping(value="/byUserId/{userId}", method = RequestMethod.GET)
-    public HttpEntity<List<Room>> getRoomsByUserId(@PathVariable("userId") int userId){
-//        User user = userService.findOne(userId);
-//        if ( user == null ){
-//            return new ResponseEntity( HttpStatus.BAD_REQUEST );
-//        }
-//
-//        List<Room> rooms = user.getRooms();
-//        for(Room room: rooms){
-//            room.getOwner();
-//        }
-//        return new ResponseEntity( rooms, HttpStatus.OK );
+    public HttpEntity<List<Room>> getRoomsByUserId(@PathVariable("userId") int userId) throws ObjectNotFoundException{
         List<Room> rooms = userService.findRoomsWithOwnersByUserId(userId);
         return new ResponseEntity( rooms , HttpStatus.OK );
     }
@@ -90,7 +84,7 @@ public class RoomController {
         if (room != null){
             return new ResponseEntity( room, HttpStatus.OK );
         }
-        return new ResponseEntity( HttpStatus.NO_CONTENT );
+        return new ResponseEntity( HttpStatus.BAD_REQUEST );
     }
 
     /**
@@ -100,12 +94,8 @@ public class RoomController {
      */
     // todo: проверить, что пользователей запрашивает владелец комнаты
     @RequestMapping(value = "/{id}/users", method = RequestMethod.GET)
-    public HttpEntity<List<User>> getRoomUsers(@PathVariable("id") int id){
+    public HttpEntity<List<User>> getRoomUsers(@PathVariable("id") int id) throws ObjectNotFoundException{
         List<User> users = roomService.getRoomUsers( id );
-        if ( users == null ){
-            return new ResponseEntity( HttpStatus.BAD_REQUEST );
-        }
-
         return new ResponseEntity( users, HttpStatus.OK );
     }
 
@@ -161,19 +151,6 @@ public class RoomController {
      */
     @RequestMapping(value="/join/{id}", method = RequestMethod.POST)
     public HttpEntity<Room> joinRoom(@PathVariable("id") int roomId , @RequestBody int userId){
-//        Room room = roomService.findOne(roomId);
-//        User user = userService.findOne( userId );
-//        if( user == null || room == null || room.getType() == Room.CLOSE_TYPE ){
-//            return new ResponseEntity( HttpStatus.BAD_REQUEST );
-//        }
-//        room.getUsers().add( user );
-//        roomService.update(room);
-//
-//        if ( room == null ){
-//            return new ResponseEntity( HttpStatus.BAD_REQUEST );
-//        }
-//        room.getOwner();
-//        return new ResponseEntity( room, HttpStatus.OK );
         Room room = roomService.findOne( roomId );
         User user = userService.findOne( userId );
         if( user == null || room == null || room.getType() == Room.CLOSE_TYPE ){
@@ -190,17 +167,9 @@ public class RoomController {
      * @return HttpEntity<Room> - HttpStatus.NO_CONTENT when all is  ok
      */
     @RequestMapping(value="/leave/{id}", method = RequestMethod.POST)
-    public HttpEntity<Room> leaveRoom(@PathVariable("id") int roomId , @RequestBody int userId){
+    public HttpEntity<Room> leaveRoom(@PathVariable("id") int roomId , @RequestBody int userId) throws ObjectNotFoundException{
         User user = userService.findOne( userId );
-        if( user == null){
-            return new ResponseEntity( HttpStatus.BAD_REQUEST );
-        }
-
         Room room = roomService.removeUserFromRoom( roomId, user );
-        if ( room == null ){
-            return new ResponseEntity( HttpStatus.BAD_REQUEST );
-        }
-
         return new ResponseEntity( HttpStatus.NO_CONTENT );
     }
 
@@ -211,7 +180,7 @@ public class RoomController {
      * @return HttpEntity<Room> - HttpStatus.NO_CONTENT when all is  ok
      */
     @RequestMapping(value="/removeUsers/{id}", method = RequestMethod.POST)
-    public HttpEntity<Room> removeUsers(@PathVariable("id") int roomId, @RequestBody List<User> usersToRemove){
+    public HttpEntity<Room> removeUsers(@PathVariable("id") int roomId, @RequestBody List<User> usersToRemove) throws ObjectNotFoundException{
         Room room = roomService.removeUsersFromRoom( roomId, usersToRemove );
         if ( room == null ){
             return new ResponseEntity( HttpStatus.BAD_REQUEST );

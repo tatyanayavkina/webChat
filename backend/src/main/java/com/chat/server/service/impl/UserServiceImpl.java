@@ -7,6 +7,7 @@ import com.chat.server.model.Room;
 import com.chat.server.service.UserService;
 import com.chat.server.service.common.AbstractService;
 import com.chat.server.model.User;
+import com.chat.server.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -55,7 +56,7 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
     }
 
     @Transactional
-    public List<Room> findRoomsWithOwnersByUserId(int id){
+    public List<Room> findRoomsWithOwnersByUserId(int id) throws ObjectNotFoundException{
         User user = dao.findOne( id );
         if( user != null ){
             List<Room> rooms = user.getRooms();
@@ -65,9 +66,9 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
                 }
             }
             return rooms;
+        } else {
+            throw new ObjectNotFoundException( User.class, id);
         }
-
-        return null;
     }
 
     @Override
