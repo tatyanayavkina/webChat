@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
+
 /**
  * Created on 03.11.2015.
  */
@@ -24,6 +26,7 @@ public class MessageController {
 
     @RequestMapping(method = RequestMethod.POST)
     public  HttpEntity<Message> createMessage(@RequestBody Message message){
+        message.setCreationTime( new Date() );
         messageService.create(message);
         if (message != null){
             return new ResponseEntity(message, HttpStatus.OK);

@@ -2,16 +2,30 @@
 
 'use strict';
 
-CoreModule.controller 'MainController', ($scope, $rootScope, $state, $stateParams, Auth, session, rooms) ->
+CoreModule.controller 'MainController', ($scope, $rootScope, $state, $stateParams, Auth, MessagesModel, session, rooms) ->
     $scope.auth = Auth;
     $scope.rooms = rooms;
+    $scope.roomMessages = {};
+
+    # создает объект для сущности сообщения и привязываем его к комнате
+    $scope.createMessage = () ->
+        id = $scope.currentRoom.id;
+        $scope.roomMessages[id] = {};
+        $scope.roomMessages[id].message = new MessagesModel();
+        $scope.roomMessages[id].message.user = session.user;
+        $scope.roomMessages[id].message.room = $scope.currentRoom;
 
     # в качестве открытой комнаты берем первую из списка
     if $scope.rooms && $scope.rooms.length > 0
         $scope.currentRoom = $scope.rooms[0];
+        $scope.createMessage();
+        $scope.roomMessages[$scope.currentRoom.id].messages = [];
+
 
     $scope.selectRoom = (room) ->
         $scope.currentRoom = room;
+        if !$scope.roomMessages[$scope.currentRoom.id]
+            $scope.createMessage();
 
     $scope.leaveRoom = () ->
         if !$scope.currentRoom
@@ -38,6 +52,21 @@ CoreModule.controller 'MainController', ($scope, $rootScope, $state, $stateParam
     $scope.$on('user:createRoom', (event, data) ->
         $scope.rooms.push(data.room);
     )
+
+    # отправляем сообщение
+    $scope.send = () ->
+        id = $scope.currentRoom.id;
+        console.log('roomMessages',$scope.roomMessages);
+        if  $scope.roomMessages[id].message.content
+            $scope.roomMessages[id].message.save().then(
+               (message) ->
+                   console.log('message in save message', message);
+                   $scope.createMessage();
+                   if !$scope.roomMessages[id].messages then $scope.roomMessages[id].messages = [];
+                   $scope.roomMessages[id].messages.push(message);
+               (error) ->
+                   console.log('error in save message', error);
+            )
 
 
 

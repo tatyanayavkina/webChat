@@ -119,7 +119,6 @@ CoreModule.factory 'BaseModel', ($q, $window, $timeout, $injector, $http, config
 
         # перед сохранением объекта - нужно почистить связки от связок
         beforeSave: () ->
-            # todo: проверить для связок hasOne и hasMany
             data = angular.copy(@);
             # бегаем по связкам объектам
             angular.forEach(data.relations, (relation, name) ->
@@ -131,6 +130,7 @@ CoreModule.factory 'BaseModel', ($q, $window, $timeout, $injector, $http, config
                             data[name][relName] = null;
                     )
             )
+            data;
 
         save : (params) ->
             if @isNewRecord then @create(params) else @update(params);
@@ -138,10 +138,12 @@ CoreModule.factory 'BaseModel', ($q, $window, $timeout, $injector, $http, config
 
         create : (params) ->
             deferred = $q.defer();
-            $http.post(config.api + @model, @, params: params).then(
+            $http.post(config.api + @model, @beforeSave(), params: params).then(
                 (response) =>
-                    console.log('response',response);
-                    deferred.resolve(@transform(response, @askedRelations));
+                    if response.data
+                        deferred.resolve(@transform(response.data, @askedRelations));
+                    else
+                        deferred.resolve({});
                 (response) =>
                     console.error(response);
                     deferred.reject(response);
@@ -152,7 +154,7 @@ CoreModule.factory 'BaseModel', ($q, $window, $timeout, $injector, $http, config
         update : (params) ->
             deferred = $q.defer();
 
-            $http.put(config.api + @model + '/' + @id, @, params: params).then(
+            $http.put(config.api + @model + '/' + @id, @beforeSave(), params: params).then(
                 (response) =>
                     if response.data
                         deferred.resolve(@transform(response.data, @askedRelations));

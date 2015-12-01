@@ -11,7 +11,7 @@ CoreModule.controller 'InvitationsController', ($scope, $rootScope, $state, $sta
                 room = RoomsModel::transform(room, [{name: 'owner'}]);
                 $scope.$emit('user:joinRoom', {room: room});
                 $scope.invitations.splice($scope.invitations.indexOf(invitation), 1);
-                console.log("success invitaion accept");
+                console.log("success invitation accept");
             (error) ->
                 console.log('error invitation accept');
         )
@@ -20,7 +20,7 @@ CoreModule.controller 'InvitationsController', ($scope, $rootScope, $state, $sta
         invitation.reject().then(
             (success) ->
                 $scope.invitations.splice($scope.invitations.indexOf(invitation), 1);
-                console.log("success invitaion reject");
+                console.log("success invitation reject");
             (error) ->
                 console.log('error invitation reject');
         )

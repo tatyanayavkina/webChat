@@ -73,9 +73,9 @@
                         <div class="selected-room-form">
                             <form role="form">
                                 <div class="form-group">
-                                    <textarea class="form-control" name="newMessage" rows="8" style="resize: none;" autofocus="true"></textarea>
+                                    <textarea class="form-control" name="newMessage" ng-model="roomMessages[currentRoom.id].message.content" rows="8" style="resize: none;" autofocus="true"></textarea>
                                 </div>
-                                <button type="submit" class="btn btn-primary pull-right">Send</button>
+                                <button type="submit" class="btn btn-primary pull-right" ng-click="send()">Send</button>
                             </form>
                         </div>
                     </div>

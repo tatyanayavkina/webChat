@@ -21,8 +21,6 @@ public class MessageServiceImpl extends AbstractService<Message> implements Mess
         super();
     }
 
-    //API
-
     @Override
     protected IOperations<Message> getDao() {
         return dao;
