@@ -13,4 +13,5 @@ import java.util.List;
  */
 public interface InvitationService extends IOperations<Invitation> {
     Invitation createInvitation(User user, Room room);
+    List<Invitation> findAllByUserId(int userId);
 }

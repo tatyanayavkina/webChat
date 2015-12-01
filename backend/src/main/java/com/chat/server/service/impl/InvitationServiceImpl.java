@@ -38,6 +38,11 @@ public class InvitationServiceImpl extends AbstractService<Invitation> implement
         return invitation;
     }
 
+    @Transactional
+    public List<Invitation> findAllByUserId(int userId){
+        return dao.findAllByUserId(userId);
+    }
+
     @Override
     protected IOperations<Invitation> getDao() {
         return dao;

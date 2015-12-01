@@ -11,7 +11,7 @@ CoreModule.factory 'InvitationsModel', ($q, $http, BaseModel, config) ->
                 model: 'UsersModel'
                 type : 'belongsTo'
             room:
-                model: 'RoomModel'
+                model: 'RoomsModel'
                 type : 'belongsTo'
 
         @send: (roomId, users) ->
@@ -35,7 +35,7 @@ CoreModule.factory 'InvitationsModel', ($q, $http, BaseModel, config) ->
             deferred.promise;
 
         @findAllByUserId: (userId) ->
-            @findAll(config.api + @::model + '/byUserId/' + userId);
+            @findAll({url: config.api + @::model + '/byUserId/' + userId}, [{name: 'user'}, {name: 'room'}]);
 
         accept: () ->
             deferred = $q.defer();

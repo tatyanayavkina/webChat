@@ -110,7 +110,7 @@ public class InvitationController {
      * @param userId
      * @return HttpEntity<List<Invitation>> - list of invitations
      */
-    @RequestMapping(value = "/byUserId/{userId}", method = RequestMethod.GET) throws ObjectNotFoundException
+    @RequestMapping(value = "/byUserId/{userId}", method = RequestMethod.GET)
     public HttpEntity<List<Invitation>> findAllByUserId(@PathVariable("userId") int userId){
         List<Invitation> invitations = invitationService.findAllByUserId( userId );
         return new ResponseEntity( invitations, HttpStatus.OK );
