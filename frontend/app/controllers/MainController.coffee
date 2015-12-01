@@ -53,10 +53,21 @@ CoreModule.controller 'MainController', ($scope, $rootScope, $state, $stateParam
         $scope.rooms.push(data.room);
     )
 
+    # пользователь удалил комнату
+    $scope.$on('user:deleteRoom', (event, data) ->
+        removedRoom = data.room;
+        angular.forEach($scope.rooms, (room, index) ->
+            if removedRoom.id == room.id
+                $scope.rooms.splice(index, 1);
+        )
+
+        if $scope.currentRoom.id == removedRoom.id
+            if $scope.rooms.length > 0 then $scope.currentRoom = $scope.rooms[0] else null;
+    )
+
     # отправляем сообщение
     $scope.send = () ->
         id = $scope.currentRoom.id;
-        console.log('roomMessages',$scope.roomMessages);
         if  $scope.roomMessages[id].message.content
             $scope.roomMessages[id].message.save().then(
                (message) ->

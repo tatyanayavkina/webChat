@@ -41,32 +41,6 @@ CoreModule.controller 'AuthController', ($scope, $rootScope, $state, $stateParam
         Auth.logout();
         $state.transitionTo($state.current, $stateParams,{reload: true});
 
-#    $scope.login = () ->
-#        $scope.loginErrors = {};
-#        $scope.account.authType = 'phone';
-#        Auth.login($scope.account).then(
-#            (session) ->
-#                # если данные аккаунта нужно запомнить
-#                if $scope.account.remember
-#                    Storage.setItem('account-portal',$scope.account);
-#                else
-#                    Storage.removeItem('account-portal');
-#
-#                # если не инлайн-авторизация
-#                if $state.current && $state.current.name == 'login'
-#                    if $state.previousState
-#                        $state.transitionTo($state.previousState, $state.fromParams, {reload: true});
-#                    else
-#                        $state.transitionTo('core.profile.settings', {}, {reload: true});
-#                else
-#                    $state.transitionTo($state.current, $stateParams, {reload: true});
-#            (error) ->
-#                if error.result == 401
-#                    $scope.loginErrors.custom = {id: 'auth', message: error.message};
-#                else
-#                    $scope.loginErrors.custom = {id: 'serverError', message: 'Ошибка сервера'};
-#        )
-#
 #
 #    $scope.registration = () ->
 #        $scope.error = false;

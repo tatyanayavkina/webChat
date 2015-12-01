@@ -36,18 +36,30 @@ CoreModule.controller 'RoomsController', ($scope, $rootScope, $state, $statePara
         if isNewRecord = $scope.room.isNewRecord
             $scope.room.users = [];
             $scope.room.users.push(session.user);
-            $scope.owner = session.user;
+            $scope.room.owner = session.user;
 
         $scope.room.save().then(
             (room) ->
                 $scope.room = angular.extend({},$scope.room, room);
-                $scope.$emit('user:createRoom', {room: $scope.room})
+                if isNewRecord
+                    $scope.$emit('user:createRoom', {room: $scope.room});
+                    $state.transitionTo('home.rooms-update', {roomID: room.id});
 #                Notification.show('Комната успешно сохранена')
             (error) ->
                 console.log(error);
 #                Notification.show('Произошла ошибка')
 
         );
+
+    $scope.deleteRoom = () ->
+        $scope.room.remove().then(
+            (success) ->
+                console.log('room deleted');
+                $scope.$emit('user:deleteRoom', {room: $scope.room});
+                $state.transitionTo('home.rooms');
+            (error) ->
+                console.log('error in room deleting');
+        )
 
     $scope.removeUsers = () ->
         console.log('usersToRemove', $scope.usersToRemove);

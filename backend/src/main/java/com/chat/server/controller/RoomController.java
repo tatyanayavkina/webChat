@@ -123,7 +123,7 @@ public class RoomController {
         Room room = roomService.findOne( id );
         if ( room != null ){
             roomService.delete( room );
-            new ResponseEntity( HttpStatus.NO_CONTENT );
+            return new ResponseEntity( HttpStatus.NO_CONTENT );
         }
         return new ResponseEntity( HttpStatus.BAD_REQUEST );
     }
