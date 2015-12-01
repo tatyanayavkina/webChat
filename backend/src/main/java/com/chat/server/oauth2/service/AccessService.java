@@ -1,6 +1,7 @@
 package com.chat.server.oauth2.service;
 
 import com.chat.server.oauth2.domain.TokenResponse;
+import com.chat.server.oauth2.domain.UserResource;
 import org.springframework.security.core.userdetails.UserDetails;
 
 /**
@@ -11,5 +12,6 @@ public interface AccessService {
     TokenResponse refresh(String token);
     void checkToken(String token);
     void logout();
-    UserDetails currentUser();
+    UserResource getCurrentUser();
+//    UserDetails currentUser();
 }

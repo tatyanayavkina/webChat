@@ -5,6 +5,8 @@ import com.chat.server.model.Invitation;
 import com.chat.server.model.Role;
 import com.chat.server.model.Room;
 import com.chat.server.model.User;
+import com.chat.server.oauth2.domain.UserResource;
+import com.chat.server.oauth2.service.AccessService;
 import com.chat.server.service.InvitationService;
 import com.chat.server.service.RoomService;
 import com.chat.server.service.UserService;
@@ -35,6 +37,8 @@ public class InvitationController {
     private RoomService roomService;
     @Autowired
     private InvitationService invitationService;
+    @Autowired
+    private AccessService accessService;
 
     private static final Logger logger = Logger.getLogger(InvitationController.class);
 
@@ -43,30 +47,36 @@ public class InvitationController {
     //todo: сделать проверку на то, что приглашения рассылает владелец комнаты
     //todo: что делать, если пользователи не найдены...
     /**
-     * Create invitations to join the room
+     * Create invitations to join the room. Only room owner can do this request
      * @param roomId
      * @param logins
      * @return HttpEntity<String> - HttpStatus.OK if all is ok
      */
     @RequestMapping(value = "/send/{roomId}", method = RequestMethod.POST)
     public HttpEntity<String> send(@PathVariable("roomId") int roomId, @RequestBody List<String> logins){
-        List<Invitation> invitations = new ArrayList<Invitation>();
-        List<User> users = userService.findUsersByLogin( logins );
         Room room = roomService.findOne( roomId );
-        if ( room == null ){
-            return new ResponseEntity( HttpStatus.BAD_REQUEST );
+        if ( room != null ){
+            UserResource currentUser = accessService.getCurrentUser();
+            if ( currentUser == null || currentUser.getId() != room.getOwner().getId() ){
+                return new ResponseEntity( HttpStatus.FORBIDDEN );
+            }
+
+            List<Invitation> invitations = new ArrayList<Invitation>();
+
+            List<User> users = userService.findUsersByLogin(logins);
+            for( User user: users ){
+                Invitation invitation = invitationService.createInvitation( user, room );
+                invitations.add( invitation );
+            }
+            if( invitations.size() == logins.size() ){
+                return new ResponseEntity( HttpStatus.OK );
+            } else {
+                return new ResponseEntity( HttpStatus.NO_CONTENT );
+            }
+
         }
 
-        for( User user: users ){
-            Invitation invitation = invitationService.createInvitation( user, room );
-            invitations.add( invitation );
-        }
-        if( invitations.size() == logins.size() ){
-            return new ResponseEntity( HttpStatus.OK );
-        } else {
-            return new ResponseEntity( HttpStatus.NO_CONTENT );
-        }
-
+        return new ResponseEntity( HttpStatus.BAD_REQUEST );
     }
 
     /**
@@ -106,12 +116,17 @@ public class InvitationController {
     }
 
     /**
-     * Find all invitations that send to user
+     * Find all invitations that send to user. User can request only its own invitations
      * @param userId
      * @return HttpEntity<List<Invitation>> - list of invitations
      */
     @RequestMapping(value = "/byUserId/{userId}", method = RequestMethod.GET)
     public HttpEntity<List<Invitation>> findAllByUserId(@PathVariable("userId") int userId){
+        UserResource currentUser = accessService.getCurrentUser();
+        if( currentUser == null || currentUser.getId() != userId ){
+            return new ResponseEntity( HttpStatus.FORBIDDEN );
+        }
+
         List<Invitation> invitations = invitationService.findAllByUserId( userId );
         return new ResponseEntity( invitations, HttpStatus.OK );
     }

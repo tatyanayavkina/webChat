@@ -3,6 +3,7 @@ package com.chat.server.oauth2.service.impl;
 import com.chat.server.dao.UserDao;
 import com.chat.server.model.User;
 import com.chat.server.oauth2.domain.TokenResponse;
+import com.chat.server.oauth2.domain.UserResource;
 import com.chat.server.oauth2.service.AccessService;
 import com.chat.server.oauth2.service.TokenManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,13 +89,18 @@ public class AccessServiceImpl implements AccessService {
         SecurityContextHolder.clearContext();
     }
 
-    @Override
-    public UserDetails currentUser() {
+    private UserDetails currentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null) {
             return null;
         }
         return (UserDetails) authentication.getPrincipal();
+    }
+
+    @Override
+    public UserResource getCurrentUser(){
+        UserDetails userDetails = currentUser();
+        return TokenManager.getInstance().getUserByUserDetails( userDetails );
     }
 
 }
