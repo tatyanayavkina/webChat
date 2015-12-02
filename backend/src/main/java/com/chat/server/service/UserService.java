@@ -15,5 +15,6 @@ public interface UserService extends IOperations<User>{
     //API
     User createUserByNickname(String nickname, Role role);
     List<User> findUsersByLogin(List<String> logins);
+    User findUserWithRooms(int id);
     List<Room> findRoomsWithOwnersByUserId(int id) throws ObjectNotFoundException;
 }

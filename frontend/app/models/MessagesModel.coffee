@@ -23,6 +23,26 @@ CoreModule.factory 'MessagesModel', (BaseModel, config, $q, $http) ->
             @findAll({url: config.api + @::model + '/last/' + roomId},[{name:'user'},{name:'room'}]);
 
         @getUnreadMessages: () ->
+            deferred = $q.defer();
+
+            $http.get(config.api + @::model + '/unread')
+            .success(
+                (response) =>
+                    result = {};
+                    if response.result
+                        angular.forEach(response.result, (item) =>
+                            transformed = ( @::transform(item,[{name:'user'},{name:'room'}]));
+                            if !result[transformed.room.id] then result[transformed.room.id] = [];
+                            result[transformed.room.id].push(transformed);
+                        )
+                    deferred.resolve(result);
+            )
+            .error(
+                (error) -> deferred.reject(error);
+            )
+
+            deferred.promise;
+
 
 
 

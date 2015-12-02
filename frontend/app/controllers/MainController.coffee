@@ -16,7 +16,10 @@ CoreModule.controller 'MainController', ($scope, $rootScope, $state, $stateParam
     $scope.getUnreadMessages = () ->
         MessagesModel.getUnreadMessages().then(
             (result) ->
-                console.log(result);
+                console.log('result', result);
+                angular.forEach(result, (messages, index) ->
+                    $scope.roomMessages[index].messages = $scope.roomMessages[index].messages.concat(messages);
+                )
             (error) ->
                 console.log('error', error);
         )

@@ -66,6 +66,7 @@ CoreModule.factory 'Auth', ($http, $q, $state, $httpParamSerializerJQLike, Stora
                     deferred.resolve(@session);
                 )
                 .error((error) =>
+                    Storage.clear();
                     deferred.resolve(null);
                 )
             else

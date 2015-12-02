@@ -2,6 +2,7 @@ package com.chat.server.controller;
 
 import com.chat.server.model.Message;
 import com.chat.server.model.Role;
+import com.chat.server.model.Room;
 import com.chat.server.model.User;
 import com.chat.server.oauth2.domain.UserResource;
 import com.chat.server.oauth2.service.AccessService;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.async.DeferredResult;
 
 import javax.annotation.security.RolesAllowed;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -59,9 +61,30 @@ public class MessageController {
     @RequestMapping(value="/unread", method = RequestMethod.GET)
     public HttpEntity<DeferredResult<List<Message>>> getUnreadMessages(){
         UserResource userResource = accessService.getCurrentUser();
+        final User user = userService.findUserWithRooms(userResource.getId());
+        Date lastRequest = user.getLastRequest();
+        System.out.println("--unread messages "+ user.getLogin());
+        System.out.println("--unread messages "+ user.getLastRequest());
+        List<Integer> roomIds = new ArrayList<>();
+        for( Room room: user.getRooms() ){
+            roomIds.add( room.getId() );
+        }
 
         final DeferredResult<List<Message>> deferredResult = new DeferredResult<List<Message>>(null, Collections.emptyList());
-//        List<Message> messages = messageService.findUnreadMessages();
+        deferredResult.onCompletion(new Runnable() {
+            @Override
+            public void run() {
+                user.setLastRequest( new Date() );
+                userService.update(user);
+                System.out.println("--complete unread messages " + user.getLastRequest());
+            }
+        });
 
+        List<Message> messages = messageService.findUnreadMessages( lastRequest, roomIds );
+        if( !messages.isEmpty() ){
+            deferredResult.setResult( messages );
+        }
+
+        return new ResponseEntity( deferredResult, HttpStatus.OK );
     }
 }

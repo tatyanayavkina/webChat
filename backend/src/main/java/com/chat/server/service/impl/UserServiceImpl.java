@@ -56,6 +56,16 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
     }
 
     @Transactional
+    public User findUserWithRooms(int id){
+        User user = dao.findOne( id );
+        if ( user != null ){
+            user.getRooms().size();
+        }
+
+        return user;
+    }
+
+    @Transactional
     public List<Room> findRoomsWithOwnersByUserId(int id) throws ObjectNotFoundException{
         User user = dao.findOne( id );
         if( user != null ){
