@@ -28,7 +28,7 @@ public class MessageController {
     public  HttpEntity<Message> createMessage(@RequestBody Message message){
         message.setCreationTime( new Date() );
         messageService.create(message);
-        if (message != null){
+        if ( message != null ){
             return new ResponseEntity(message, HttpStatus.OK);
         }
         return new ResponseEntity(HttpStatus.BAD_REQUEST);

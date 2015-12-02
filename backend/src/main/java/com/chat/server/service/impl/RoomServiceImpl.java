@@ -2,6 +2,7 @@ package com.chat.server.service.impl;
 
 import com.chat.server.dao.RoomDao;
 import com.chat.server.dao.common.IOperations;
+import com.chat.server.exception.AlreadyExistsException;
 import com.chat.server.exception.ObjectNotFoundException;
 import com.chat.server.model.Room;
 import com.chat.server.model.User;
@@ -30,15 +31,18 @@ public class RoomServiceImpl extends AbstractService<Room> implements RoomServic
 
     //API
     @Transactional
-    public Room joinRoom(int id, User user){
+    public Room joinRoom(int id, User user) throws AlreadyExistsException {
         Room room = dao.findOne( id );
         if ( room != null ){
+            
             List<User> users = room.getUsers();
-            users.add(user);
-            dao.update( room );
+            if ( users.contains( user ) ){
+                throw new AlreadyExistsException( User.class );
+            }
 
+            users.add( user );
+            dao.update( room );
             room = dao.findOne( id );
-            room.getOwner();
         }
 
         return room;
@@ -46,7 +50,7 @@ public class RoomServiceImpl extends AbstractService<Room> implements RoomServic
 
     @Transactional
     public List<Room> findByType(int type){
-        List<Room> rooms = dao.findByType(type);
+        List<Room> rooms = dao.findByType( type );
         if ( rooms != null ){
             for( Room room: rooms ){
                 room.getOwner();

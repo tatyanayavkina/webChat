@@ -1,5 +1,6 @@
 package com.chat.server.controller;
 
+import com.chat.server.exception.AlreadyExistsException;
 import com.chat.server.exception.ObjectNotFoundException;
 import com.chat.server.model.Role;
 import com.chat.server.model.Room;
@@ -191,7 +192,7 @@ public class RoomController {
      * @return HttpEntity<Room> - room that user joined to
      */
     @RequestMapping(value="/join/{id}", method = RequestMethod.POST)
-    public HttpEntity<Room> joinRoom(@PathVariable("id") int roomId , @RequestBody int userId){
+    public HttpEntity<Room> joinRoom(@PathVariable("id") int roomId , @RequestBody int userId) throws AlreadyExistsException {
         Room room = roomService.findOne( roomId );
         User user = userService.findOne( userId );
         if( user == null || room == null || room.getType() == Room.CLOSE_TYPE ){

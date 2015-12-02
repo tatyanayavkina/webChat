@@ -30,6 +30,7 @@ public class AccessController {
     private RoleService roleService;
 
     private static int ROLE_GUEST_ID = 1;
+    private static int ROLE_USER_ID = 2;
 
     /**
     * Generate token for registered user
@@ -69,8 +70,21 @@ public class AccessController {
     @RequestMapping(value = "/api/access/nickname", method = RequestMethod.POST)
     @ResponseBody
     public TokenResponse createUserGenerateToken(@RequestParam("nickname") String nickname) {
-        Role roleGuest = roleService.findOne(ROLE_GUEST_ID);
+        Role roleGuest = roleService.findOne( ROLE_GUEST_ID );
         User user = userService.createUserByNickname( nickname, roleGuest );
+        return accessService.authenticate( user.getLogin(), "" );
+    }
+
+    @RequestMapping(value = "/api/access/register", method = RequestMethod.POST)
+    @ResponseBody
+    public TokenResponse registerUserGenerateToken(@RequestParam("login") String login, @RequestParam("password") String password) {
+        Role roleUser = roleService.findOne( ROLE_USER_ID );
+        User user = new User();
+        user.setLogin( login );
+        user.setNickname( login );
+        user.setPassword( password );
+//        user.setRoles();
+        userService.create( user );
         return accessService.authenticate( user.getLogin(), "" );
     }
 
