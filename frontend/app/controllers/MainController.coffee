@@ -8,24 +8,32 @@ CoreModule.controller 'MainController', ($scope, $rootScope, $state, $stateParam
     $scope.roomMessages = {};
 
     # создает объект для сущности сообщения и привязываем его к комнате
-    $scope.createMessage = () ->
-        id = $scope.currentRoom.id;
-        $scope.roomMessages[id] = {};
+    $scope.createMessage = (id) ->
         $scope.roomMessages[id].message = new MessagesModel();
         $scope.roomMessages[id].message.user = session.user;
         $scope.roomMessages[id].message.room = $scope.currentRoom;
 
+    $scope.getUnreadMessages = () ->
+        MessagesModel.getUnreadMessages().then(
+            (result) ->
+                console.log(result);
+            (error) ->
+                console.log('error', error);
+        )
+
     # в качестве открытой комнаты берем первую из списка
     if $scope.rooms && $scope.rooms.length > 0
         $scope.currentRoom = $scope.rooms[0];
-        $scope.createMessage();
-        $scope.roomMessages[$scope.currentRoom.id].messages = [];
+        angular.forEach($scope.rooms, (room, index) ->
+            $scope.roomMessages[room.id] = {};
+            $scope.roomMessages[room.id].messages = [];
+            $scope.createMessage(room.id);
+        )
+        $scope.getUnreadMessages();
 
 
     $scope.selectRoom = (room) ->
         $scope.currentRoom = room;
-        if !$scope.roomMessages[$scope.currentRoom.id]
-            $scope.createMessage();
 
     $scope.leaveRoom = () ->
         if !$scope.currentRoom
@@ -45,7 +53,16 @@ CoreModule.controller 'MainController', ($scope, $rootScope, $state, $stateParam
 
     # пользователь вступил в комнату!
     $scope.$on('user:joinRoom', (event, data) ->
-        $scope.rooms.push(data.room);
+        joinedRoom = data.room
+        $scope.rooms.push(joinedRoom);
+        # делаем запрос на последние сообщения в комнате
+        MessagesModel.getLastMessages(joinedRoom.id).then(
+            (messages) ->
+                $scope.roomMessages[joinedRoom.id] = {};
+                $scope.roomMessages[joinedRoom.id].messages = messages.reverse();
+                $scope.createMessage(joinedRoom.id);
+        )
+
     )
 
     # пользователь создал комнату
@@ -56,11 +73,14 @@ CoreModule.controller 'MainController', ($scope, $rootScope, $state, $stateParam
     # пользователь удалил комнату
     $scope.$on('user:deleteRoom', (event, data) ->
         removedRoom = data.room;
+        # удаляем сообщения комнаты
+        delete $scope.roomMessages[removedRoom.id];
+        # удаляем комнату из списка комнат
         angular.forEach($scope.rooms, (room, index) ->
             if removedRoom.id == room.id
                 $scope.rooms.splice(index, 1);
         )
-
+        # проверяем, если комната была текущей
         if $scope.currentRoom.id == removedRoom.id
             if $scope.rooms.length > 0 then $scope.currentRoom = $scope.rooms[0] else null;
     )

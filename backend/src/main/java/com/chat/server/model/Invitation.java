@@ -2,6 +2,8 @@ package com.chat.server.model;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -21,10 +23,12 @@ public class Invitation implements Serializable{
     private int id;
 
     @ManyToOne
+    @Fetch(FetchMode.JOIN)
     @JoinColumn(name="user_id")
     private User user;
 
     @ManyToOne
+    @Fetch(FetchMode.JOIN)
     @JoinColumn(name="room_id")
     private Room room;
 

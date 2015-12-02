@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -41,6 +42,26 @@ public class InvitationServiceImpl extends AbstractService<Invitation> implement
     @Transactional
     public List<Invitation> findAllByUserId(int userId){
         return dao.findAllByUserId(userId);
+    }
+
+    @Transactional
+    public List<User> findAlreadyInvitedUsers(int roomId, List<User> users){
+        List<Integer> userIds = new ArrayList<>();
+        for( User user: users ){
+            userIds.add( user.getId() );
+        }
+
+        List<Invitation> invitations = dao.findAllByRoomIdAndUsers( roomId, userIds );
+        List<User> alreadyInvitedUsers = new ArrayList<>();
+
+        for( Invitation invitation: invitations){
+            User user = invitation.getUser();
+            if( users.contains( user ) ){
+                alreadyInvitedUsers.add( user );
+            }
+        }
+
+        return alreadyInvitedUsers;
     }
 
     @Override

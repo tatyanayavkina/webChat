@@ -2,6 +2,8 @@ package com.chat.server.config;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
+import javax.servlet.ServletRegistration;
+
 /**
  * Created on 22.10.2015.
  */
@@ -20,6 +22,16 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
     @Override
     protected String[] getServletMappings() {
         return new String[]{"/"};
+    }
+
+    @Override
+    protected void customizeRegistration(ServletRegistration.Dynamic registration) {
+        registration.setAsyncSupported(true);
+    }
+
+    @Override
+    protected boolean isAsyncSupported () {
+        return true;
     }
 
 }

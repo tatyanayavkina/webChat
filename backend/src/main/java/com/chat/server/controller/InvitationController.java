@@ -1,10 +1,8 @@
 package com.chat.server.controller;
 
+import com.chat.server.exception.AlreadyExistsException;
 import com.chat.server.exception.ObjectNotFoundException;
-import com.chat.server.model.Invitation;
-import com.chat.server.model.Role;
-import com.chat.server.model.Room;
-import com.chat.server.model.User;
+import com.chat.server.model.*;
 import com.chat.server.oauth2.domain.UserResource;
 import com.chat.server.oauth2.service.AccessService;
 import com.chat.server.service.InvitationService;
@@ -42,10 +40,8 @@ public class InvitationController {
 
     private static final Logger logger = Logger.getLogger(InvitationController.class);
 
-    //todo: спросить у Димы, как поступать, если не все приглашения получилось создать
-    //todo: узнать, нужно ли отправлять на клиент созданные приглашения в ответ?
-    //todo: сделать проверку на то, что приглашения рассылает владелец комнаты
-    //todo: что делать, если пользователи не найдены...
+    // todo: возможно будет эффективнее не заправшивать всех пользователй комнаты,
+    // чтобы не высылать приглашения
     /**
      * Create invitations to join the room. Only room owner can do this request
      * @param roomId
@@ -53,26 +49,30 @@ public class InvitationController {
      * @return HttpEntity<String> - HttpStatus.OK if all is ok
      */
     @RequestMapping(value = "/send/{roomId}", method = RequestMethod.POST)
-    public HttpEntity<String> send(@PathVariable("roomId") int roomId, @RequestBody List<String> logins){
+    public HttpEntity<InvitationsInfo> send(@PathVariable("roomId") int roomId, @RequestBody List<String> logins){
         Room room = roomService.findOne( roomId );
-        if ( room != null ){
+        if ( room != null && room.getType() == Room.CLOSE_TYPE ){
             UserResource currentUser = accessService.getCurrentUser();
             if ( currentUser == null || currentUser.getId() != room.getOwner().getId() ){
                 return new ResponseEntity( HttpStatus.FORBIDDEN );
             }
 
-            List<Invitation> invitations = new ArrayList<Invitation>();
-
             List<User> users = userService.findUsersByLogin(logins);
+            List<User> alreadyInRoomUsers = roomService.findAlreadyInRoomUsers(roomId, users);
+            List<User> alreadyInvitedUsers = invitationService.findAlreadyInvitedUsers( roomId, users );
+            List<User> invitedUsers = new ArrayList<>();
             for( User user: users ){
-                Invitation invitation = invitationService.createInvitation( user, room );
-                invitations.add( invitation );
+                if ( !alreadyInRoomUsers.contains( user ) && ! alreadyInvitedUsers.contains( user )){
+                    invitationService.createInvitation( user, room );
+                    invitedUsers.add( user );
+                }
             }
-            if( invitations.size() == logins.size() ){
-                return new ResponseEntity( HttpStatus.OK );
-            } else {
-                return new ResponseEntity( HttpStatus.NO_CONTENT );
-            }
+
+            InvitationsInfo invitationsInfo = new InvitationsInfo();
+            invitationsInfo.setAlreadyInRoomUsers( alreadyInRoomUsers );
+            invitationsInfo.setAlreadyInvitedUsers(alreadyInvitedUsers);
+            invitationsInfo.setInvitedUsers(invitedUsers);
+            return new ResponseEntity( invitationsInfo, HttpStatus.OK );
 
         }
 
@@ -85,7 +85,7 @@ public class InvitationController {
      * @return HttpEntity<Room> - room if all is ok
      */
     @RequestMapping(value = "/{id}/accept", method = RequestMethod.POST)
-    public HttpEntity<Room> accept(@PathVariable("id") int id){
+    public HttpEntity<Room> accept(@PathVariable("id") int id) throws AlreadyExistsException{
         Invitation invitation = invitationService.findOne(id);
         if ( invitation == null ){
             return new ResponseEntity( HttpStatus.BAD_REQUEST );

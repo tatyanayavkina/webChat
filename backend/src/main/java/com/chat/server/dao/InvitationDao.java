@@ -2,6 +2,7 @@ package com.chat.server.dao;
 
 import com.chat.server.dao.common.IOperations;
 import com.chat.server.model.Invitation;
+import com.chat.server.model.User;
 
 import java.util.List;
 
@@ -10,4 +11,5 @@ import java.util.List;
  */
 public interface InvitationDao extends IOperations<Invitation> {
     List<Invitation> findAllByUserId(int userId);
+    List<Invitation> findAllByRoomIdAndUsers(int roomId, List<Integer> userIds);
 }

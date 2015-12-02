@@ -1,6 +1,8 @@
 package com.chat.server.model;
 
 import com.fasterxml.jackson.annotation.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -29,6 +31,7 @@ public class Room implements Serializable{
     private int type;
 
     @ManyToOne
+    @Fetch(FetchMode.JOIN)
     @JoinColumn(name="owner_id")
     private User owner;
 

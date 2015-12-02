@@ -19,6 +19,11 @@ CoreModule.factory 'MessagesModel', (BaseModel, config, $q, $http) ->
                 type : 'belongsTo'
 
 
+        @getLastMessages: (roomId) ->
+            @findAll({url: config.api + @::model + '/last/' + roomId},[{name:'user'},{name:'room'}]);
+
+        @getUnreadMessages: () ->
+
 
 
 

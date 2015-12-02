@@ -9,6 +9,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.servlet.config.annotation.AsyncSupportConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
@@ -50,6 +51,12 @@ public class ServletContextConfig extends WebMvcConfigurerAdapter {
         converters.add(jacksonMessageConverter());
         super.configureMessageConverters(converters);
     }
+
+    @Override
+    public void configureAsyncSupport (AsyncSupportConfigurer configurer) {
+        configurer.setDefaultTimeout(30 * 1000L);
+    }
+
 
 
 //    @Override

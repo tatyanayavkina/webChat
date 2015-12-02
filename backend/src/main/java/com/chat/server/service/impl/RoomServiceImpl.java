@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.jws.soap.SOAPBinding;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,7 +35,7 @@ public class RoomServiceImpl extends AbstractService<Room> implements RoomServic
     public Room joinRoom(int id, User user) throws AlreadyExistsException {
         Room room = dao.findOne( id );
         if ( room != null ){
-            
+
             List<User> users = room.getUsers();
             if ( users.contains( user ) ){
                 throw new AlreadyExistsException( User.class );
@@ -50,7 +51,7 @@ public class RoomServiceImpl extends AbstractService<Room> implements RoomServic
 
     @Transactional
     public List<Room> findByType(int type){
-        List<Room> rooms = dao.findByType( type );
+        List<Room> rooms = dao.findByType(type);
         if ( rooms != null ){
             for( Room room: rooms ){
                 room.getOwner();
@@ -109,6 +110,20 @@ public class RoomServiceImpl extends AbstractService<Room> implements RoomServic
         } else {
             throw new ObjectNotFoundException( Room.class, roomId );
         }
+    }
+
+    @Transactional
+    public List<User> findAlreadyInRoomUsers(int id, List<User> users){
+        Room room = dao.findOne( id );
+        List<User> roomUsers = room.getUsers();
+        List<User> alreadyInRoomUsers = new ArrayList<>();
+        for( User user: users ){
+            if ( roomUsers.contains( user ) ){
+                alreadyInRoomUsers.add( user );
+            }
+        }
+
+        return alreadyInRoomUsers;
     }
 
     @Override
