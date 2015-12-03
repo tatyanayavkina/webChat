@@ -16,13 +16,15 @@ CoreModule.controller 'MainController', ($scope, $rootScope, $state, $stateParam
     $scope.getUnreadMessages = () ->
         MessagesModel.getUnreadMessages().then(
             (result) ->
-                console.log('result', result);
                 angular.forEach(result, (messages, index) ->
                     $scope.roomMessages[index].messages = $scope.roomMessages[index].messages.concat(messages);
                 )
+                $scope.getUnreadMessages();
             (error) ->
                 console.log('error', error);
+                $scope.getUnreadMessages();
         )
+
 
     # в качестве открытой комнаты берем первую из списка
     if $scope.rooms && $scope.rooms.length > 0
@@ -95,7 +97,7 @@ CoreModule.controller 'MainController', ($scope, $rootScope, $state, $stateParam
             $scope.roomMessages[id].message.save().then(
                (message) ->
                    console.log('message in save message', message);
-                   $scope.createMessage();
+                   $scope.createMessage(id);
                    if !$scope.roomMessages[id].messages then $scope.roomMessages[id].messages = [];
                    $scope.roomMessages[id].messages.push(message);
                (error) ->

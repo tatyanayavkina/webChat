@@ -37,7 +37,7 @@ public class MessageDaoImpl extends AbstractDao<Message> implements MessageDao {
     public  List<Message> findUnreadMessages(Date lastRequest, List<Integer> roomIds){
         List<Message> messages = new ArrayList<>();
         messages = getCurrentSession()
-                .createQuery("from Message where creation_time>:last_request and room_id in (:room_id)")
+                .createQuery("from Message where creation_time>=:last_request and room_id in (:room_id)")
                 .setParameter("last_request", lastRequest)
                 .setParameterList("room_id", roomIds)
                 .list();

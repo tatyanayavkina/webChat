@@ -29,8 +29,8 @@ CoreModule.factory 'MessagesModel', (BaseModel, config, $q, $http) ->
             .success(
                 (response) =>
                     result = {};
-                    if response.result
-                        angular.forEach(response.result, (item) =>
+                    if response.length > 0
+                        angular.forEach(response, (item) =>
                             transformed = ( @::transform(item,[{name:'user'},{name:'room'}]));
                             if !result[transformed.room.id] then result[transformed.room.id] = [];
                             result[transformed.room.id].push(transformed);

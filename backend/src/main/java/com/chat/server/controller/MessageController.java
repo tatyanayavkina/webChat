@@ -16,10 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.async.DeferredResult;
 
 import javax.annotation.security.RolesAllowed;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created on 03.11.2015.
@@ -59,7 +57,7 @@ public class MessageController {
     }
 
     @RequestMapping(value="/unread", method = RequestMethod.GET)
-    public HttpEntity<DeferredResult<List<Message>>> getUnreadMessages(){
+    public DeferredResult<HttpEntity<List<Message>>> getUnreadMessages(){
         UserResource userResource = accessService.getCurrentUser();
         final User user = userService.findUserWithRooms(userResource.getId());
         Date lastRequest = user.getLastRequest();
@@ -70,7 +68,7 @@ public class MessageController {
             roomIds.add( room.getId() );
         }
 
-        final DeferredResult<List<Message>> deferredResult = new DeferredResult<List<Message>>(null, Collections.emptyList());
+        final DeferredResult<HttpEntity<List<Message>>> deferredResult = new DeferredResult<>( 25 * 1000L, new ResponseEntity( Collections.emptyList(), HttpStatus.OK ) );
         deferredResult.onCompletion(new Runnable() {
             @Override
             public void run() {
@@ -82,9 +80,9 @@ public class MessageController {
 
         List<Message> messages = messageService.findUnreadMessages( lastRequest, roomIds );
         if( !messages.isEmpty() ){
-            deferredResult.setResult( messages );
+            deferredResult.setResult( new ResponseEntity( messages, HttpStatus.OK ) );
         }
 
-        return new ResponseEntity( deferredResult, HttpStatus.OK );
+        return deferredResult;
     }
 }
