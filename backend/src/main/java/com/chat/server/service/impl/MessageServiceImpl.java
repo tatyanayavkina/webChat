@@ -32,8 +32,8 @@ public class MessageServiceImpl extends AbstractService<Message> implements Mess
     }
 
     @Transactional
-    public List<Message> findUnreadMessages(int userId, Date lastRequest, List<Integer> roomIds){
-        return dao.findUnreadMessages( userId, lastRequest, roomIds );
+    public List<Message> findUnreadMessages(Date lastRequest, List<Integer> roomIds){
+        return dao.findUnreadMessages( lastRequest, roomIds );
     }
 
     @Override

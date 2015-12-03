@@ -78,7 +78,7 @@ public class MessageController {
             }
         });
 
-        List<Message> messages = messageService.findUnreadMessages( user.getId(), lastRequest, roomIds );
+        List<Message> messages = messageService.findUnreadMessages( lastRequest, roomIds );
         if( !messages.isEmpty() ){
             deferredResult.setResult( new ResponseEntity( messages, HttpStatus.OK ) );
         }
