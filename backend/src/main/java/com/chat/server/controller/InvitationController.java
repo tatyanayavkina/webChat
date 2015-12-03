@@ -1,7 +1,7 @@
 package com.chat.server.controller;
 
+import com.chat.server.controller.utils.InvitationsInfo;
 import com.chat.server.exception.AlreadyExistsException;
-import com.chat.server.exception.ObjectNotFoundException;
 import com.chat.server.model.*;
 import com.chat.server.oauth2.domain.UserResource;
 import com.chat.server.oauth2.service.AccessService;
@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;

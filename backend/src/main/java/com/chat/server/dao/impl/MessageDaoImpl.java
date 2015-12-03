@@ -34,11 +34,11 @@ public class MessageDaoImpl extends AbstractDao<Message> implements MessageDao {
     }
 
     @SuppressWarnings("unchecked")
-    public  List<Message> findUnreadMessages(Date lastRequest, List<Integer> roomIds){
+    public  List<Message> findUnreadMessages(int lastReadMessage, List<Integer> roomIds){
         List<Message> messages = new ArrayList<>();
         messages = getCurrentSession()
-                .createQuery("from Message where creation_time>=:last_request and room_id in (:room_id)")
-                .setParameter("last_request", lastRequest)
+                .createQuery("from Message where id>:last_read_message and room_id in (:room_id) order by id desc")
+                .setParameter("last_read_message", lastReadMessage)
                 .setParameterList("room_id", roomIds)
                 .list();
 

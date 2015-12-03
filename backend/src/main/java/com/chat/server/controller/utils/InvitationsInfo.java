@@ -1,9 +1,11 @@
-package com.chat.server.model;
+package com.chat.server.controller.utils;
+
+import com.chat.server.model.User;
 
 import java.util.List;
 
 /**
- * Created by Татьяна on 02.12.2015.
+ * Created on 02.12.2015.
  */
 public class InvitationsInfo {
     private List<User> alreadyInRoomUsers;

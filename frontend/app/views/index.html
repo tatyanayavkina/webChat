@@ -68,7 +68,16 @@
                     </div>
                     <div class="selected-room-container" ng-if="currentRoom">
                         <div class="selected-room-container-messages">
-                            <div>Первое сообщение</div>
+                            <div ng-repeat="message in roomMessages[currentRoom.id].messages">
+                                <div>
+                                    <span>{{ message.user.nickname }}</span>
+                                    <span>----</span>
+                                    <span>{{ message.creationTime| date:'dd.MM.yyyy HH:mm:ss' }}</span>
+                                </div>
+                                <div>
+                                    {{ message.content }}
+                                </div>
+                            </div>
                         </div>
                         <div class="selected-room-form">
                             <form role="form">

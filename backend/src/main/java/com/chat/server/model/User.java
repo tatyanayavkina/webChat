@@ -33,6 +33,9 @@ public class User implements Serializable{
     @Column(name="last_request")
     private Date lastRequest;
 
+    @Column(name="last_message_id")
+    private int lastReadMessage;
+
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "users")
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<Room> rooms;
@@ -99,6 +102,14 @@ public class User implements Serializable{
 
     public void setLastRequest(Date lastRequest){
         this.lastRequest = lastRequest;
+    }
+
+    public int getLastReadMessage(){
+        return lastReadMessage;
+    }
+
+    public void setLastReadMessage(int lastReadMessage){
+        this.lastReadMessage = lastReadMessage;
     }
 
     public Date getLastRequest(){

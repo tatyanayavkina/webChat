@@ -4,6 +4,7 @@ CREATE TABLE IF NOT EXISTS user(
   password varchar(256),
   nickname varchar(256) NOT NULL,
   last_request DATETIME,
+  last_message_id int(11) NOT NULL DEFAULT 0,
   deleted BOOLEAN DEFAULT FALSE,
   PRIMARY KEY(id)
 )ENGINE=InnoDB  DEFAULT CHARSET=utf8;

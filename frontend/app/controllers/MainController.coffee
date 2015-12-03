@@ -14,15 +14,16 @@ CoreModule.controller 'MainController', ($scope, $rootScope, $state, $stateParam
         $scope.roomMessages[id].message.room = $scope.currentRoom;
 
     $scope.getUnreadMessages = () ->
-        MessagesModel.getUnreadMessages().then(
+        MessagesModel.getUnreadMessages(session.user.id).then(
             (result) ->
+                console.log('messages', result);
                 angular.forEach(result, (messages, index) ->
                     $scope.roomMessages[index].messages = $scope.roomMessages[index].messages.concat(messages);
                 )
                 $scope.getUnreadMessages();
             (error) ->
                 console.log('error', error);
-                $scope.getUnreadMessages();
+#                $scope.getUnreadMessages(session.user.id);
         )
 
 
@@ -63,6 +64,7 @@ CoreModule.controller 'MainController', ($scope, $rootScope, $state, $stateParam
         # делаем запрос на последние сообщения в комнате
         MessagesModel.getLastMessages(joinedRoom.id).then(
             (messages) ->
+                console.log('messages', messages);
                 $scope.roomMessages[joinedRoom.id] = {};
                 $scope.roomMessages[joinedRoom.id].messages = messages.reverse();
                 $scope.createMessage(joinedRoom.id);

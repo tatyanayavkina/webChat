@@ -12,5 +12,5 @@ import java.util.List;
  */
 public interface MessageService extends IOperations<Message> {
     List<Message> findLastMessages(int roomId, int count);
-    List<Message> findUnreadMessages(Date lastRequest, List<Integer> roomIds);
+    List<Message> findUnreadMessages(int lastReadMessage, List<Integer> roomIds);
 }
