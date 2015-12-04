@@ -116,7 +116,7 @@ CoreModule.factory 'Auth', ($http, $q, $state, $httpParamSerializerJQLike, Stora
         # выход
         logout : () ->
             # Отправили запрос на выход
-            $http.post(@url.logout,{});
+            $http.get(@url.logout);
             # чистим сессию
             @session = null;
             account = null;

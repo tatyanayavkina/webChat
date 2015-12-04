@@ -46,7 +46,7 @@ public class AccessController {
      * Delete token from token hashmap
      * @return true
      */
-    @RequestMapping(value = "/api/access/logout", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/access/logout", method = RequestMethod.GET)
     @ResponseBody
     public boolean deleteToken() {
         accessService.logout();

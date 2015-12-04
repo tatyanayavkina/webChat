@@ -14,6 +14,7 @@ import java.util.List;
 public interface UserService extends IOperations<User>{
     //API
     User createUserByNickname(String nickname, Role role);
+    User findUserByLogin(String login);
     List<User> findUsersByLogin(List<String> logins);
     User findUserWithRooms(int id);
     List<Room> findRoomsWithOwnersByUserId(int id) throws ObjectNotFoundException;

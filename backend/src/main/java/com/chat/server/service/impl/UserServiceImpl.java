@@ -32,6 +32,11 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
 
     //API
     @Transactional
+    public User findUserByLogin(String login){
+        return dao.findUserByLogin( login );
+    }
+
+    @Transactional
     public User createUserByNickname(String nickname,  Role roleGuest){
         String username = nickname + LocalTime.now();
         User newUser = new User(username, "", nickname);
