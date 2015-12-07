@@ -1,13 +1,11 @@
 package com.chat.server.controller;
 
 import com.chat.server.controller.utils.DeferredUnreadMessages;
-import com.chat.server.model.Message;
-import com.chat.server.model.Role;
-import com.chat.server.model.Room;
-import com.chat.server.model.User;
+import com.chat.server.model.*;
 import com.chat.server.oauth2.domain.UserResource;
 import com.chat.server.oauth2.service.AccessService;
 import com.chat.server.service.MessageService;
+import com.chat.server.service.RequestService;
 import com.chat.server.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -27,26 +25,38 @@ import java.util.concurrent.ConcurrentHashMap;
 @RequestMapping(value = "/api/messages")
 public class MessageController {
     private final int LAST_COUNT = 10;
-    private final Map<DeferredUnreadMessages<HttpEntity<List<Message>>>, User> userRequests = new ConcurrentHashMap<DeferredUnreadMessages<HttpEntity<List<Message>>>, User>();
+    private final Map<Integer,DeferredUnreadMessages<HttpEntity<List<Message>>>> userRequests = new ConcurrentHashMap<>();
 
     @Autowired
     private MessageService messageService;
     @Autowired
     private UserService userService;
     @Autowired
+    private RequestService requestService;
+    @Autowired
     private AccessService accessService;
 
+    /**
+     * Save message send by user
+     * @param message
+     * @return HttpEntity<Message>
+     */
     @RequestMapping(method = RequestMethod.POST)
     public  HttpEntity<Message> createMessage(@RequestBody Message message){
         message.setCreationTime( new Date() );
         messageService.create(message);
-        if ( message != null ){
-            new MessageExecutor().run();
-            return new ResponseEntity(message, HttpStatus.OK);
-        }
-        return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        List<Request> requests = requestService.findAllByRoomId( message.getRoom().getId() );
+        requestService.deleteByUserIds(requests);
+        new MessageExecutor( message, requests ).run();
+
+        return new ResponseEntity(message, HttpStatus.OK);
     }
 
+    /**
+     * Get several last messages from one room
+     * @param roomId
+     * @return HttpEntity<List<Message>> - list of messages if they exist
+     */
     @RequestMapping(value="/last/{roomId}", method = RequestMethod.GET)
     public HttpEntity<List<Message>> getSomeLastMessages(@PathVariable("roomId") int roomId){
         // ищем текущего пользователя и проставляем ему время запроса сообщений
@@ -63,6 +73,11 @@ public class MessageController {
         return new ResponseEntity(messages, HttpStatus.OK);
     }
 
+    /**
+     * Find unread messages for user
+     * @return DeferredUnreadMessages<HttpEntity<List<Message>>> - promise that resolves when
+     * messages are found in database or timeout is expired
+     */
     @RequestMapping(value="/unread", method = RequestMethod.GET)
     public DeferredUnreadMessages<HttpEntity<List<Message>>> getUnreadMessages(){
         UserResource userResource = accessService.getCurrentUser();
@@ -75,12 +90,12 @@ public class MessageController {
             roomIds.add( room.getId() );
         }
 
-        final DeferredUnreadMessages<HttpEntity<List<Message>>> deferredResult = new DeferredUnreadMessages<>( 25 * 1000L, new ResponseEntity( Collections.emptyList(), HttpStatus.OK ), lastReadMessage, roomIds );
-        userRequests.put( deferredResult, user );
+        final DeferredUnreadMessages<HttpEntity<List<Message>>> deferredResult = new DeferredUnreadMessages<>( 25 * 1000L, new ResponseEntity( Collections.emptyList(), HttpStatus.OK ), user, roomIds );
+        userRequests.put( user.getId(), deferredResult );
         deferredResult.onCompletion(new Runnable() {
             @Override
             public void run() {
-                userRequests.remove( deferredResult );
+                userRequests.remove( user.getId() );
                 user.setLastRequest( new Date() );
                 userService.update(user);
                 System.out.println("--complete unread messages " + user.getLastRequest());
@@ -88,7 +103,9 @@ public class MessageController {
         });
 
         List<Message> messages = messageService.findUnreadMessages( lastReadMessage, roomIds );
-        if( !messages.isEmpty() ){
+        if( messages.isEmpty() ){
+            requestService.add(user.getId(), roomIds);
+        } else {
             System.out.println("--unread NOT EMPTY ");
             user.setLastReadMessage( messages.get(0).getId() );
             deferredResult.setResult( new ResponseEntity( messages, HttpStatus.OK ) );
@@ -98,18 +115,27 @@ public class MessageController {
     }
 
     private class MessageExecutor implements Runnable{
+        private Message message;
+        private List<Request> requests;
+
+        public MessageExecutor(Message message, List<Request> requests){
+            this.message = message;
+            this.requests = requests;
+        }
+
         @Override
         public void run(){
-            for (Map.Entry<DeferredUnreadMessages<HttpEntity<List<Message>>>, User> entry : userRequests.entrySet()) {
-                List<Message> messages = messageService.findUnreadMessages( entry.getKey().getLastReadMessage(), entry.getKey().getRoomIds());
-                if ( messages == null ){
-                    messages = Collections.emptyList();
-                } else {
-                    User user = entry.getValue();
+            List<Message> messages = new ArrayList<>();
+            messages.add( message );
+
+            for( Request request: requests){
+                DeferredUnreadMessages<HttpEntity<List<Message>>> deferred = userRequests.get(request.getUserId());
+                if ( deferred != null ){
+                    User user = deferred.getUser();
                     user.setLastReadMessage( messages.get(0).getId() );
                     userService.update( user );
+                    deferred.setResult( new ResponseEntity( messages, HttpStatus.OK) );
                 }
-                entry.getKey().setResult( new ResponseEntity( messages, HttpStatus.OK ) );
             }
         }
     }

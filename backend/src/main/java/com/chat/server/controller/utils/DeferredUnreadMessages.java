@@ -1,5 +1,6 @@
 package com.chat.server.controller.utils;
 
+import com.chat.server.model.User;
 import org.springframework.web.context.request.async.DeferredResult;
 
 import java.util.Date;
@@ -9,21 +10,21 @@ import java.util.List;
  * Created on 03.12.2015.
  */
 public class DeferredUnreadMessages<T> extends DeferredResult<T>{
-    private int lastReadMessage;
     private List<Integer> roomIds;
+    private User user;
 
-    public DeferredUnreadMessages(Long timeout, Object timeoutResult, int lastReadMessage, List<Integer> roomIds){
+    public DeferredUnreadMessages(Long timeout, Object timeoutResult, User user, List<Integer> roomIds){
         super(timeout, timeoutResult);
-        this.lastReadMessage = lastReadMessage;
+        this.user = user;
         this.roomIds = roomIds;
     }
 
-    public int getLastReadMessage(){
-        return lastReadMessage;
+    public User getUser(){
+        return user;
     }
 
-    public void setLastReadMessage(int lastReadMessage){
-        this.lastReadMessage = lastReadMessage;
+    public void setUser(User user){
+        this.user = user;
     }
 
     public List<Integer> getRoomIds(){

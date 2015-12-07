@@ -70,6 +70,13 @@ CREATE TABLE IF NOT EXISTS invitation(
   REFERENCES room(id) ON DELETE CASCADE ON UPDATE NO ACTION
 )ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
+CREATE TABLE IF NOT EXISTS request(
+  id int(11) NOT NULL AUTO_INCREMENT,
+  user_id int(11) NOT NULL,
+  room_id int(11) NOT NULL,
+  PRIMARY KEY(id)
+)ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
 
 -- администратор
 INSERT INTO user (login, password, nickname) VALUES ("admin@mail.ru","root","admin");
