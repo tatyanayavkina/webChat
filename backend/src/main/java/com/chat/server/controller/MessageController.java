@@ -7,6 +7,7 @@ import com.chat.server.oauth2.service.AccessService;
 import com.chat.server.service.MessageService;
 import com.chat.server.service.RequestService;
 import com.chat.server.service.UserService;
+import com.chat.server.utils.SingleThreadTaskExecutor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -48,7 +49,7 @@ public class MessageController {
         List<Request> requests = requestService.findAllByRoomId( message.getRoom().getId() );
         if ( requests != null ){
             requestService.deleteByUserIds(requests);
-            new MessageExecutor( message, requests ).run();
+            SingleThreadTaskExecutor.getInstance().add( new MessageTask( message, requests ) );
         }
 
         return new ResponseEntity(message, HttpStatus.OK);
@@ -109,7 +110,7 @@ public class MessageController {
             requestService.add(user.getId(), roomIds);
         } else {
             System.out.println("--unread NOT EMPTY ");
-            requestService.deleteByUserId( user.getId() );
+            requestService.deleteByUserId(user.getId());
             user.setLastReadMessage( messages.get(0).getId() );
             deferredResult.setResult( new ResponseEntity( messages, HttpStatus.OK ) );
         }
@@ -117,11 +118,11 @@ public class MessageController {
         return deferredResult;
     }
 
-    private class MessageExecutor implements Runnable{
+    private class MessageTask implements Runnable{
         private Message message;
         private List<Request> requests;
 
-        public MessageExecutor(Message message, List<Request> requests){
+        public MessageTask(Message message, List<Request> requests){
             this.message = message;
             this.requests = requests;
         }
