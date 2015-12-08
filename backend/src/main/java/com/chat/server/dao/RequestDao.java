@@ -11,4 +11,5 @@ import java.util.List;
 public interface RequestDao extends IOperations<Request> {
     List<Request> findAllByRoomId(int roomId);
     void deleteByUserIds(List<Integer> userIds);
+    void deleteByUserId(int userId);
 }

@@ -109,6 +109,7 @@ public class MessageController {
             requestService.add(user.getId(), roomIds);
         } else {
             System.out.println("--unread NOT EMPTY ");
+            requestService.deleteByUserId( user.getId() );
             user.setLastReadMessage( messages.get(0).getId() );
             deferredResult.setResult( new ResponseEntity( messages, HttpStatus.OK ) );
         }

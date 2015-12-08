@@ -13,4 +13,5 @@ public interface RequestService extends IOperations<Request> {
     void add(int userId, List<Integer> roomIds);
     List<Request> findAllByRoomId(int roomId);
     void deleteByUserIds(List<Request> requests);
+    void deleteByUserId(int userId);
 }

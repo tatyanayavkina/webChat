@@ -36,4 +36,12 @@ public class RequestDaoImpl extends AbstractDao<Request> implements RequestDao {
         .setParameterList("user_ids", userIds)
         .executeUpdate();
     }
+
+    @SuppressWarnings("unchecked")
+    public void deleteByUserId(int userId){
+        getCurrentSession()
+                .createQuery("delete from Request where user_id=:user_id")
+                .setParameter("user_id", userId)
+                .executeUpdate();
+    }
 }

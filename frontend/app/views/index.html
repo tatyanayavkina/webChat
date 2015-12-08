@@ -68,7 +68,7 @@
                     </div>
                     <div class="selected-room-container" ng-if="currentRoom">
                         <div class="selected-room-container-messages">
-                            <div ng-repeat="message in roomMessages[currentRoom.id].messages">
+                            <div ng-repeat="message in roomMessages[currentRoom.id].messages| orderBy:'creationTime'">
                                 <div>
                                     <span>{{ message.user.nickname }}</span>
                                     <span>----</span>

@@ -51,6 +51,11 @@ public class RequestServiceImpl extends AbstractService<Request> implements Requ
         dao.deleteByUserIds( userIds );
     }
 
+    @Transactional
+    public void deleteByUserId(int userId){
+        dao.deleteByUserId( userId );
+    }
+
     @Override
     protected IOperations<Request> getDao() {
         return dao;
