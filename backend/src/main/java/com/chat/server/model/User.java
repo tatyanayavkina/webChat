@@ -57,6 +57,13 @@ public class User implements Serializable{
         this.lastRequest = lastRequest;
     }
 
+    public User(String login, String password, String nickname, List<Role> roles){
+        this.login = login;
+        this.password = password;
+        this.nickname = nickname;
+        this.roles = roles;
+    }
+
     public User(String login, String password, String nickname){
         this.login = login;
         this.password = password;

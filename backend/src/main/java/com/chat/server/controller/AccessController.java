@@ -79,13 +79,11 @@ public class AccessController {
     @ResponseBody
     public TokenResponse registerUserGenerateToken(@RequestParam("login") String login, @RequestParam("password") String password) {
         Role roleUser = roleService.findOne( ROLE_USER_ID );
-        User user = new User();
-        user.setLogin( login );
-        user.setNickname( login );
-        user.setPassword( password );
-//        user.setRoles();
+        List<Role> roles = new ArrayList<>();
+        roles.add( roleUser );
+        User user = new User( login, password, login, roles );
         userService.create( user );
-        return accessService.authenticate( user.getLogin(), "" );
+        return accessService.authenticate( user.getLogin(), user.getPassword() );
     }
 
 
