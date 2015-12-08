@@ -23,8 +23,8 @@ public class SingleThreadTaskExecutor {
     public static SingleThreadTaskExecutor getInstance(){
         if ( instance == null ){
             instance = new SingleThreadTaskExecutor();
+            instance.execute();
         }
-
         return instance;
     }
 
