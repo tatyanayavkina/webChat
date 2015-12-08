@@ -46,8 +46,10 @@ public class MessageController {
         message.setCreationTime( new Date() );
         messageService.create(message);
         List<Request> requests = requestService.findAllByRoomId( message.getRoom().getId() );
-        requestService.deleteByUserIds(requests);
-        new MessageExecutor( message, requests ).run();
+        if ( requests != null ){
+            requestService.deleteByUserIds(requests);
+            new MessageExecutor( message, requests ).run();
+        }
 
         return new ResponseEntity(message, HttpStatus.OK);
     }

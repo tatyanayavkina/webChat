@@ -34,6 +34,6 @@ public class RequestDaoImpl extends AbstractDao<Request> implements RequestDao {
          getCurrentSession()
         .createQuery("delete from Request where user_id in (:user_ids)")
         .setParameterList("user_ids", userIds)
-        .list();
+        .executeUpdate();
     }
 }
