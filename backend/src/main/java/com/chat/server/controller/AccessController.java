@@ -75,12 +75,16 @@ public class AccessController {
         return accessService.authenticate( user.getLogin(), "" );
     }
 
+    /**
+     * Register new user and generate token and user info for new user
+     * @return TokenResponse - generated token and user info
+     */
     @RequestMapping(value = "/api/access/register", method = RequestMethod.POST)
     @ResponseBody
     public TokenResponse registerUserGenerateToken(@RequestParam("login") String login, @RequestParam("password") String password) {
         Role roleUser = roleService.findOne( ROLE_USER_ID );
         List<Role> roles = new ArrayList<>();
-        roles.add( roleUser );
+        roles.add(roleUser);
         User user = new User( login, password, login, roles );
         userService.create( user );
         return accessService.authenticate( user.getLogin(), user.getPassword() );
