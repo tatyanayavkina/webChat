@@ -26,8 +26,7 @@ import java.util.List;
 @EnableScheduling
 @ComponentScan("com.chat.server")
 public class ServletContextConfig extends WebMvcConfigurerAdapter {
-    @Value("${async.request.timeout.servlet}")
-    private int requestTimeout;
+    private final int REQUEST_TIMEOUT = 200;
 
     @Bean
     public InternalResourceViewResolver getInternalResourceViewResolver() {
@@ -59,7 +58,7 @@ public class ServletContextConfig extends WebMvcConfigurerAdapter {
 
     @Override
     public void configureAsyncSupport (AsyncSupportConfigurer configurer) {
-        configurer.setDefaultTimeout(requestTimeout * 1000L);
+        configurer.setDefaultTimeout(REQUEST_TIMEOUT * 1000L);
     }
 
 

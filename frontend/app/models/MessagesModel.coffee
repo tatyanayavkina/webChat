@@ -31,7 +31,7 @@ CoreModule.factory 'MessagesModel', (BaseModel, config, requestTimeout, $q, $htt
         @getUnreadMessages: (userId) ->
             deferred = $q.defer();
 
-            $http.get(config.api + @::model + '/unread', {timeout: requestTimeout})
+            $http.get(config.api + @::model + '/unread', {timeout: requestTimeout*1000})
             .success(
                 (response) =>
                     result = {};

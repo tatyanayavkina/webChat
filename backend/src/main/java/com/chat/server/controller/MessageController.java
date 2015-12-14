@@ -26,10 +26,8 @@ import java.util.concurrent.ConcurrentHashMap;
 @RolesAllowed({Role.GUEST, Role.USER})
 @RequestMapping(value = "/api/messages")
 public class MessageController {
-    @Value("${room.messages.count}")
-    private int LAST_COUNT;
-    @Value("${async.request.timeout.controller}")
-    private int requestTimeout;
+    private final int LAST_COUNT = 10;
+    private final int REQUEST_TIMEOUT = 180;
 
     private final Map<Integer,DeferredUnreadMessages<HttpEntity<List<Message>>>> userRequests = new ConcurrentHashMap<>();
 
@@ -98,7 +96,7 @@ public class MessageController {
             roomIds.add( room.getId() );
         }
 
-        final DeferredUnreadMessages<HttpEntity<List<Message>>> deferredResult = new DeferredUnreadMessages<>( requestTimeout * 1000L, new ResponseEntity( Collections.emptyList(), HttpStatus.OK ), user, roomIds );
+        final DeferredUnreadMessages<HttpEntity<List<Message>>> deferredResult = new DeferredUnreadMessages<>( REQUEST_TIMEOUT * 1000L, new ResponseEntity( Collections.emptyList(), HttpStatus.OK ), user, roomIds );
         userRequests.put( user.getId(), deferredResult );
         deferredResult.onCompletion(new Runnable() {
             @Override
