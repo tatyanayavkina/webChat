@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -25,6 +26,8 @@ import java.util.List;
 @EnableScheduling
 @ComponentScan("com.chat.server")
 public class ServletContextConfig extends WebMvcConfigurerAdapter {
+    @Value("${async.request.timeout.servlet}")
+    private int requestTimeout;
 
     @Bean
     public InternalResourceViewResolver getInternalResourceViewResolver() {
@@ -56,7 +59,7 @@ public class ServletContextConfig extends WebMvcConfigurerAdapter {
 
     @Override
     public void configureAsyncSupport (AsyncSupportConfigurer configurer) {
-        configurer.setDefaultTimeout(30 * 1000L);
+        configurer.setDefaultTimeout(requestTimeout * 1000L);
     }
 
 

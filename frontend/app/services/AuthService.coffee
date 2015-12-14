@@ -117,6 +117,8 @@ CoreModule.factory 'Auth', ($http, $q, $state, $httpParamSerializerJQLike, Stora
         logout : () ->
             # Отправили запрос на выход
             $http.get(@url.logout);
+            # удалили token из заголовков
+            delete $http.defaults.headers.common['AccessToken'];
             # чистим сессию
             @session = null;
             account = null;

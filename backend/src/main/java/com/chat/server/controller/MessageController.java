@@ -9,6 +9,7 @@ import com.chat.server.service.RequestService;
 import com.chat.server.service.UserService;
 import com.chat.server.utils.SingleThreadTaskExecutor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +26,11 @@ import java.util.concurrent.ConcurrentHashMap;
 @RolesAllowed({Role.GUEST, Role.USER})
 @RequestMapping(value = "/api/messages")
 public class MessageController {
-    private final int LAST_COUNT = 10;
+    @Value("${room.messages.count}")
+    private int LAST_COUNT;
+    @Value("${async.request.timeout.controller}")
+    private int requestTimeout;
+
     private final Map<Integer,DeferredUnreadMessages<HttpEntity<List<Message>>>> userRequests = new ConcurrentHashMap<>();
 
     @Autowired
@@ -93,7 +98,7 @@ public class MessageController {
             roomIds.add( room.getId() );
         }
 
-        final DeferredUnreadMessages<HttpEntity<List<Message>>> deferredResult = new DeferredUnreadMessages<>( 25 * 1000L, new ResponseEntity( Collections.emptyList(), HttpStatus.OK ), user, roomIds );
+        final DeferredUnreadMessages<HttpEntity<List<Message>>> deferredResult = new DeferredUnreadMessages<>( requestTimeout * 1000L, new ResponseEntity( Collections.emptyList(), HttpStatus.OK ), user, roomIds );
         userRequests.put( user.getId(), deferredResult );
         deferredResult.onCompletion(new Runnable() {
             @Override
