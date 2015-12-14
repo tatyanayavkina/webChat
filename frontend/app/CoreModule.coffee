@@ -13,3 +13,6 @@ CoreModule.constant 'roles',
     user : 'ROLE_USER'
     admin: 'ROLE_ADMIN'
 
+CoreModule.constant 'requestTimeout',
+    220
+

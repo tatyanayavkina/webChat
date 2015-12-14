@@ -2,7 +2,7 @@
 
 'use strict';
 
-CoreModule.factory 'MessagesModel', (BaseModel, config, $q, $http) ->
+CoreModule.factory 'MessagesModel', (BaseModel, config, requestTimeout, $q, $http) ->
     class MessagesModel extends BaseModel
         model: 'messages'
 
@@ -31,7 +31,7 @@ CoreModule.factory 'MessagesModel', (BaseModel, config, $q, $http) ->
         @getUnreadMessages: (userId) ->
             deferred = $q.defer();
 
-            $http.get(config.api + @::model + '/unread')
+            $http.get(config.api + @::model + '/unread', {timeout: requestTimeout})
             .success(
                 (response) =>
                     result = {};
