@@ -77,7 +77,7 @@ CoreModule.factory 'Auth', ($http, $q, $state, $httpParamSerializerJQLike, Stora
         # регистрация
         register : (params) ->
             deferred = $q.defer();
-            $http.post(@url.register, params, {headers: @headers})
+            $http.post(@url.register, $httpParamSerializerJQLike(params), {headers: @headers})
             .success((response) =>
                 @_setSession(response);
                 deferred.resolve(@session);

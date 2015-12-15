@@ -10,6 +10,11 @@ CoreModule.controller 'AuthController', ($scope, $rootScope, $state, $stateParam
     $scope.accountNick =
         nickname : null
 
+    $scope.regAccount =
+        login   : null
+        nickname: null
+        password: null
+
     $scope.loginNick = () ->
         Auth.loginNick($scope.accountNick).then(
             (session) ->
@@ -28,7 +33,7 @@ CoreModule.controller 'AuthController', ($scope, $rootScope, $state, $stateParam
                 $scope.account =
                     username : null
                     password : null
-                $state.transitionTo($state.current, $stateParams,{reload: true});
+                $state.transitionTo('home.rooms', $stateParams,{reload: true});
             (error) ->
                 if error.result == 401
                     $scope.loginErrors.custom = {id: 'auth', message: 'Неправильный логин или пароль.'};
@@ -40,18 +45,17 @@ CoreModule.controller 'AuthController', ($scope, $rootScope, $state, $stateParam
         Auth.logout();
         $state.transitionTo($state.current, $stateParams,{reload: true});
 
-#
-#    $scope.registration = () ->
-#        $scope.error = false;
-#        $scope.account.login = $scope.account.phone;
-#        delete $scope.account.password;
-#        Auth.registerSms($scope.account).then(
-#            (success) ->
-#                console.log(success);
-#                $scope.registered = true;
-#
-#            (error) ->
-#                $scope.error = error;
-#                console.log(error);
-#        )
+
+    $scope.register = () ->
+        Auth.register($scope.regAccount).then(
+            (success) ->
+                $scope.regAccount =
+                    login   : null
+                    nickname: null
+                    password: null
+                $state.transitionTo('home.rooms', $stateParams,{reload: true});
+            (error) ->
+                $scope.error = error;
+                console.log(error);
+        )
 

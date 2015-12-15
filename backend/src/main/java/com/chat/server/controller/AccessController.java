@@ -81,11 +81,11 @@ public class AccessController {
      */
     @RequestMapping(value = "/api/access/register", method = RequestMethod.POST)
     @ResponseBody
-    public TokenResponse registerUserGenerateToken(@RequestParam("login") String login, @RequestParam("password") String password) {
+    public TokenResponse registerUserGenerateToken(@RequestParam("login") String login, @RequestParam("nickname") String nickname,@RequestParam("password") String password) {
         Role roleUser = roleService.findOne( ROLE_USER_ID );
         List<Role> roles = new ArrayList<>();
         roles.add(roleUser);
-        User user = new User( login, password, login, roles );
+        User user = new User( login, password, nickname, roles );
         userService.create( user );
         return accessService.authenticate( user.getLogin(), user.getPassword() );
     }
