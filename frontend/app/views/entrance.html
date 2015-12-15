@@ -1,0 +1,68 @@
+<div class="container">
+    <div class="bs-component">
+        <ul class="nav nav-tabs" style="margin-bottom: 15px;">
+            <li class="active"><a href="#login-panel" data-toggle="tab" aria-expanded="false">Войти<div class="ripple-container"></div></a></li>
+            <li><a href="#loginNick-panel" data-toggle="tab" aria-expanded="true">Войти без регистрации<div class="ripple-container"></div></a></li>
+            <li><a href="#registration-panel" data-toggle="tab" aria-expanded="true">Зарегистрироваться<div class="ripple-container"></div></a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane fade active in" id="login-panel">
+                <form class="form-horizontal" id="form-signin" role="form" style="width:300px;margin: 0 auto;">
+                    <h3 class="form-signin-heading">Введите логин и пароль</h3>
+                    <div class="form-group">
+                        <input type="email" name="login" class="form-control" placeholder="Логин" required ng-model="account.username">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" name="password" class="form-control" placeholder="Пароль" required ng-model="account.password">
+                    </div>
+                    <div class="form-group">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" ng-model="account.remember" ng-true-value="true" ng-false-value="false"/>
+                                <span class="checkbox-material">
+                                    <span class="check"></span>
+                                </span>
+                                Запомнить
+                            </label>
+                        </div>
+                    </div>
+                    <button class="btn btn-block btn-primary btn-raised" type="submit" ng-click="login()" ng-disabled="form-signin.$invalid">
+                        Войти
+                    </button>
+                </form>
+            </div>
+            <div class="tab-pane fade" id="loginNick-panel">
+                <form class="form-horizontal" id="form-signin-nick" role="form" style="width:300px;margin: 0 auto;">
+                    <h3 class="form-signin-heading">Введите псевдоним</h3>
+                    <div class="form-group">
+                        <input type="email" name="login" class="form-control" placeholder="Псевдоним" required ng-model="accountNick.nickname">
+                    </div>
+
+                    <button class="btn btn-block btn-primary btn-raised" type="submit" ng-click="loginNick()" ng-disabled="form-signin-nick.$invalid">
+                        Войти
+                    </button>
+                </form>
+            </div>
+            <div class="tab-pane fade" id="registration-panel">
+                <form class="form-horizontal" id="form-register" role="form" style="width:300px;margin: 0 auto;">
+                    <h3 class="form-signin-heading">Зарегистрируйтесь</h3>
+                    <div class="form-group">
+                        <input type="email" name="login" class="form-control" placeholder="Логин" required ng-model="regAccount.login">
+                    </div>
+                    <div class="form-group">
+                        <input type="email" name="login" class="form-control" placeholder="Псевдоним" required ng-model="regAccount.nickname">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" name="password" class="form-control" placeholder="Пароль" required ng-model="regAccount.password">
+                    </div>
+                    <button class="btn btn-block btn-primary btn-raised" type="submit" ng-click="register()" ng-disabled="form-register.$invalid">
+                        Войти
+                    </button>
+                </form>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+

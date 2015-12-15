@@ -7,11 +7,11 @@ CoreModule.config [ '$stateProvider', '$locationProvider', '$urlRouterProvider',
             $locationProvider.hashPrefix('!');
 
             $stateProvider
-            .state('registration',
-                name       : 'registration'
-                url        : '/registration'
+            .state('entrance',
+                name       : 'entrance'
+                url        : '/entrance'
                 controller : 'AuthController'
-                templateUrl: '/app/views/registration.html'
+                templateUrl: '/app/views/entrance.html'
                 anonymous  : true
             )
             .state('home',
@@ -101,7 +101,7 @@ CoreModule.run(($rootScope, $state) ->
     $rootScope.$on('$stateChangeError', (event, toState, toParams, fromState, fromParams, error) ->
         console.log(error);
         if error.status == 401
-            $state.transitionTo('home.rooms', {}, {reload: true});
+            $state.transitionTo('entrance', {}, {reload: true});
 
         if error.status == 403
 #           отправить на домашнюю страницу, сообщить через Notification, что доступ запрещен

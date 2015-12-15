@@ -6,21 +6,24 @@
     <!--<title>Чат с AngularJS и Java Spring</title>-->
     <title>Безымянный</title>
     <link rel="stylesheet" href="vendors/bootstrap/dist/css/bootstrap.css"/>
-    <link rel="stylesheet" href="vendors/material-design-lite/material.min.css"
+    <link rel="stylesheet" href="vendors/bootstrap-material-design/dist/css/bootstrap-material-design.min.css"/>
     <link rel="stylesheet" href="styles/css/main.css"/>
 </head>
 <body  ng-controller="AuthController">
 
-    <div ui-view></div>
+    <md-content>
+        <div ui-view></div>
+    </md-content>
 
     <!-- скрипты -->
     <script type="text/javascript" src="vendors/jquery/dist/jquery.js"></script>
     <script type="text/javascript" src="vendors/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="vendors/material-design-lite/material.min.js"></script>
+    <link rel="stylesheet" href="vendors/bootstrap-material-design/dist/js/material.min.js"/>
 
     <script type="text/javascript" src="vendors/angular/angular.min.js"></script>
     <script type="text/javascript" src="vendors/angular-i18n/angular-locale_ru-ru.js"></script>
     <script type="text/javascript" src="vendors/ui-router/release/angular-ui-router.min.js"></script>
+
 
     <script type="text/javascript" src="app/CoreModule.js"></script>
     <script type="text/javascript" src="app/services/AuthService.js"></script>
@@ -39,5 +42,6 @@
     <script type="text/javascript" src="app/controllers/RoomsController.js"></script>
     <script type="text/javascript" src="app/controllers/InvitationsController.js"></script>
     <script type="text/javascript" src="app/config.js"></script>
+
 </body>
 </html>

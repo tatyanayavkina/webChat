@@ -1,0 +1,14 @@
+<div class="third-part">
+    <div class="third-part-header">
+        <span>Приглашения</span>
+    </div>
+    <div class="third-part-inner">
+        <ul>
+            <li ng-repeat="invitation in invitations">
+                {{ invitation.room.name }}
+                <button class="btn btn-primary" ng-click="accept(invitation)"><span class="glyphicon glyphicon-ok">Принять</span></button>
+                <button class="btn btn-default" ng-click="reject(invitation)"><span class="glyphicon glyphicon-trash">Отклонить</span></button>
+            </li>
+        </ul>
+    </div>
+</div>
