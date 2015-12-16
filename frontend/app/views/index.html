@@ -4,8 +4,7 @@
             <div class="navbar-header">
                 <a class="navbar-brand" href="javascript:void(0);">WebChat</a>
             </div>
-            <!--<div class="navbar-collapse collapse" ng-if="auth.isLoggedIn()">-->
-            <div class="navbar-collapse collapse">
+            <div class="navbar-collapse collapse" ng-if="auth.isLoggedIn()">
                 <ul class="nav navbar-nav">
                     <li ng-class="{'active': state.current.name == 'home.rooms'}">
                         <a ui-sref="home.rooms">Комнаты</a>
@@ -19,7 +18,7 @@
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <button type="button" class="btn btn-primary"><i class="material-icons">face</i>{{ session.user.nickname }}</button>
+                        <button type="button" class="btn btn-primary"><i class="material-icons">face</i>{{ auth.session.user.nickname }}</button>
                         <button type="button" class="btn btn-primary" ng-click="logout()"><i class="material-icons">forward</i></button>
                     </li>
                 </ul>
@@ -44,9 +43,9 @@
             <div class="col-md-5 col-lg-5">
                 <div class="selected-room-container-wrapper">
                     <div class="selected-room-header" ng-if="currentRoom">
-                        <span class="glyphicon glyphicon-share" title="Exit" ng-if="room.owner.id!=auth.session.user.id" data-toggle="modal" data-target="#leaveRoom"></span>
+                        <i class="material-icons cursor-pointer" ng-if="room.owner.id!=auth.session.user.id" data-toggle="modal" data-target="#leaveRoom">subdirectory_arrow_right</i>
                         <span>{{ currentRoom.name }}</span>
-                        <span class="pull-right glyphicon glyphicon-edit" title="Edit" ng-if="currentRoom.owner.id==auth.session.user.id" ui-sref="home.rooms-update({roomID: currentRoom.id})"></span>
+                        <i class="material-icons cursor-pointer" ng-if="currentRoom.owner.id==auth.session.user.id" ui-sref="home.rooms-update({roomID: currentRoom.id})">edit</i>
                     </div>
                     <div class="selected-room-container" ng-if="currentRoom">
                         <div class="selected-room-container-messages">
@@ -64,9 +63,12 @@
                         <div class="selected-room-form">
                             <form role="form">
                                 <div class="form-group">
-                                    <textarea class="form-control" name="newMessage" ng-model="roomMessages[currentRoom.id].message.content" rows="8" style="resize: none;" autofocus="true"></textarea>
+                                    <label for="newMessage" class="col-md-2 col-sm-2 control-label">Сообщение</label>
+                                    <div class="col-sm-10 col-md-10">
+                                        <textarea class="form-control" id="newMessage" name="newMessage" ng-model="roomMessages[currentRoom.id].message.content" rows="6" style="resize: none;" autofocus="true"></textarea>
+                                    </div>
                                 </div>
-                                <button type="submit" class="btn btn-primary pull-right" ng-click="send()">Send</button>
+                                <button type="submit" class="btn btn-primary pull-right" ng-click="send()">Отправить</button>
                             </form>
                         </div>
                     </div>

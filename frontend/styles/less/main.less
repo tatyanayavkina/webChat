@@ -20,6 +20,10 @@ body{
     background-color: lighten(@color-primary, 70%);
 }
 
+.cursor-pointer{
+    cursor: pointer;
+}
+
 // sidebar со списком комнат
 .rooms-container{
     width           : 100%;
@@ -48,18 +52,18 @@ body{
         & li.rooms-list-item{
             padding      : 12px;
 
-            border-bottom: 1px dashed lighten(@color-primary, 40%);
+            border-bottom: 1px dashed lighten(@color-primary, 60%);
 
             overflow-x   : hidden;
 
             &.active{
-                background-color: lighten(@color-primary, 40%);
+                background-color: lighten(@color-primary, 60%);
             }
         }
 
         & li.rooms-list-item:hover{
             cursor: default;
-            background-color: lighten(@color-primary, 30%);
+            background-color: lighten(@color-primary, 50%);
         }
     }
 }
@@ -113,6 +117,11 @@ body{
     }
 
     &-inner{
-        padding: 24px;
+        padding: 12px;
     }
+
+}
+
+.form-tabs .active{
+    background-color: lighten(@color-primary, 10%);
 }

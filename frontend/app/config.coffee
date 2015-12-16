@@ -93,7 +93,7 @@ CoreModule.config [ '$stateProvider', '$locationProvider', '$urlRouterProvider',
                             $q.when(null);
             )
 
-            $urlRouterProvider.when('/', '/rooms');
+            $urlRouterProvider.when('/', '/entrance');
 
 ];
 

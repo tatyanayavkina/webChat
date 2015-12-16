@@ -3,10 +3,12 @@
         <span>Открытые комнаты</span>
     </div>
     <div class="third-part-inner">
-        <ul>
+        <ul style="list-style:none;">
             <li ng-repeat="room in openRooms">
-                <span>{{ room.name }}</span>
-                <span><button type="button" class="btn btn-primary" ng-click="joinRoom(room)">Вступить</button></span>
+                <span class="cursor-pointer" ng-click="joinRoom(room)">
+                    <i class="material-icons">people</i>
+                    {{ room.name }}
+                </span>
             </li>
         </ul>
     </div>

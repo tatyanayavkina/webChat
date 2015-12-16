@@ -29,7 +29,6 @@ CoreModule.controller 'AuthController', ($scope, $rootScope, $state, $stateParam
         $scope.loginErrors = {};
         Auth.login($scope.account).then(
             (session) ->
-                console.log('session', session);
                 $scope.account =
                     username : null
                     password : null
@@ -43,7 +42,7 @@ CoreModule.controller 'AuthController', ($scope, $rootScope, $state, $stateParam
 
     $scope.logout = () ->
         Auth.logout();
-        $state.transitionTo($state.current, $stateParams,{reload: true});
+        $state.transitionTo('entrance', $stateParams,{reload: true});
 
 
     $scope.register = () ->
