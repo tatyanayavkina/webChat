@@ -3,6 +3,7 @@
 'use strict';
 
 CoreModule.controller 'MainController', ($scope, $rootScope, $state, $stateParams, Auth, MessagesModel, session, rooms) ->
+    $scope.state = $state
     $scope.auth = Auth;
     $scope.rooms = rooms;
     $scope.roomMessages = {};
