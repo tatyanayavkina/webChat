@@ -1,9 +1,6 @@
 package com.chat.server.utils;
 
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.Executors;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.*;
 
 /**
  * Created on 08.12.2015.
@@ -16,7 +13,7 @@ public class SingleThreadTaskExecutor {
 
     private SingleThreadTaskExecutor(){
         this.queue = new LinkedBlockingQueue<>();
-        this.threadPoolExecutor = (ThreadPoolExecutor) Executors.newSingleThreadExecutor();
+        this.threadPoolExecutor = new ThreadPoolExecutor(1, 1, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>());
         this.taskAdded = new Object();
     }
 
@@ -38,9 +35,14 @@ public class SingleThreadTaskExecutor {
     public void execute(){
         try{
             while( true ){
-                Runnable task = queue.take();
+                Runnable task = null;
+                if ( !queue.isEmpty() ){
+                    task = queue.take();
+                }
                 if ( task == null ){
-                    taskAdded.wait();
+                    synchronized ( taskAdded ){
+                        taskAdded.wait();
+                    }
                     continue;
                 }
                 threadPoolExecutor.execute( task );

@@ -3,11 +3,23 @@
         <span>Приглашения</span>
     </div>
     <div class="third-part-inner">
-        <ul>
+        <ul style="list-style:none;">
             <li ng-repeat="invitation in invitations">
-                {{ invitation.room.name }}
-                <button class="btn btn-primary" ng-click="accept(invitation)"><span class="glyphicon glyphicon-ok">Принять</span></button>
-                <button class="btn btn-default" ng-click="reject(invitation)"><span class="glyphicon glyphicon-trash">Отклонить</span></button>
+                <div class="row">
+                    <div class="col-md-7 col-sm-7">
+                        {{ invitation.room.name }}
+                    </div>
+                    <div class="col-md-2 col-sm-2">
+                        <button class="btn btn-primary btn-fab btn-fab-mini" ng-click="accept(invitation)">
+                            <i class="material-icons">check_circle</i>
+                        </button>
+                    </div>
+                    <div class="col-md-2 col-sm-2">
+                        <button class="btn btn-danger btn-fab btn-fab-mini" ng-click="reject(invitation)">
+                            <i class="material-icons">delete</i>
+                        </button>
+                    </div>
+                </div>
             </li>
         </ul>
     </div>

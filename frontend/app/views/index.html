@@ -51,9 +51,12 @@
                         <div class="selected-room-container-messages">
                             <div ng-repeat="message in roomMessages[currentRoom.id].messages| orderBy:'creationTime'">
                                 <div>
-                                    <span>{{ message.user.nickname }}</span>
-                                    <span>----</span>
-                                    <span>{{ message.creationTime| date:'dd.MM.yyyy HH:mm:ss' }}</span>
+                                    <div>
+                                        <strong>
+                                            {{ message.user.nickname }}
+                                        </strong>
+                                        <span>{{ message.creationTime| date:'dd.MM.yyyy HH:mm:ss' }}</span>
+                                    </div>
                                 </div>
                                 <div>
                                     {{ message.content }}
