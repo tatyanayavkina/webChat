@@ -51,7 +51,7 @@ public class MessageController {
         List<Request> requests = requestService.findAllByRoomId( message.getRoom().getId() );
         if ( requests != null ){
             requestService.deleteByUserIds(requests);
-            SingleThreadTaskExecutor.getInstance().add( new MessageTask( message, requests ) );
+            SingleThreadTaskExecutor.getInstance().add( new MessageTask(message, requests) );
         }
 
         return new ResponseEntity(message, HttpStatus.OK);

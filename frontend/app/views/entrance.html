@@ -7,10 +7,11 @@
         </ul>
         <div class="tab-content">
             <div class="tab-pane fade active in" id="login-panel">
-                <form class="form-horizontal" id="form-signin" role="form" style="width:300px;margin: 0 auto;">
+                <form class="form-horizontal" id="formSignin" role="form" style="width:300px;margin: 0 auto;">
                     <h3 class="form-signin-heading">Введите логин и пароль</h3>
+                    <div class="error" ng-if="loginError">{{ loginError }}</div>
                     <div class="form-group">
-                        <input type="email" name="login" class="form-control" placeholder="Логин" required ng-model="account.username">
+                        <input type="text" name="login" class="form-control" placeholder="Логин" required ng-model="account.username">
                     </div>
                     <div class="form-group">
                         <input type="password" name="password" class="form-control" placeholder="Пароль" required ng-model="account.password">
@@ -26,37 +27,37 @@
                             </label>
                         </div>
                     </div>
-                    <button class="btn btn-block btn-primary btn-raised" type="submit" ng-click="login()" ng-disabled="form-signin.$invalid">
+                    <button class="btn btn-block btn-primary btn-raised" type="submit" ng-click="login()" ng-disabled="formSignin.$invalid">
                         Войти
                     </button>
                 </form>
             </div>
             <div class="tab-pane fade" id="loginNick-panel">
-                <form class="form-horizontal" id="form-signin-nick" role="form" style="width:300px;margin: 0 auto;">
+                <form class="form-horizontal" id="formSigninNick" role="form" style="width:300px;margin: 0 auto;">
                     <h3 class="form-signin-heading">Введите псевдоним</h3>
                     <div class="form-group">
                         <input type="email" name="login" class="form-control" placeholder="Псевдоним" required ng-model="accountNick.nickname">
                     </div>
 
-                    <button class="btn btn-block btn-primary btn-raised" type="submit" ng-click="loginNick()" ng-disabled="form-signin-nick.$invalid">
+                    <button class="btn btn-block btn-primary btn-raised" type="submit" ng-click="loginNick()" ng-disabled="formSigninNick.$invalid">
                         Войти
                     </button>
                 </form>
             </div>
             <div class="tab-pane fade" id="registration-panel">
-                <form class="form-horizontal" id="form-register" role="form" style="width:300px;margin: 0 auto;">
+                <form class="form-horizontal" id="formRegister" role="form" style="width:300px;margin: 0 auto;">
                     <h3 class="form-signin-heading">Зарегистрируйтесь</h3>
                     <div class="form-group">
                         <input type="email" name="login" class="form-control" placeholder="Логин" required ng-model="regAccount.login">
                     </div>
                     <div class="form-group">
-                        <input type="email" name="login" class="form-control" placeholder="Псевдоним" required ng-model="regAccount.nickname">
+                        <input type="text" name="nickname" class="form-control" placeholder="Псевдоним" required ng-model="regAccount.nickname">
                     </div>
                     <div class="form-group">
                         <input type="password" name="password" class="form-control" placeholder="Пароль" required ng-model="regAccount.password">
                     </div>
-                    <button class="btn btn-block btn-primary btn-raised" type="submit" ng-click="register()" ng-disabled="form-register.$invalid">
-                        Войти
+                    <button class="btn btn-block btn-primary btn-raised" type="submit" ng-click="register()" ng-disabled="formRegister.$invalid">
+                        Зарегистрироваться
                     </button>
                 </form>
             </div>

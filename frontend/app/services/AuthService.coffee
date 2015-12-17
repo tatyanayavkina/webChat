@@ -96,7 +96,7 @@ CoreModule.factory 'Auth', ($http, $q, $state, $httpParamSerializerJQLike, Stora
                 deferred.resolve(@session);
             )
             .error((error) ->
-                deferred.reject(error);
+                deferred.reject({status: 401});
             );
             deferred.promise;
 
@@ -109,7 +109,7 @@ CoreModule.factory 'Auth', ($http, $q, $state, $httpParamSerializerJQLike, Stora
                 deferred.resolve(@session);
             )
             .error((error) ->
-                deferred.reject(error);
+                deferred.reject({status: 401});
             );
             deferred.promise;
 

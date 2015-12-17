@@ -26,7 +26,7 @@ CoreModule.controller 'AuthController', ($scope, $rootScope, $state, $stateParam
         )
 
     $scope.login = () ->
-        $scope.loginErrors = {};
+        $scope.loginError = "";
         Auth.login($scope.account).then(
             (session) ->
                 $scope.account =
@@ -34,10 +34,10 @@ CoreModule.controller 'AuthController', ($scope, $rootScope, $state, $stateParam
                     password : null
                 $state.transitionTo('home.rooms', $stateParams,{reload: true});
             (error) ->
-                if error.result == 401
-                    $scope.loginErrors.custom = {id: 'auth', message: 'Неправильный логин или пароль.'};
+                if error.status == 401
+                    $scope.loginError = 'Неправильный логин или пароль';
                 else
-                    $scope.loginErrors.custom = {id: 'serverError', message: 'Ошибка сервера'};
+                    $scope.loginError = 'Ошибка сервера';
         )
 
     $scope.logout = () ->
