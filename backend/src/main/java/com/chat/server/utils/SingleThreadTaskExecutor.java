@@ -8,12 +8,12 @@ import java.util.concurrent.*;
 public class SingleThreadTaskExecutor {
     private static SingleThreadTaskExecutor instance;
     private BlockingQueue<Runnable> queue;
-    private ThreadPoolExecutor threadPoolExecutor;
+    private MessageThread messageThread;
     private final Object taskAdded;
 
     private SingleThreadTaskExecutor(){
         this.queue = new LinkedBlockingQueue<>();
-        this.threadPoolExecutor = new ThreadPoolExecutor(1, 1, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>());
+        this.messageThread = new MessageThread();
         this.taskAdded = new Object();
     }
 
@@ -32,24 +32,30 @@ public class SingleThreadTaskExecutor {
         }
     }
 
-    public void execute(){
-        try{
-            while( true ){
-                Runnable task = null;
-                if ( !queue.isEmpty() ){
-                    task = queue.take();
-                }
-                if ( task == null ){
-                    synchronized ( taskAdded ){
-                        taskAdded.wait();
-                    }
-                    continue;
-                }
-                threadPoolExecutor.execute( task );
-            }
-        } catch (InterruptedException e){
-            System.out.println("Exception... in SingleThreadTaskExecutor");
-        }
+    private void execute(){
+        messageThread.start();
+    }
 
+    private class MessageThread extends Thread {
+
+        public void run(){
+            try{
+                while( true ){
+                    Runnable task = null;
+                    if ( !queue.isEmpty() ){
+                        task = queue.take();
+                    }
+                    if ( task == null ){
+                        synchronized ( taskAdded ){
+                            taskAdded.wait();
+                        }
+                        continue;
+                    }
+                    task.run();
+                }
+            } catch (InterruptedException e){
+                System.out.println("Exception... in SingleThreadTaskExecutor");
+            }
+        }
     }
 }
