@@ -26,7 +26,7 @@ public class SingleThreadTaskExecutor {
     }
 
     public void add(Runnable task){
-        queue.add(task);
+        queue.add( task );
         synchronized ( taskAdded ){
             taskAdded.notify();
         }
