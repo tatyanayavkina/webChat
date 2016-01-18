@@ -7,7 +7,7 @@ import com.chat.server.oauth2.service.AccessService;
 import com.chat.server.service.MessageService;
 import com.chat.server.service.RequestService;
 import com.chat.server.service.UserService;
-import com.chat.server.utils.SingleThreadTaskExecutor;
+import com.chat.server.utils.TaskExecutor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -51,7 +51,7 @@ public class MessageController {
         List<Request> requests = requestService.findAllByRoomId( message.getRoom().getId() );
         if ( requests != null ){
             requestService.deleteByUserIds(requests);
-            SingleThreadTaskExecutor.getInstance().add( new MessageTask(message, requests) );
+            TaskExecutor.getInstance().add( new MessageTask(message, requests) );
         }
 
         return new ResponseEntity(message, HttpStatus.OK);

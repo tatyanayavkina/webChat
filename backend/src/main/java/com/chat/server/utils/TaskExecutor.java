@@ -5,21 +5,21 @@ import java.util.concurrent.*;
 /**
  * Created on 08.12.2015.
  */
-public class SingleThreadTaskExecutor {
-    private static SingleThreadTaskExecutor instance;
+public class TaskExecutor {
+    private static TaskExecutor instance;
     private BlockingQueue<Runnable> queue;
     private MessageThread messageThread;
     private final Object taskAdded;
 
-    private SingleThreadTaskExecutor(){
+    private TaskExecutor(){
         this.queue = new LinkedBlockingQueue<>();
         this.messageThread = new MessageThread();
         this.taskAdded = new Object();
     }
 
-    public static SingleThreadTaskExecutor getInstance(){
+    public static TaskExecutor getInstance(){
         if ( instance == null ){
-            instance = new SingleThreadTaskExecutor();
+            instance = new TaskExecutor();
             instance.execute();
         }
         return instance;
@@ -54,7 +54,7 @@ public class SingleThreadTaskExecutor {
                     task.run();
                 }
             } catch (InterruptedException e){
-                System.out.println("Exception... in SingleThreadTaskExecutor");
+                System.out.println("Exception... in TaskExecutor");
             }
         }
     }

@@ -2,7 +2,7 @@
 
 'use strict';
 
-CoreModule.controller 'MainController', ($scope, $rootScope, $state, $stateParams, Auth, MessagesModel, session, rooms) ->
+CoreModule.controller 'MainController', ($scope, $rootScope, $state, $stateParams, Auth, Message, MessagesModel, session, rooms) ->
     $scope.state = $state
     $scope.auth = Auth;
     $scope.rooms = rooms;
@@ -26,20 +26,21 @@ CoreModule.controller 'MainController', ($scope, $rootScope, $state, $stateParam
 #                $scope.getUnreadMessages(session.user.id);
         )
 
+    $scope.selectRoom = (room) ->
+        $scope.currentRoom = room;
+        # автоскрол
+        Message.scrollBottom();
+
 
     # в качестве открытой комнаты берем первую из списка
     if $scope.rooms && $scope.rooms.length > 0
-        $scope.currentRoom = $scope.rooms[0];
+        $scope.selectRoom($scope.rooms[0]);
         angular.forEach($scope.rooms, (room, index) ->
             $scope.roomMessages[room.id] = {};
             $scope.roomMessages[room.id].messages = [];
             $scope.createMessage(room.id);
         )
         $scope.getUnreadMessages();
-
-
-    $scope.selectRoom = (room) ->
-        $scope.currentRoom = room;
 
     $scope.leaveRoom = () ->
         if !$scope.currentRoom
@@ -100,6 +101,8 @@ CoreModule.controller 'MainController', ($scope, $rootScope, $state, $stateParam
                    $scope.createMessage(id);
                    if !$scope.roomMessages[id].messages then $scope.roomMessages[id].messages = [];
                    $scope.roomMessages[id].messages.push(message);
+                   # автоскрол
+                   Message.scrollBottom();
                (error) ->
                    console.log('error in save message', error);
             )

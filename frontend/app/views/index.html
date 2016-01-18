@@ -52,7 +52,7 @@
                         <i class="material-icons cursor-pointer" ng-if="currentRoom.owner.id==auth.session.user.id" ui-sref="home.rooms-update({roomID: currentRoom.id})">edit</i>
                     </div>
                     <div class="selected-room-container" ng-if="currentRoom">
-                        <div class="selected-room-container-messages">
+                        <div class="selected-room-container-messages" scroll-bottom>
                             <div class="message-wrapper" ng-repeat="message in roomMessages[currentRoom.id].messages| orderBy:'creationTime'">
                                 <div class="message-info">
                                     <strong>
@@ -68,10 +68,8 @@
                         <div class="selected-room-form">
                             <form role="form">
                                 <div class="form-group">
-                                    <label for="newMessage" class="col-md-2 col-sm-2 control-label">Сообщение</label>
-                                    <div class="col-sm-10 col-md-10">
-                                        <textarea class="form-control" id="newMessage" name="newMessage" ng-model="roomMessages[currentRoom.id].message.content" rows="6" style="resize: none;" autofocus="true"></textarea>
-                                    </div>
+                                    <label for="newMessage" class="control-label">Сообщение</label>
+                                    <textarea class="form-control" id="newMessage" name="newMessage" ng-model="roomMessages[currentRoom.id].message.content" rows="4" style="resize:none;" autofocus="true"></textarea>
                                 </div>
                                 <button type="submit" class="btn btn-primary pull-right" ng-click="send()">Отправить</button>
                             </form>
