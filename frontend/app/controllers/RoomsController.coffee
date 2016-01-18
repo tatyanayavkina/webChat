@@ -2,7 +2,7 @@
 
 'use strict';
 
-CoreModule.controller 'RoomsController', ($scope, $rootScope, $state, $stateParams, RoomsModel, InvitationsModel, session, room, openRooms) ->
+CoreModule.controller 'RoomsController', ($scope, $rootScope, $state, $stateParams, RoomsModel, Notification, InvitationsModel, session, room, openRooms) ->
     $scope.room = room;
     $scope.roomModel = RoomsModel;
     $scope.openRooms = openRooms;
@@ -45,10 +45,10 @@ CoreModule.controller 'RoomsController', ($scope, $rootScope, $state, $statePara
                 if isNewRecord
                     $scope.$emit('user:createRoom', {room: $scope.room});
                     $state.transitionTo('home.rooms-update', {roomID: room.id});
-#                Notification.show('Комната успешно сохранена')
+                Notification.show('Комната успешно сохранена')
             (error) ->
                 console.log(error);
-#                Notification.show('Произошла ошибка')
+                Notification.show('Произошла ошибка')
 
         );
 
@@ -63,7 +63,6 @@ CoreModule.controller 'RoomsController', ($scope, $rootScope, $state, $statePara
         )
 
     $scope.removeUsers = () ->
-        console.log('usersToRemove', $scope.usersToRemove);
         $scope.room.removeUsers($scope.usersToRemove).then(
             (success) ->
                 angular.forEach($scope.usersToRemove, (userToRemove) ->
@@ -77,22 +76,23 @@ CoreModule.controller 'RoomsController', ($scope, $rootScope, $state, $statePara
                 console.log('success in removeUsers', success);
             (error) ->
                 console.log('error in removeUsers', error);
-#                Notification.show('Произошла ошибка')
+                Notification.show('Произошла ошибка')
         )
 
     $scope.addNewUserToInvite = () ->
         $scope.usersToInvite.push({login: ''});
 
     $scope.inviteUsers = () ->
-        console.log('usersToInvite', $scope.usersToInvite);
         InvitationsModel.send($scope.room.id, $scope.usersToInvite).then(
-            (success) ->
-                console.log('sendInvitations -- success-', success);
+            (result) ->
+                console.log('sendInvitations -- success-', result);
                 $scope.usersToInvite = [];
-#                Notification.show('Приглашения отправлены')
+                Notification.show('Приглашения отправлены: ' + result.invitedUsers.length +
+                    ', уже в комнате: ' + result.alreadyInRoomUsers.length +
+                    ', уже приглашены: ' + result.alreadyInvitedUsers.length);
             (error) ->
                 console.log('sendInvitations=',error);
-#                Notification.show('Произошла ошибка')
+                Notification.show('Произошла ошибка')
         )
 
 

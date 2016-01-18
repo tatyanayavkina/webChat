@@ -10,9 +10,14 @@ CoreModule.controller 'MainController', ($scope, $rootScope, $state, $stateParam
 
     # создает объект для сущности сообщения
     $scope.createMessage = (id) ->
-        $scope.roomMessages[id].message = new MessagesModel();
-        $scope.roomMessages[id].message.user = session.user;
-        $scope.roomMessages[id].message.room = $scope.currentRoom;
+        room = null;
+        angular.forEach($scope.rooms, (item) ->
+            if item.id == id then room = item;
+        )
+        if room
+            $scope.roomMessages[id].message = new MessagesModel();
+            $scope.roomMessages[id].message.user = session.user;
+            $scope.roomMessages[id].message.room = room;
 
     $scope.getUnreadMessages = () ->
         MessagesModel.getUnreadMessages(session.user.id).then(
@@ -30,6 +35,7 @@ CoreModule.controller 'MainController', ($scope, $rootScope, $state, $stateParam
         $scope.currentRoom = room;
         # автоскрол
         Message.scrollBottom();
+        Message.setFocus();
 
 
     # в качестве открытой комнаты берем первую из списка
@@ -74,7 +80,11 @@ CoreModule.controller 'MainController', ($scope, $rootScope, $state, $stateParam
 
     # пользователь создал комнату
     $scope.$on('user:createRoom', (event, data) ->
-        $scope.rooms.push(data.room);
+        room = data.room;
+        $scope.rooms.push(room);
+        $scope.roomMessages[room.id] = {};
+        $scope.roomMessages[room.id].messages = messages.reverse();
+        $scope.createMessage(room.id);
     )
 
     # пользователь удалил комнату
@@ -103,6 +113,7 @@ CoreModule.controller 'MainController', ($scope, $rootScope, $state, $stateParam
                    $scope.roomMessages[id].messages.push(message);
                    # автоскрол
                    Message.scrollBottom();
+                   Message.setFocus();
                (error) ->
                    console.log('error in save message', error);
             )

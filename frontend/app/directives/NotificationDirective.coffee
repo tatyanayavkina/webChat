@@ -1,13 +1,13 @@
 'use strict';
 
-CoreModule.directive 'notification', ($http, $compile) ->
+CoreModule.directive 'notification', ($http, $compile, $timeout) ->
     restrict: 'E'
     link    : (scope, element, attributes) ->
 
         scope.loadTemplate = (type) ->
             templates =
-                notification: '/common/directives/templates/notification.html'
-                confirm     : '/common/directives/templates/confirm.html'
+                notification: '/app/directives/templates/notification.html'
+                confirm     : '/app/directives/templates/confirm.html'
 
             $http.get(templates[type]);
 
@@ -16,8 +16,14 @@ CoreModule.directive 'notification', ($http, $compile) ->
             
             notification = $compile(template)(scope);
             $('body').append(notification);
-            notification[0].show();
+            notice = $('.notice-wrapper')
+            notice.show(400);
 
+            if data.type == 'notification'
+                $timeout(
+                    () -> notice.hide();
+                    3000
+                );
 
         scope.$on('message:show', (event, data) ->
             scope.loadTemplate(data.type).success((template) ->

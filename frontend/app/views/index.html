@@ -47,7 +47,7 @@
             <div class="col-md-5 col-lg-5">
                 <div class="selected-room-container-wrapper">
                     <div class="selected-room-header" ng-if="currentRoom">
-                        <i class="material-icons cursor-pointer" ng-if="room.owner.id!=auth.session.user.id" data-toggle="modal" data-target="#leaveRoom">subdirectory_arrow_right</i>
+                        <i class="material-icons cursor-pointer" ng-if="currentRoom.owner.id!=auth.session.user.id" data-toggle="modal" data-target="#leaveRoom">subdirectory_arrow_right</i>
                         <span>{{ currentRoom.name }}</span>
                         <i class="material-icons cursor-pointer" ng-if="currentRoom.owner.id==auth.session.user.id" ui-sref="home.rooms-update({roomID: currentRoom.id})">edit</i>
                     </div>
@@ -69,7 +69,15 @@
                             <form role="form">
                                 <div class="form-group">
                                     <label for="newMessage" class="control-label">Сообщение</label>
-                                    <textarea class="form-control" id="newMessage" name="newMessage" ng-model="roomMessages[currentRoom.id].message.content" rows="4" style="resize:none;" autofocus="true"></textarea>
+                                    <textarea class="form-control"
+                                              id="newMessage"
+                                              name="newMessage"
+                                              ng-model="roomMessages[currentRoom.id].message.content"
+                                              rows="4"
+                                              style="resize:none;"
+                                              focus
+                                              autofocus="true">
+                                    </textarea>
                                 </div>
                                 <button type="submit" class="btn btn-primary pull-right" ng-click="send()">Отправить</button>
                             </form>

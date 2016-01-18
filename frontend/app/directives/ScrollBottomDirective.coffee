@@ -6,5 +6,5 @@ CoreModule.directive 'scrollBottom', ($rootScope) ->
 
         $rootScope.$on('message:scrollBottom', (event, data) ->
             element.scrollTop(element[0].scrollHeight);
-            console.log('scrollBottom', element[0].scrollHeight);
+            return;
         )
