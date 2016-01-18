@@ -39,8 +39,6 @@ public class InvitationController {
 
     private static final Logger logger = Logger.getLogger(InvitationController.class);
 
-    // todo: возможно будет эффективнее не заправшивать всех пользователй комнаты,
-    // чтобы не высылать приглашения
     /**
      * Create invitations to join the room. Only room owner can do this request
      * @param roomId

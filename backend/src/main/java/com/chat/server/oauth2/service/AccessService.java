@@ -12,6 +12,7 @@ public interface AccessService {
     TokenResponse refresh(String token);
     void checkToken(String token);
     void logout();
+    void tokenLogout(String token);
     UserResource getCurrentUser();
 //    UserDetails currentUser();
 }

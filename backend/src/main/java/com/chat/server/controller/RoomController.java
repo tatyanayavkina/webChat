@@ -74,7 +74,6 @@ public class RoomController {
      * @param userId
      * @return HttpEntity<List<Room>> - all rooms that user takes part in
      */
-    // todo: проверить, что пользователь запрашивает свои комнаты -- протестировать
     @RequestMapping(value="/byUserId/{userId}", method = RequestMethod.GET)
     public HttpEntity<List<Room>> getRoomsByUserId(@PathVariable("userId") int userId) throws ObjectNotFoundException{
         UserResource currentUser = accessService.getCurrentUser();
@@ -91,7 +90,6 @@ public class RoomController {
      * @param id
      * @return HttpEntity<Room> - room
      */
-    // todo: проверить, что комнату запрашивает ее владелец -- тестировать
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public HttpEntity<Room> getRoom(@PathVariable("id") int id){
         Room room = roomService.findOne(id);
@@ -112,7 +110,6 @@ public class RoomController {
      * @param id
      * @return HttpEntity<List<User>> - list of users
      */
-    // todo: проверить, что пользователей запрашивает владелец комнаты -- тестировать
     @RequestMapping(value = "/{id}/users", method = RequestMethod.GET)
     public HttpEntity<List<User>> getRoomUsers(@PathVariable("id") int id) throws ObjectNotFoundException{
         Room room = roomService.findOne( id );
@@ -148,7 +145,6 @@ public class RoomController {
         return new ResponseEntity( HttpStatus.BAD_REQUEST );
     }
 
-    //todo: протестировать
     /**
      * Delete room. Only room owner can do this request.
      * @param id

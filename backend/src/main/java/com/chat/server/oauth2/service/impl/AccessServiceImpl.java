@@ -89,6 +89,10 @@ public class AccessServiceImpl implements AccessService {
         SecurityContextHolder.clearContext();
     }
 
+    public void tokenLogout(String token){
+        TokenManager.getInstance().removeToken(token);
+    }
+
     private UserDetails currentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null) {

@@ -88,8 +88,6 @@ public class MessageController {
         UserResource userResource = accessService.getCurrentUser();
         final User user = userService.findUserWithRooms(userResource.getId());
         int lastReadMessage = user.getLastReadMessage();
-        System.out.println("--unread messages "+ user.getLogin());
-        System.out.println("--unread messages "+ user.getLastReadMessage());
         List<Integer> roomIds = new ArrayList<>();
         for( Room room: user.getRooms() ){
             roomIds.add( room.getId() );
@@ -103,7 +101,6 @@ public class MessageController {
                 userRequests.remove( user.getId() );
                 user.setLastRequest( new Date() );
                 userService.update(user);
-                System.out.println("--complete unread messages " + user.getLastRequest());
             }
         });
 
@@ -111,7 +108,6 @@ public class MessageController {
         if( messages.isEmpty() ){
             requestService.add(user.getId(), roomIds);
         } else {
-            System.out.println("--unread NOT EMPTY ");
             requestService.deleteByUserId(user.getId());
             user.setLastReadMessage( messages.get(0).getId() );
             deferredResult.setResult( new ResponseEntity( messages, HttpStatus.OK ) );
