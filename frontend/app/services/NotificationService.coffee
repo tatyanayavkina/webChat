@@ -1,5 +1,3 @@
-#NotificationService#
-
 'use strict';
 
 CoreModule.service 'Notification', ($rootScope, $q) ->

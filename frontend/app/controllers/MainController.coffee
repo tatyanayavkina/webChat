@@ -8,7 +8,7 @@ CoreModule.controller 'MainController', ($scope, $rootScope, $state, $stateParam
     $scope.rooms = rooms;
     $scope.roomMessages = {};
 
-    # создает объект для сущности сообщения и привязываем его к комнате
+    # создает объект для сущности сообщения
     $scope.createMessage = (id) ->
         $scope.roomMessages[id].message = new MessagesModel();
         $scope.roomMessages[id].message.user = session.user;

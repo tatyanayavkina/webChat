@@ -3,33 +3,33 @@
         <span>Создание комнаты</span>
     </div>
     <div class="third-part-inner">
-        <form class="form-horizontal" role="form" name="roomForm">
+        <form class="form-input" role="form" name="roomForm">
+
             <div class="form-group">
-                <label for="name" class="col-sm-4 control-label">Название комнаты</label>
-                <div class="col-sm-8">
-                    <input type="text" class="form-control" id="name" ng-model="room.name" placeholder="Название комнаты" required>
-                </div>
+                <label for="name" class="control-label">Название комнаты</label>
+                <input type="text" class="form-control" id="name" ng-model="room.name" required>
             </div>
+
             <div class="form-group">
-                <label for="type" class="col-sm-4 control-label">Тип комнаты</label>
-                <div class="col-sm-8">
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" name="type" id="type" ng-model="room.type" ng-true-value="1" ng-false-value="0">
+                <label for="type" class="control-label">Тип комнаты</label>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name="type" id="type" ng-model="room.type" ng-true-value="1" ng-false-value="0">
                                 <span class="checkbox-material">
                                     <span class="check"></span>
                                 </span>
-                            Закрытая
-                        </label>
-                    </div>
+                        Закрытая
+                    </label>
                 </div>
             </div>
+
             <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
+                <div class="pull-right">
                     <button type="button" class="btn btn-warning" ui-sref="home.rooms">Отмена</button>
                     <button type="button" class="btn btn-primary" ng-disabled="roomForm.$invalid" ng-click="save()">Сохранить</button>
                 </div>
             </div>
+
         </form>
     </div>
 </div>

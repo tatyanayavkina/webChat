@@ -1,16 +1,22 @@
 <div class="third-part">
     <div class="third-part-header">
-        <span>Открытые комнаты</span>
+        <span>Доступные комнаты</span>
     </div>
     <div class="third-part-inner">
         <ul style="list-style:none;">
             <li ng-repeat="room in openRooms">
-                <span class="cursor-pointer" ng-click="joinRoom(room)">
-                    <i class="material-icons">people</i>
+                <span class="cursor-pointer" style="font-size: 16px;">
+                    <!--<i class="material-icons">people</i>-->
                     {{ room.name }}
                 </span>
+                <button class="btn btn-success" ng-click="joinRoom(room)">Войти</button>
             </li>
         </ul>
+
+        <!-- если комнат нет -->
+        <div class="empty-placeholder" ng-if="openRooms.length == 0">
+            Нет доступных комнат
+        </div>
     </div>
 </div>
 

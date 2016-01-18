@@ -18,8 +18,8 @@
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <button type="button" class="btn btn-primary"><i class="material-icons">face</i>{{ auth.session.user.nickname }}</button>
-                        <button type="button" class="btn btn-primary" ng-click="logout()"><i class="material-icons">forward</i></button>
+                        <button type="button" class="btn btn-primary text-white"><i class="material-icons">face</i>{{ auth.session.user.nickname }}</button>
+                        <button type="button" class="btn btn-primary text-white" ng-click="logout()">Выход</button>
                     </li>
                 </ul>
             </div><!--/.navbar-collapse -->
@@ -37,6 +37,10 @@
                     <ul class="rooms-list" ng-if="rooms && rooms.length > 0">
                         <li class="rooms-list-item" ng-class="{'active': currentRoom.id == room.id}" ng-repeat="room in rooms" ng-click="selectRoom(room)">{{ room.name }}</li>
                     </ul>
+                    <!-- если комнат нет -->
+                    <div class="empty-placeholder" ng-if="rooms.length == 0">
+                        Нет комнат
+                    </div>
                 </div>
             </div>
             <!--Окно для сообщений-->
@@ -49,16 +53,14 @@
                     </div>
                     <div class="selected-room-container" ng-if="currentRoom">
                         <div class="selected-room-container-messages">
-                            <div ng-repeat="message in roomMessages[currentRoom.id].messages| orderBy:'creationTime'">
-                                <div>
-                                    <div>
-                                        <strong>
-                                            {{ message.user.nickname }}
-                                        </strong>
-                                        <span>{{ message.creationTime| date:'dd.MM.yyyy HH:mm:ss' }}</span>
-                                    </div>
+                            <div class="message-wrapper" ng-repeat="message in roomMessages[currentRoom.id].messages| orderBy:'creationTime'">
+                                <div class="message-info">
+                                    <strong>
+                                        {{ message.user.nickname }}
+                                    </strong>
+                                    <span>{{ message.creationTime| date:'dd.MM.yyyy HH:mm:ss' }}</span>
                                 </div>
-                                <div>
+                                <div class="message-content">
                                     {{ message.content }}
                                 </div>
                             </div>

@@ -1,5 +1,3 @@
-#NotificationDirective#
-
 'use strict';
 
 CoreModule.directive 'notification', ($http, $compile) ->
@@ -10,7 +8,6 @@ CoreModule.directive 'notification', ($http, $compile) ->
             templates =
                 notification: '/common/directives/templates/notification.html'
                 confirm     : '/common/directives/templates/confirm.html'
-                modal       : '/common/directives/templates/modal.html'
 
             $http.get(templates[type]);
 
@@ -30,16 +27,12 @@ CoreModule.directive 'notification', ($http, $compile) ->
 
         # для конфирмов сделаем 2 функции, которые возвращают результат
         # положительный результат
-        scope.resolve = () -> 
-            scope.promise.resolve();
+#        scope.resolve = () ->
+#            scope.promise.resolve();
+#
+#        # отрицательный результат
+#        scope.reject = () ->
+#            scope.promise.reject();
 
-        # отрицательный результат
-        scope.reject = () ->
-            scope.promise.reject();
-
-        # удаляем из body при нажитии на "Закрыть"
-        scope.close = () ->
-            $('body').find('paper-toast').remove();
-            return true;
 
 

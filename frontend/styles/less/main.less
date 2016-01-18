@@ -1,8 +1,10 @@
 @color-success: #449d44;
 @color-primary: #008f81;
-@color-info: #5bc0de;
+@color-info   : #5bc0de;
+@color-grey   : #d2d8da;
+@color-red    : #d41200;
 
-@color-text: #343434;
+@color-text : #343434;
 @color-white: #ffffff;
 
 .panel-header(){
@@ -16,12 +18,24 @@
 }
 
 body{
-    color: @color-text;
-    background-color: lighten(@color-primary, 70%);
+    color            : @color-text;
+    background-color : lighten(@color-primary, 70%);
+}
+
+.error{
+    color : @color-red;
 }
 
 .cursor-pointer{
     cursor: pointer;
+}
+
+.margin-top-0{
+    margin-top : 0;
+}
+
+.text-white{
+    color: @color-white !important;
 }
 
 // sidebar со списком комнат
@@ -100,6 +114,18 @@ body{
         }
     }
 
+    .message-wrapper{
+        padding : 6px 0;
+
+        .message-info{
+            font-size: 12px;
+        }
+
+        .message-content{
+            font-size: 16px;
+        }
+    }
+
 }
 
 // третья часть страницы - панель
@@ -124,4 +150,60 @@ body{
 
 .nav-tabs .active{
     background-color: lighten(@color-primary, 10%);
+}
+
+.empty-placeholder{
+    padding   : 24px 0;
+
+    border    : 3px dotted @color-grey;
+
+    text-align: center;
+    color     : @color-grey;
+    font-size : 16px;
+}
+
+.rooms-container > .empty-placeholder{
+    margin   : 12px;
+}
+
+.invited-container{
+    width     : 100%;
+    max-height: 450px;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+// форма входа
+.form-entrance{
+    width : 330px;
+    margin: 0 auto;
+
+    & > &-group{
+        margin-left : 0;
+        margin-right: 0;
+    }
+}
+
+// формы
+.form-input{
+    padding : 24px;
+
+    & > .form-group{
+        margin-top : 0;
+    }
+}
+
+// приглашения
+.invitation-label{
+    padding  : 10px 0;
+
+    font-size: 18px;
+}
+
+.invitations-container{
+    max-height : 550px;
+    height     : 550px;
+
+    overflow-y : auto;
 }

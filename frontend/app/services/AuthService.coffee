@@ -67,10 +67,10 @@ CoreModule.factory 'Auth', ($http, $q, $state, $httpParamSerializerJQLike, Stora
                 )
                 .error((error) =>
                     Storage.clear();
-                    deferred.resolve(null);
+                    deferred.reject({status: 401});
                 )
             else
-                deferred.resolve(null);
+                deferred.reject({status: 401});
 
             deferred.promise;
 
