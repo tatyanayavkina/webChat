@@ -39,8 +39,6 @@ public class RoomController {
     @Autowired
     private AccessService accessService;
 
-    private static final Logger logger = Logger.getLogger(RoomController.class);
-
     /**
      * Get rooms
      * @return HttpEntity<List<Room>> - all rooms that are in system

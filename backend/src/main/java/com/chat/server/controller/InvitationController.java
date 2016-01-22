@@ -37,8 +37,6 @@ public class InvitationController {
     @Autowired
     private AccessService accessService;
 
-    private static final Logger logger = Logger.getLogger(InvitationController.class);
-
     /**
      * Create invitations to join the room. Only room owner can do this request
      * @param roomId
