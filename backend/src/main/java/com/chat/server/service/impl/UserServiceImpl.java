@@ -10,16 +10,12 @@ import com.chat.server.model.User;
 import com.chat.server.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created on 28.10.2015.
- */
 @Service
 public class UserServiceImpl extends AbstractService<User> implements UserService {
 

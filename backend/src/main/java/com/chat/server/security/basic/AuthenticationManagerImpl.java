@@ -7,10 +7,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
 
-/**
- *
- * @author Stiv
- */
 @Component
 public class AuthenticationManagerImpl implements AuthenticationManager
 {

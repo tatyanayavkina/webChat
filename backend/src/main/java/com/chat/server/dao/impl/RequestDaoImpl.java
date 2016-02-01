@@ -8,9 +8,6 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created on 28.10.2015.
- */
 @Repository
 public class RequestDaoImpl extends AbstractDao<Request> implements RequestDao {
     public RequestDaoImpl(){

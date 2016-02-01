@@ -18,9 +18,7 @@ import javax.annotation.security.RolesAllowed;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-/**
- * Created on 03.11.2015.
- */
+
 @RestController
 @RolesAllowed({Role.GUEST, Role.USER})
 @RequestMapping(value = "/api/messages")

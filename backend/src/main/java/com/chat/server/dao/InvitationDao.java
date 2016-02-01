@@ -2,7 +2,6 @@ package com.chat.server.dao;
 
 import com.chat.server.dao.common.IOperations;
 import com.chat.server.model.Invitation;
-import com.chat.server.model.User;
 
 import java.util.List;
 

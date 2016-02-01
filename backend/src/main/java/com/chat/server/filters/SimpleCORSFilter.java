@@ -8,9 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-/**
- * Created on 10.11.2015.
- */
 @Service
 public class SimpleCORSFilter implements Filter {
     protected final Logger logger =Logger.getLogger(SimpleCORSFilter.class);

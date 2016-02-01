@@ -4,15 +4,10 @@ import com.google.common.base.Preconditions;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.util.List;
 
-/**
- * Created on 26.10.2015.
- */
 @SuppressWarnings("unchecked")
 public abstract class AbstractDao<T extends Serializable> implements IOperations<T> {
     private Class<T> clazz;

@@ -6,9 +6,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.Serializable;
 import java.util.List;
 
-/**
- * Created on 28.10.2015.
- */
 public abstract class AbstractService<T extends Serializable> implements IOperations<T>{
     @Override
     @Transactional

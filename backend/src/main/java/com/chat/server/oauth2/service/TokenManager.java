@@ -5,16 +5,13 @@ import com.chat.server.oauth2.domain.TokenResponse;
 import com.chat.server.oauth2.domain.UserResource;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.codec.Base64;
-import org.springframework.stereotype.Service;
 
 import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-/**
- * Created on 11.11.2015.
- */
+
 public class TokenManager {
     private static TokenManager instance;
     private Map<String, UserDetails> validUsers;

@@ -5,9 +5,7 @@ import com.chat.server.model.Room;
 
 import java.util.List;
 
-/**
- * Created on 28.10.2015.
- */
+
 public interface RoomDao extends IOperations<Room> {
 
     List<Room> findByType(int type);

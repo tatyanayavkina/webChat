@@ -5,15 +5,12 @@ import com.chat.server.dao.common.AbstractDao;
 import com.chat.server.model.User;
 
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created on 26.10.2015.
- */
+
 @Repository
 public class UserDaoImpl extends AbstractDao<User> implements UserDao{
     public UserDaoImpl(){

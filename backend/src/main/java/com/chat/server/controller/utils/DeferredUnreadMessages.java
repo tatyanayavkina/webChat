@@ -6,9 +6,6 @@ import org.springframework.web.context.request.async.DeferredResult;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created on 03.12.2015.
- */
 public class DeferredUnreadMessages<T> extends DeferredResult<T>{
     private List<Integer> roomIds;
     private User user;

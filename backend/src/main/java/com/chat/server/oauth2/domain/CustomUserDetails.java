@@ -9,13 +9,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.ArrayList;
 import java.util.Collection;
 
-/**
- * Created on 10.11.2015.
- */
+
 public class CustomUserDetails implements UserDetails {
-//    public static SimpleGrantedAuthority ROLE_GUEST = new SimpleGrantedAuthority(Role.GUEST);
-//    public static SimpleGrantedAuthority ROLE_USER = new SimpleGrantedAuthority(Role.USER);
-//    public static SimpleGrantedAuthority ROLE_ADMIN = new SimpleGrantedAuthority(Role.ADMIN);
     private User user;
 
     public CustomUserDetails(User user) {

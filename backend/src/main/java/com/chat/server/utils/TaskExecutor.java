@@ -2,9 +2,6 @@ package com.chat.server.utils;
 
 import java.util.concurrent.*;
 
-/**
- * Created on 08.12.2015.
- */
 public class TaskExecutor {
     private static TaskExecutor instance;
     private BlockingQueue<Runnable> queue;

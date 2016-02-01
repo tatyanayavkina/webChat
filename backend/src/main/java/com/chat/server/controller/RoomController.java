@@ -9,24 +9,17 @@ import com.chat.server.oauth2.domain.UserResource;
 import com.chat.server.oauth2.service.AccessService;
 import com.chat.server.service.RoomService;
 import com.chat.server.service.UserService;
-import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import javax.annotation.security.RolesAllowed;
 
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 
-/**
- * Created on 03.11.2015.
- */
 @RestController
 @RolesAllowed({Role.USER})
 @RequestMapping(value = "/api/rooms")

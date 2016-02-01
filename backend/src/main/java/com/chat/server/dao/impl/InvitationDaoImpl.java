@@ -3,15 +3,11 @@ package com.chat.server.dao.impl;
 import com.chat.server.dao.InvitationDao;
 import com.chat.server.dao.common.AbstractDao;
 import com.chat.server.model.Invitation;
-import com.chat.server.model.User;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created on 28.10.2015.
- */
 @Repository
 public class InvitationDaoImpl extends AbstractDao<Invitation> implements InvitationDao {
     public InvitationDaoImpl(){

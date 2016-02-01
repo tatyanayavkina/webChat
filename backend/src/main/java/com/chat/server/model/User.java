@@ -9,9 +9,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-/**
- * Created on 22.10.2015.
- */
 @Entity
 @Table(name="user")
 public class User implements Serializable{

@@ -8,9 +8,6 @@ import com.chat.server.model.User;
 
 import java.util.List;
 
-/**
- * Created on 28.10.2015.
- */
 public interface RoomService extends IOperations<Room> {
     Room joinRoom(int roomId, User user) throws AlreadyExistsException;
 

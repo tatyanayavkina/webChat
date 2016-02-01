@@ -1,18 +1,13 @@
 package com.chat.server.model;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
 
-/**
- * Created on 22.10.2015.
- */
+
 @Entity
 @Table(name="invitation")
 public class Invitation implements Serializable{

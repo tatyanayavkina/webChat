@@ -3,9 +3,6 @@ package com.chat.server.dao.common;
 import java.io.Serializable;
 import java.util.List;
 
-/**
- * Created on 26.10.2015.
- */
 public interface IOperations<T extends Serializable> {
     T findOne(final int id);
 

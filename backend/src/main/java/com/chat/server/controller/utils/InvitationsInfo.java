@@ -4,9 +4,6 @@ import com.chat.server.model.User;
 
 import java.util.List;
 
-/**
- * Created on 02.12.2015.
- */
 public class InvitationsInfo {
     private List<User> alreadyInRoomUsers;
     private List<User> alreadyInvitedUsers;

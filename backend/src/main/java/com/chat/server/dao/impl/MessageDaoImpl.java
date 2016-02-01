@@ -6,12 +6,8 @@ import com.chat.server.model.Message;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-/**
- * Created on 28.10.2015.
- */
 @Repository
 public class MessageDaoImpl extends AbstractDao<Message> implements MessageDao {
     public MessageDaoImpl(){

@@ -13,9 +13,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 
-/**
- * Created on 04.12.2015.
- */
 public class ScheduledOperations {
     @Autowired
     private UserService userService;

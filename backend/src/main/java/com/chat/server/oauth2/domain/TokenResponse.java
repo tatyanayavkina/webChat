@@ -2,9 +2,6 @@ package com.chat.server.oauth2.domain;
 
 import com.chat.server.model.User;
 
-/**
- * Created on 10.11.2015.
- */
 public class TokenResponse {
 
     private final String token;

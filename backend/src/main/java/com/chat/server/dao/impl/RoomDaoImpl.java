@@ -7,9 +7,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-/**
- * Created on 28.10.2015.
- */
 @Repository
 public class RoomDaoImpl extends AbstractDao<Room> implements RoomDao {
     public RoomDaoImpl(){

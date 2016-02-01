@@ -1,8 +1,6 @@
 package com.chat.server.oauth2;
 
-/**
- * Created on 10.11.2015.
- */
+
 public class TokenGenerationException extends Exception {
 
     public TokenGenerationException() {

@@ -5,9 +5,6 @@ import com.chat.server.model.Request;
 
 import java.util.List;
 
-/**
- * Created on 28.10.2015.
- */
 public interface RequestService extends IOperations<Request> {
 
     void add(int userId, List<Integer> roomIds);

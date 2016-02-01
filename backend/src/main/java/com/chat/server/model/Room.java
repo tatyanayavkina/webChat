@@ -9,9 +9,6 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
-/**
- * Created on 22.10.2015.
- */
 @Entity
 @Table(name="room")
 public class Room implements Serializable{

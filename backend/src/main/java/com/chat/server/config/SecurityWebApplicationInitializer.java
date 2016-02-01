@@ -1,9 +1,5 @@
 package com.chat.server.config;
 
-/**
- * Created on 05.11.2015.
- */
-
 import org.springframework.core.annotation.Order;
 import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
 

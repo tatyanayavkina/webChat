@@ -16,9 +16,6 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created on 03.11.2015.
- */
 @RestController
 @Transactional
 public class AccessController {

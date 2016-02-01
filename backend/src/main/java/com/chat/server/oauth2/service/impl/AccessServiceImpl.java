@@ -18,9 +18,6 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 
-/**
- * Created on 10.11.2015.
- */
 @Service
 public class AccessServiceImpl implements AccessService {
 

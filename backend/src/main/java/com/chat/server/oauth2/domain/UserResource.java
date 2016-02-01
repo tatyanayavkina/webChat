@@ -3,12 +3,8 @@ package com.chat.server.oauth2.domain;
 import com.chat.server.model.Role;
 import com.chat.server.model.User;
 
-import java.util.Date;
 import java.util.List;
 
-/**
- * Created on 13.11.2015.
- */
 public class UserResource {
     private int id;
     private String login;

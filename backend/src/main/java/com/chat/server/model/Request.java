@@ -3,9 +3,6 @@ package com.chat.server.model;
 import javax.persistence.*;
 import java.io.Serializable;
 
-/**
- * Created on 07.12.2015.
- */
 
 @Entity
 @Table(name="request")
